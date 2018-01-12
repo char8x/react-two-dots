@@ -3,10 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "lodash": "^4.17.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17",
     "styled-components": "^2.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^2.6.2",
+    "typescript-styled-plugin": "^0.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -15,7 +20,9 @@
     "eject": "react-scripts eject"
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"

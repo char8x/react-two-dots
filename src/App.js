@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
+
+import DotMatrix from './components/DotMatrix'
+
 import './App.css'
-import Dot from './components/Dot'
+import logo from './logo.svg'
 
 class App extends Component {
   render() {
@@ -14,6 +16,8 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+
+        <DotMatrix />
       </div>
     )
   }
