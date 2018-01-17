@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import styled, { keyframes } from 'styled-components'
 import _throttle from 'lodash/throttle'
 
+import Line from '../Line'
+
 // click wave effect
 const clickWave = keyframes`
   0% {
@@ -24,9 +26,10 @@ const Dot = styled.div`
   border-radius: 50%;
   cursor: pointer;
 
-  height: 40px;
-  width: 40px;
-  margin: 15px;
+  ${props => {
+    return `height: ${props.radius * 2}px;
+    width: ${props.radius * 2}px;`
+  }} margin: 15px;
 
   overflow: hidden;
   box-shadow: none;
@@ -46,9 +49,10 @@ const DotContainer = styled.div`
   height: 70px;
 `
 
-export default class EnhancedDot extends PureComponent {
+class EnhancedDot extends PureComponent {
   state = {
-    isActive: false
+    isActive: false,
+    isConnected: false
   }
 
   handleClick = () => {
@@ -58,14 +62,18 @@ export default class EnhancedDot extends PureComponent {
     }, 650) // equal or more than animation-duration (0.65s)
   }
 
+  handleDrawLine = e => {}
+
   render() {
     const { color } = this.props
     const { isActive } = this.state
     return (
       <DotContainer>
-        <Dot color={color} onClick={this.handleClick} />
-        <AnimateDot color={color} isActive={isActive} />
+        <Dot color={color} onClick={this.handleClick} radius={20} />
+        <AnimateDot color={color} isActive={isActive} radius={20} />
       </DotContainer>
     )
   }
 }
+
+export { EnhancedDot as default, Dot }

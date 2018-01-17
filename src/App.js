@@ -1,24 +1,61 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 
 import DotMatrix from './components/DotMatrix'
+import TopBar from './components/TopBar'
+import BottomBar from './components/BottomBar'
+import {
+  COLOR_BLUE,
+  COLOR_PURPLE,
+  COLOR_RED,
+  COLOR_YELLOW
+} from './utils/constants'
 
-import './App.css'
-import logo from './logo.svg'
+const AppContainer = styled.div`
+  width: 540px;
+  height: 100%;
+  box-shadow: inset 0 0 10px #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -350px 0 0 -270px;
+`
 
 class App extends Component {
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+    const chance = 20
+    const score = 0
+    const level = 1
+    const clearDots = 0
+    const dots = [
+      {
+        color: COLOR_BLUE,
+        clear: 0,
+        goal: 15
+      },
+      {
+        color: COLOR_PURPLE,
+        clear: 0,
+        goal: 15
+      },
+      {
+        color: COLOR_RED,
+        clear: 0,
+        goal: 15
+      },
+      {
+        color: COLOR_YELLOW,
+        clear: 0,
+        goal: 15
+      }
+    ]
 
+    return (
+      <AppContainer>
+        <TopBar chance={chance} dots={dots} />
         <DotMatrix />
-      </div>
+        <BottomBar level={level} clearDots={clearDots} score={score} />
+      </AppContainer>
     )
   }
 }
