@@ -18,7 +18,7 @@ const AppContainer = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -350px 0 0 -270px;
+  margin: -395px 0 0 -271px;
 `
 
 class App extends Component {
