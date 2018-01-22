@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react'
 import styled, { keyframes } from 'styled-components'
-import _throttle from 'lodash/throttle'
+import Hammer from 'rc-hammerjs'
+// import _throttle from 'lodash/throttle'
 
 import Line from '../Line'
+import { offset, shape, distance, angle } from '../../utils/dom'
 
 // click wave effect
 const clickWave = keyframes`
@@ -33,7 +35,6 @@ const Dot = styled.div`
 
   overflow: hidden;
   box-shadow: none;
-  user-select: none;
 `
 
 const AnimateDot = Dot.extend`
@@ -52,25 +53,96 @@ const DotContainer = styled.div`
 class EnhancedDot extends PureComponent {
   state = {
     isActive: false,
-    isConnected: false
+    isConnected: false,
+    isPanning: false,
+    lineLength: 40,
+    lineHeight: 10,
+    lineAngle: 0,
+    top: 0,
+    left: 0
   }
 
-  handleClick = () => {
+  handleTap = () => {
     this.setState({ isActive: !this.state.isActive })
     setTimeout(() => {
       this.setState({ isActive: !this.state.isActive })
     }, 650) // equal or more than animation-duration (0.65s)
   }
 
-  handleDrawLine = e => {}
+  handlePanStart = e => {
+    // calculate line start position
+    const dotPosition = offset(e.target)
+    const dotShape = shape(e.target)
+    const pos = {
+      top: dotPosition.top + dotShape.height / 2 - this.state.lineHeight / 2,
+      left: dotPosition.left + dotShape.width / 2
+    }
+    this.setState({
+      isPanning: !this.state.isPanning,
+      ...pos
+    })
+    this.handleTap()
+  }
+
+  handlePanMove = e => {
+    // calculate length and rotate
+    let pointer = {
+      x: e.center.x,
+      y: e.center.y
+    }
+    this.setState({
+      lineLength: distance(
+        this.state.left,
+        this.state.top,
+        pointer.x,
+        pointer.y
+      ),
+      lineAngle: angle(this.state.left, this.state.top, pointer.x, pointer.y)
+    })
+  }
+
+  handlePanEnd = () => {
+    this.setState({ isPanning: !this.state.isPanning })
+  }
+
+  handlePanCancel = () => {
+    this.setState({ isPanning: !this.state.isPanning })
+  }
 
   render() {
     const { color } = this.props
-    const { isActive } = this.state
+    const {
+      isActive,
+      isPanning,
+      lineLength,
+      lineHeight,
+      lineAngle,
+      top,
+      left
+    } = this.state
     return (
       <DotContainer>
-        <Dot color={color} onClick={this.handleClick} radius={20} />
+        <Hammer
+          onTap={this.handleTap}
+          direction="DIRECTION_ALL"
+          onPanStart={this.handlePanStart}
+          onPanEnd={this.handlePanEnd}
+          onPan={this.handlePanMove}
+          onPanCancel={this.handlePanCancel}
+        >
+          <Dot color={color} radius={20} />
+        </Hammer>
         <AnimateDot color={color} isActive={isActive} radius={20} />
+        {isPanning && (
+          <Line
+            width={lineLength}
+            height={lineHeight}
+            color={color}
+            deg={lineAngle}
+            top={top}
+            left={left}
+          />
+        )}
       </DotContainer>
     )
   }

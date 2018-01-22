@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import { matrix } from '../../utils/data'
 import Col from '../DotColumn'
 

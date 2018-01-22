@@ -12,13 +12,10 @@ import {
 } from './utils/constants'
 
 const AppContainer = styled.div`
-  width: 540px;
+  width: 100%;
   height: 100%;
   box-shadow: inset 0 0 10px #fff;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -395px 0 0 -271px;
 `
 
 class App extends Component {
