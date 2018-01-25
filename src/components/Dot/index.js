@@ -31,15 +31,13 @@ const Dot = styled.div`
   ${props => {
     return `height: ${props.radius * 2}px;
     width: ${props.radius * 2}px;`
-  }} margin: 15px;
-
-  overflow: hidden;
+  }} overflow: hidden;
   box-shadow: none;
 `
 
 const AnimateDot = Dot.extend`
   position: relative;
-  top: -55px;
+  top: -40px;
   z-index: -1;
   animation-duration: 0.65s;
   animation-fill-mode: both;
@@ -47,7 +45,8 @@ const AnimateDot = Dot.extend`
 `
 
 const DotContainer = styled.div`
-  height: 70px;
+  height: 40px;
+  margin: 15px;
 `
 
 class EnhancedDot extends PureComponent {
