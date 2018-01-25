@@ -13,7 +13,7 @@ const GoalNumber = styled.div`
 
 const DotGoal = props => (
   <div>
-    <Dot color={props.color} radius={10} style={{ marginBottom: '5px' }} />
+    <Dot color={props.color} radius={10} style={{ margin: '15px 15px 5px' }} />
     <GoalNumber>
       {props.clear} / {props.goal}
     </GoalNumber>

@@ -51,9 +51,9 @@ const DotContainer = styled.div`
 
 class EnhancedDot extends PureComponent {
   state = {
-    isActive: false,
-    isConnected: false,
-    isPanning: false,
+    isActive: false, // click wave effect
+    isConnected: false, //
+    isPanning: false, // is drawing lines between dots
     lineLength: 40,
     lineHeight: 10,
     lineAngle: 0,
