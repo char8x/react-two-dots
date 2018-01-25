@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
 import Dot from '../Dot'
 
@@ -7,9 +7,13 @@ const DotCol = styled.div`
   flex-direction: column;
 `
 
-export default class Col extends PureComponent {
+export default class Col extends Component {
   render() {
-    const { list } = this.props
-    return <DotCol>{list.map((e, i) => <Dot key={i} color={e} />)}</DotCol>
+    const { list, col } = this.props
+    return (
+      <DotCol>
+        {list.map((e, i) => <Dot key={i} color={e} col={col} row={i} />)}
+      </DotCol>
+    )
   }
 }

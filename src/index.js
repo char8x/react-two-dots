@@ -1,5 +1,5 @@
 import { ConnectedRouter } from 'react-router-redux'
-import { injectGlobal, ThemeProvider } from 'styled-components'
+import { injectGlobal } from 'styled-components'
 import { Provider } from 'react-redux'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -19,22 +19,21 @@ injectGlobal`
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    touch-action: none;
     user-select: none;
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
 `
 
-const theme = {}
 const store = createStore(history)
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('root')
+)
 registerServiceWorker()
-
-{
-  /* <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </Provider>
-  </ThemeProvider> */
-}

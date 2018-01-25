@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
 import { matrix } from '../../utils/data'
 import Col from '../DotColumn'
@@ -10,14 +10,16 @@ const DotMatrix = styled.div`
   align-items: center;
 `
 
-export default class Matrix extends PureComponent {
+export default class Matrix extends Component {
   state = {
     matrix
   }
 
   render() {
     return (
-      <DotMatrix>{matrix.map((e, i) => <Col list={e} key={i} />)}</DotMatrix>
+      <DotMatrix>
+        {matrix.map((e, i) => <Col list={e} key={i} col={i} />)}
+      </DotMatrix>
     )
   }
 }

@@ -1,6 +1,9 @@
+const bodyEl = document.body
+const getComputedStyle = window.getComputedStyle
+
 export const offset = element => {
-  const rect = element.getBoundingClientRect(),
-    bodyEl = document.body
+  const rect = element.getBoundingClientRect()
+
   return {
     top: rect.top + bodyEl.scrollTop,
     left: rect.left + bodyEl.scrollLeft
@@ -8,7 +11,7 @@ export const offset = element => {
 }
 
 export const shape = element => {
-  const computedStyle = window.getComputedStyle(element)
+  const computedStyle = getComputedStyle(element)
   return {
     width: parseFloat(computedStyle.width),
     height: parseFloat(computedStyle.height)

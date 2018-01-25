@@ -1,10 +1,15 @@
-import React, { PureComponent } from 'react'
+import 'pepjs' // Pointer Events Polyfill https://github.com/jquery/PEP
+import Hammer from 'rc-hammerjs' // http://hammerjs.github.io/api/
+import Pointable from 'react-pointable' // https://github.com/MilllerTime/react-pointable
+import React, { Component } from 'react'
 import styled, { keyframes } from 'styled-components'
-import Hammer from 'rc-hammerjs'
 // import _throttle from 'lodash/throttle'
 
 import Line from '../Line'
 import { offset, shape, distance, angle } from '../../utils/dom'
+import _debug from '../../utils/debug'
+
+const eventDebugger = _debug('rtd:event')
 
 // click wave effect
 const clickWave = keyframes`
@@ -49,16 +54,27 @@ const DotContainer = styled.div`
   margin: 15px;
 `
 
-class EnhancedDot extends PureComponent {
+class EnhancedDot extends Component {
   state = {
     isActive: false, // click wave effect
-    isConnected: false, //
+    isConnected: false, // only if only slibing dot is same color
     isPanning: false, // is drawing lines between dots
     lineLength: 40,
     lineHeight: 10,
     lineAngle: 0,
-    top: 0,
-    left: 0
+    top: 0, // line position
+    left: 0 // line position
+  }
+
+  initState = () => {
+    this.setState({
+      isPanning: false, // is drawing lines between dots
+      lineLength: 40,
+      lineHeight: 10,
+      lineAngle: 0,
+      top: 0, // line position
+      left: 0 // line position
+    })
   }
 
   handleTap = () => {
@@ -68,7 +84,8 @@ class EnhancedDot extends PureComponent {
     }, 650) // equal or more than animation-duration (0.65s)
   }
 
-  handlePanStart = e => {
+  handlePanStart = (e, col, row) => {
+    eventDebugger('handlePanStart')
     // calculate line start position
     const dotPosition = offset(e.target)
     const dotShape = shape(e.target)
@@ -78,12 +95,14 @@ class EnhancedDot extends PureComponent {
     }
     this.setState({
       isPanning: !this.state.isPanning,
+      isConnected: !this.state.isConnected,
       ...pos
     })
     this.handleTap()
   }
 
   handlePanMove = e => {
+    eventDebugger('handlePanMove')
     // calculate length and rotate
     let pointer = {
       x: e.center.x,
@@ -101,15 +120,28 @@ class EnhancedDot extends PureComponent {
   }
 
   handlePanEnd = () => {
-    this.setState({ isPanning: !this.state.isPanning })
+    eventDebugger('handlePanEnd')
+    this.initState()
   }
 
   handlePanCancel = () => {
-    this.setState({ isPanning: !this.state.isPanning })
+    eventDebugger('handlePanCancel')
+    this.initState()
+  }
+
+  handleEnterDot = () => {
+    eventDebugger('enter dot')
+    if (!this.state.isConnected) {
+    }
+  }
+
+  handleLeaveDot = () => {
+    eventDebugger('leave dot')
   }
 
   render() {
-    const { color } = this.props
+    // col,row is for dot matrix position
+    const { color, col, row } = this.props
     const {
       isActive,
       isPanning,
@@ -119,18 +151,39 @@ class EnhancedDot extends PureComponent {
       top,
       left
     } = this.state
+
     return (
       <DotContainer>
-        <Hammer
-          onTap={this.handleTap}
-          direction="DIRECTION_ALL"
-          onPanStart={this.handlePanStart}
-          onPanEnd={this.handlePanEnd}
-          onPan={this.handlePanMove}
-          onPanCancel={this.handlePanCancel}
-        >
-          <Dot color={color} radius={20} />
-        </Hammer>
+        {/* only when line is longer than dot radius can bind enter event */
+        lineLength > 45 ? (
+          <Hammer
+            onTap={this.handleTap}
+            direction="DIRECTION_ALL"
+            onPanStart={e => this.handlePanStart(e, col, row)}
+            onPanEnd={this.handlePanEnd}
+            onPan={this.handlePanMove}
+            onPanCancel={this.handlePanCancel}
+          >
+            <Pointable
+              onPointerEnter={this.handleEnterDot}
+              onPointerLeave={this.handleLeaveDot}
+              touchAction="none"
+            >
+              <Dot color={color} radius={20} />
+            </Pointable>
+          </Hammer>
+        ) : (
+          <Hammer
+            onTap={this.handleTap}
+            direction="DIRECTION_ALL"
+            onPanStart={e => this.handlePanStart(e, col, row)}
+            onPanEnd={this.handlePanEnd}
+            onPan={this.handlePanMove}
+            onPanCancel={this.handlePanCancel}
+          >
+            <Dot color={color} radius={20} />
+          </Hammer>
+        )}
         <AnimateDot color={color} isActive={isActive} radius={20} />
         {isPanning && (
           <Line
