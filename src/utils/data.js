@@ -9,11 +9,21 @@ import {
   DIRECTION_RIGHT
 } from './constants'
 
-export const blueCol = Array.from({ length: 4 }).map(e => COLOR_BLUE)
-export const yellowCol = Array.from({ length: 4 }).map(e => COLOR_YELLOW)
-export const redCol = Array.from({ length: 4 }).map(e => COLOR_RED)
-export const purpleCol = Array.from({ length: 4 }).map(e => COLOR_PURPLE)
-export const matrix = [blueCol, yellowCol, redCol, purpleCol]
+export const blueCol = Array.from({ length: 5 }).map(e => COLOR_BLUE)
+export const yellowCol = Array.from({ length: 5 }).map(e => COLOR_YELLOW)
+export const redCol = Array.from({ length: 5 }).map(e => COLOR_RED)
+export const purpleCol = Array.from({ length: 5 }).map(e => COLOR_PURPLE)
+
+const colA = [
+  COLOR_YELLOW,
+  COLOR_YELLOW,
+  COLOR_YELLOW,
+  COLOR_YELLOW,
+  COLOR_BLUE
+]
+const colB = [COLOR_RED, COLOR_RED, COLOR_RED, COLOR_RED, COLOR_PURPLE]
+
+export const matrix = [blueCol, colA, colB, redCol, purpleCol]
 
 export const isAdjacent = (dotA, dotB) =>
   matrix[dotA.col][dotA.row] === matrix[dotB.col][dotB.row] &&

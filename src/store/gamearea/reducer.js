@@ -25,9 +25,17 @@ const initState = {
 }
 
 export default (state = initState, action) => {
+  const {
+    matrix,
+    connectedDots,
+    connectedLines,
+    panningDot,
+    panDirection,
+    linePosition
+  } = state
   switch (action.type) {
     case PANNING_START:
-      state.connectedDots.push(action.dot)
+      connectedDots.push(action.dot)
       return {
         ...state,
         panningDot: action.dot,
@@ -40,11 +48,11 @@ export default (state = initState, action) => {
       }
     case ENTER_DOT:
       // if dot is slibing dot with panningDot
-      if (isAdjacent(state.panningDot, action.dot)) {
-        state.connectedDots.push(action.dot)
-        state.connectedLines.push({
-          deg: lineDeg[state.panDirection],
-          ...state.linePosition
+      if (isAdjacent(panningDot, action.dot)) {
+        connectedDots.push(action.dot)
+        connectedLines.push({
+          deg: lineDeg[panDirection],
+          ...linePosition
         })
         return {
           ...state,
@@ -54,29 +62,25 @@ export default (state = initState, action) => {
       }
       return state
     case LEAVE_DOT:
-      if (isOppositeDirection(state.panDirection, action.direction)) {
-        state.connectedDots.pop()
-        state.connectedLines.pop()
+      if (isOppositeDirection(panDirection, action.direction)) {
+        connectedDots.pop()
+        connectedLines.pop()
       }
       return {
         ...state,
-        panningDot: state.connectedDots[state.connectedDots.length - 1]
+        panningDot: connectedDots[connectedDots.length - 1]
       }
     case PANNING_END:
-      if (state.connectedDots.length > 1) {
-        state.connectedDots = []
+      if (connectedDots.length > 1) {
+        connectedDots.forEach(e => {
+          // matrix[e.col][e.row]
+        })
+
         // clear connecting dots
         // add new dots,update matrix
-        return {
-          ...state,
-          matrix: state.matrix
-        }
+        return state
       } else {
-        return {
-          ...initState,
-          connectedDots: [],
-          matrix: state.matrix
-        }
+        return initState
       }
     default:
       return state
