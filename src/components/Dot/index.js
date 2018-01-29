@@ -86,32 +86,42 @@ class EnhancedDot extends Component {
   }
 
   handlePanStart = (e, col, row) => {
-    const { panningDot, dispatch } = this.props
+    const { panningDot, dispatch, linePosition } = this.props
     // debugger
     if (panningDot == null) {
+      // calculate line start position
+      const dotPosition = offset(e.target)
+      const dotShape = shape(e.target)
       dispatch(
-        actions.panningStart({
-          col,
-          row
-        })
+        actions.panningStart(
+          {
+            col,
+            row
+          },
+          {
+            x: dotPosition.left + dotShape.width / 2,
+            y: dotPosition.top + dotShape.height / 2 - this.state.lineHeight / 2
+          }
+        )
       )
     }
-    // calculate line start position
-    const dotPosition = offset(e.target)
-    const dotShape = shape(e.target)
-    const pos = {
-      top: dotPosition.top + dotShape.height / 2 - this.state.lineHeight / 2,
-      left: dotPosition.left + dotShape.width / 2
-    }
+
     this.setState({
-      isConnected: !this.state.isConnected,
-      ...pos
+      isConnected: !this.state.isConnected
     })
     this.handleTap()
   }
 
   handlePanMove = e => {
-    const { dispatch, panDirection } = this.props
+    const {
+      dispatch,
+      panDirection,
+      panningDot,
+      linePosition,
+      col,
+      row
+    } = this.props
+    console.log(`panningDot ${panningDot.col} ${panningDot.row} ${col} ${row}`)
     // calculate length and rotate
     let pointer = {
       x: e.center.x,
@@ -119,12 +129,12 @@ class EnhancedDot extends Component {
     }
     this.setState({
       lineLength: distance(
-        this.state.left,
-        this.state.top,
+        linePosition.x,
+        linePosition.y,
         pointer.x,
         pointer.y
       ),
-      lineAngle: angle(this.state.left, this.state.top, pointer.x, pointer.y)
+      lineAngle: angle(linePosition.x, linePosition.y, pointer.x, pointer.y)
     })
 
     // eventDebugger(
@@ -149,7 +159,7 @@ class EnhancedDot extends Component {
     this.initState()
   }
 
-  handleEnterDot = () => {
+  handleEnterDot = e => {
     const { panningDot, col, row, dispatch } = this.props
     if (
       panningDot !== null &&
@@ -172,15 +182,8 @@ class EnhancedDot extends Component {
 
   render() {
     // col,row is for dot matrix position
-    const { color, col, row, panningDot } = this.props
-    const {
-      isActive,
-      lineLength,
-      lineHeight,
-      lineAngle,
-      top,
-      left
-    } = this.state
+    const { color, col, row, panningDot, linePosition } = this.props
+    const { isActive, lineLength, lineHeight, lineAngle } = this.state
 
     return (
       <DotContainer>
@@ -207,8 +210,8 @@ class EnhancedDot extends Component {
             height={lineHeight}
             color={color}
             deg={lineAngle}
-            top={top}
-            left={left}
+            left={linePosition.x}
+            top={linePosition.y}
           />
         )}
       </DotContainer>
@@ -218,5 +221,6 @@ class EnhancedDot extends Component {
 
 export default connect(state => ({
   panningDot: state.gameArea.panningDot,
-  panDirection: state.gameArea.panDirection
+  panDirection: state.gameArea.panDirection,
+  linePosition: state.gameArea.linePosition
 }))(EnhancedDot)

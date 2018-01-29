@@ -11,15 +11,21 @@ const initState = {
   matrix,
   panningDot: null,
   panDirection: null,
+  linePosition: {
+    x: 0,
+    y: 0
+  },
   connectingDots: []
 }
 
 export default (state = initState, action) => {
   switch (action.type) {
     case PANNING_START:
+      state.connectingDots.push(action.dot)
       return {
         ...state,
-        panningDot: action.dot
+        panningDot: action.dot,
+        linePosition: action.position
       }
     case PANNING:
       return {
@@ -29,32 +35,24 @@ export default (state = initState, action) => {
     case ENTER_DOT:
       // if dot is slibing dot with panningDot
       if (isAdjacent(state.panningDot, action.dot)) {
+        state.connectingDots.push(action.dot)
         return {
           ...state,
-          panDirection: action.direction,
-          connectingDots: state.connectingDots.push(action.dot)
-        }
-      } else {
-        return {
-          ...state,
-          panDirection: action.direction
+          panningDot: action.dot
         }
       }
+      return state
     case LEAVE_DOT:
       if (isOppositeDirection(state.panDirection, action.direction)) {
-        return {
-          ...state,
-          connectingDots: state.connectingDots.pop(),
-          panningDot: state.connectingDots[state.connectingDots.length - 1]
-        }
-      } else {
-        return {
-          ...state,
-          panningDot: state.connectingDots[state.connectingDots.length - 1]
-        }
+        state.connectingDots.pop()
+      }
+      return {
+        ...state,
+        panningDot: state.connectingDots[state.connectingDots.length - 1]
       }
     case PANNING_END:
       if (state.connectingDots.length > 1) {
+        state.connectingDots = []
         // clear connecting dots
         // add new dots,update matrix
         return {
@@ -63,10 +61,8 @@ export default (state = initState, action) => {
         }
       } else {
         return {
-          ...state,
-          panningDot: null,
-          panDirection: null,
-          connectingDots: []
+          ...initState,
+          matrix: state.matrix
         }
       }
     default:

@@ -4,8 +4,9 @@ export const PANNING_END = 'PANNING_END'
 export const ENTER_DOT = 'ENTER_DOT'
 export const LEAVE_DOT = 'LEAVE_DOT'
 
-const panningStart = dot => ({
+const panningStart = (dot, position) => ({
   dot,
+  position,
   type: PANNING_START
 })
 
@@ -18,15 +19,13 @@ const panningEnd = () => ({
   type: PANNING_END
 })
 
-const enterDot = (dot, direction) => ({
+const enterDot = dot => ({
   dot,
-  direction,
   type: ENTER_DOT
 })
 
-const leaveDot = (dot, direction) => ({
+const leaveDot = dot => ({
   dot,
-  direction,
   type: LEAVE_DOT
 })
 
