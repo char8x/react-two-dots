@@ -2,11 +2,14 @@ import 'pepjs' // Pointer Events Polyfill https://github.com/jquery/PEP
 import Hammer from 'rc-hammerjs' // http://hammerjs.github.io/api/
 import Pointable from 'react-pointable' // https://github.com/MilllerTime/react-pointable
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import styled, { keyframes } from 'styled-components'
-// import _throttle from 'lodash/throttle'
+// import _debounce from 'lodash/debounce'
 
 import Line from '../Line'
 import { offset, shape, distance, angle } from '../../utils/dom'
+import actions from '../../store/gamearea/actions'
+import hammerDirection from '../../utils/hammerjs-direction'
 import _debug from '../../utils/debug'
 
 const eventDebugger = _debug('rtd:event')
@@ -28,7 +31,7 @@ const clickWave = keyframes`
   }
 `
 
-const Dot = styled.div`
+export const Dot = styled.div`
   background-color: ${props => props.color};
   border-radius: 50%;
   cursor: pointer;
@@ -58,7 +61,6 @@ class EnhancedDot extends Component {
   state = {
     isActive: false, // click wave effect
     isConnected: false, // only if only slibing dot is same color
-    isPanning: false, // is drawing lines between dots
     lineLength: 40,
     lineHeight: 10,
     lineAngle: 0,
@@ -68,7 +70,6 @@ class EnhancedDot extends Component {
 
   initState = () => {
     this.setState({
-      isPanning: false, // is drawing lines between dots
       lineLength: 40,
       lineHeight: 10,
       lineAngle: 0,
@@ -85,7 +86,16 @@ class EnhancedDot extends Component {
   }
 
   handlePanStart = (e, col, row) => {
-    eventDebugger('handlePanStart')
+    const { panningDot, dispatch } = this.props
+    // debugger
+    if (panningDot == null) {
+      dispatch(
+        actions.panningStart({
+          col,
+          row
+        })
+      )
+    }
     // calculate line start position
     const dotPosition = offset(e.target)
     const dotShape = shape(e.target)
@@ -94,7 +104,6 @@ class EnhancedDot extends Component {
       left: dotPosition.left + dotShape.width / 2
     }
     this.setState({
-      isPanning: !this.state.isPanning,
       isConnected: !this.state.isConnected,
       ...pos
     })
@@ -102,7 +111,7 @@ class EnhancedDot extends Component {
   }
 
   handlePanMove = e => {
-    eventDebugger('handlePanMove')
+    const { dispatch, panDirection } = this.props
     // calculate length and rotate
     let pointer = {
       x: e.center.x,
@@ -117,34 +126,55 @@ class EnhancedDot extends Component {
       ),
       lineAngle: angle(this.state.left, this.state.top, pointer.x, pointer.y)
     })
+
+    // eventDebugger(
+    //   `direction ${e.direction} offsetDirection ${e.offsetDirection}`
+    // )
+    if (panDirection !== hammerDirection[e.offsetDirection]) {
+      dispatch(actions.panning(hammerDirection[e.offsetDirection]))
+    }
   }
 
   handlePanEnd = () => {
+    const { dispatch } = this.props
+    dispatch(actions.panningEnd())
     eventDebugger('handlePanEnd')
     this.initState()
   }
 
   handlePanCancel = () => {
+    const { dispatch } = this.props
+    dispatch(actions.panningEnd())
     eventDebugger('handlePanCancel')
     this.initState()
   }
 
   handleEnterDot = () => {
-    eventDebugger('enter dot')
-    if (!this.state.isConnected) {
+    const { panningDot, col, row, dispatch } = this.props
+    if (
+      panningDot !== null &&
+      !(panningDot.col === col && panningDot.row === row)
+    ) {
+      // eventDebugger(`enter dot ${col} ${row}`)
+      dispatch(actions.enterDot({ col, row }))
     }
   }
 
   handleLeaveDot = () => {
-    eventDebugger('leave dot')
+    const { panningDot, col, row, dispatch } = this.props
+    if (
+      panningDot !== null &&
+      !(panningDot.col === col && panningDot.row === row)
+    ) {
+      // eventDebugger(`panningDot ${panningDot} leave dot ${col} ${row}`)
+    }
   }
 
   render() {
     // col,row is for dot matrix position
-    const { color, col, row } = this.props
+    const { color, col, row, panningDot } = this.props
     const {
       isActive,
-      isPanning,
       lineLength,
       lineHeight,
       lineAngle,
@@ -154,38 +184,24 @@ class EnhancedDot extends Component {
 
     return (
       <DotContainer>
-        {/* only when line is longer than dot radius can bind enter event */
-        lineLength > 45 ? (
-          <Hammer
-            onTap={this.handleTap}
-            direction="DIRECTION_ALL"
-            onPanStart={e => this.handlePanStart(e, col, row)}
-            onPanEnd={this.handlePanEnd}
-            onPan={this.handlePanMove}
-            onPanCancel={this.handlePanCancel}
-          >
-            <Pointable
-              onPointerEnter={this.handleEnterDot}
-              onPointerLeave={this.handleLeaveDot}
-              touchAction="none"
-            >
-              <Dot color={color} radius={20} />
-            </Pointable>
-          </Hammer>
-        ) : (
-          <Hammer
-            onTap={this.handleTap}
-            direction="DIRECTION_ALL"
-            onPanStart={e => this.handlePanStart(e, col, row)}
-            onPanEnd={this.handlePanEnd}
-            onPan={this.handlePanMove}
-            onPanCancel={this.handlePanCancel}
+        <Hammer
+          onTap={this.handleTap}
+          direction="DIRECTION_ALL"
+          onPanStart={e => this.handlePanStart(e, col, row)}
+          onPanEnd={this.handlePanEnd}
+          onPan={this.handlePanMove}
+          onPanCancel={this.handlePanCancel}
+        >
+          <Pointable
+            onPointerEnter={this.handleEnterDot}
+            onPointerLeave={this.handleLeaveDot}
+            touchAction="none"
           >
             <Dot color={color} radius={20} />
-          </Hammer>
-        )}
+          </Pointable>
+        </Hammer>
         <AnimateDot color={color} isActive={isActive} radius={20} />
-        {isPanning && (
+        {panningDot !== null && (
           <Line
             width={lineLength}
             height={lineHeight}
@@ -200,4 +216,7 @@ class EnhancedDot extends Component {
   }
 }
 
-export { EnhancedDot as default, Dot }
+export default connect(state => ({
+  panningDot: state.gameArea.panningDot,
+  panDirection: state.gameArea.panDirection
+}))(EnhancedDot)
