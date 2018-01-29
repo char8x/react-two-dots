@@ -38,7 +38,8 @@ export default (state = initState, action) => {
         state.connectingDots.push(action.dot)
         return {
           ...state,
-          panningDot: action.dot
+          panningDot: action.dot,
+          linePosition: action.position
         }
       }
       return state
@@ -57,11 +58,12 @@ export default (state = initState, action) => {
         // add new dots,update matrix
         return {
           ...state,
-          matrix
+          matrix: state.matrix
         }
       } else {
         return {
           ...initState,
+          connectingDots: [],
           matrix: state.matrix
         }
       }

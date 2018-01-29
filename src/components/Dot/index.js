@@ -60,21 +60,18 @@ const DotContainer = styled.div`
 class EnhancedDot extends Component {
   state = {
     isActive: false, // click wave effect
-    isConnected: false, // only if only slibing dot is same color
+    isPanning: false, // ensure only one dot is drawing line
     lineLength: 40,
     lineHeight: 10,
-    lineAngle: 0,
-    top: 0, // line position
-    left: 0 // line position
+    lineAngle: 0
   }
 
   initState = () => {
     this.setState({
+      isPanning: false,
       lineLength: 40,
       lineHeight: 10,
-      lineAngle: 0,
-      top: 0, // line position
-      left: 0 // line position
+      lineAngle: 0
     })
   }
 
@@ -85,8 +82,8 @@ class EnhancedDot extends Component {
     }, 650) // equal or more than animation-duration (0.65s)
   }
 
-  handlePanStart = (e, col, row) => {
-    const { panningDot, dispatch, linePosition } = this.props
+  handlePanStart = e => {
+    const { panningDot, col, row, dispatch } = this.props
     // debugger
     if (panningDot == null) {
       // calculate line start position
@@ -105,23 +102,15 @@ class EnhancedDot extends Component {
         )
       )
     }
-
     this.setState({
-      isConnected: !this.state.isConnected
+      isPanning: true
     })
     this.handleTap()
   }
 
   handlePanMove = e => {
-    const {
-      dispatch,
-      panDirection,
-      panningDot,
-      linePosition,
-      col,
-      row
-    } = this.props
-    console.log(`panningDot ${panningDot.col} ${panningDot.row} ${col} ${row}`)
+    const { dispatch, panDirection, panningDot, linePosition } = this.props
+    // console.log(`panningDot ${panningDot.col} ${panningDot.row}`)
     // calculate length and rotate
     let pointer = {
       x: e.center.x,
@@ -137,9 +126,6 @@ class EnhancedDot extends Component {
       lineAngle: angle(linePosition.x, linePosition.y, pointer.x, pointer.y)
     })
 
-    // eventDebugger(
-    //   `direction ${e.direction} offsetDirection ${e.offsetDirection}`
-    // )
     if (panDirection !== hammerDirection[e.offsetDirection]) {
       dispatch(actions.panning(hammerDirection[e.offsetDirection]))
     }
@@ -166,7 +152,18 @@ class EnhancedDot extends Component {
       !(panningDot.col === col && panningDot.row === row)
     ) {
       // eventDebugger(`enter dot ${col} ${row}`)
-      dispatch(actions.enterDot({ col, row }))
+      // calculate line start position
+      const dotPosition = offset(e.target)
+      const dotShape = shape(e.target)
+      dispatch(
+        actions.enterDot(
+          { col, row },
+          {
+            x: dotPosition.left + dotShape.width / 2,
+            y: dotPosition.top + dotShape.height / 2 - this.state.lineHeight / 2
+          }
+        )
+      )
     }
   }
 
@@ -177,22 +174,29 @@ class EnhancedDot extends Component {
       !(panningDot.col === col && panningDot.row === row)
     ) {
       // eventDebugger(`panningDot ${panningDot} leave dot ${col} ${row}`)
+      // dispatch(actions.leaveDot({ col, row }))
     }
   }
 
   render() {
     // col,row is for dot matrix position
     const { color, col, row, panningDot, linePosition } = this.props
-    const { isActive, lineLength, lineHeight, lineAngle } = this.state
+    const {
+      isActive,
+      isPanning,
+      lineLength,
+      lineHeight,
+      lineAngle
+    } = this.state
 
     return (
       <DotContainer>
         <Hammer
           onTap={this.handleTap}
           direction="DIRECTION_ALL"
-          onPanStart={e => this.handlePanStart(e, col, row)}
-          onPanEnd={this.handlePanEnd}
+          onPanStart={this.handlePanStart}
           onPan={this.handlePanMove}
+          onPanEnd={this.handlePanEnd}
           onPanCancel={this.handlePanCancel}
         >
           <Pointable
@@ -204,7 +208,7 @@ class EnhancedDot extends Component {
           </Pointable>
         </Hammer>
         <AnimateDot color={color} isActive={isActive} radius={20} />
-        {panningDot !== null && (
+        {isPanning && (
           <Line
             width={lineLength}
             height={lineHeight}

@@ -19,8 +19,9 @@ const panningEnd = () => ({
   type: PANNING_END
 })
 
-const enterDot = dot => ({
+const enterDot = (dot, position) => ({
   dot,
+  position,
   type: ENTER_DOT
 })
 
