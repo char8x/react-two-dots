@@ -151,8 +151,7 @@ class EnhancedDot extends Component {
       panningDot !== null &&
       !(panningDot.col === col && panningDot.row === row)
     ) {
-      // eventDebugger(`enter dot ${col} ${row}`)
-      // calculate line start position
+      // recalculate line start position
       const dotPosition = offset(e.target)
       const dotShape = shape(e.target)
       dispatch(
@@ -180,7 +179,7 @@ class EnhancedDot extends Component {
 
   render() {
     // col,row is for dot matrix position
-    const { color, col, row, panningDot, linePosition } = this.props
+    const { color, col, row, connectedLines, linePosition } = this.props
     const {
       isActive,
       isPanning,
@@ -218,6 +217,17 @@ class EnhancedDot extends Component {
             top={linePosition.y}
           />
         )}
+
+        {connectedLines.map((e, i) => (
+          <Line
+            width={80}
+            height={lineHeight}
+            color={color}
+            deg={e.deg}
+            left={e.x}
+            top={e.y}
+          />
+        ))}
       </DotContainer>
     )
   }
@@ -226,5 +236,6 @@ class EnhancedDot extends Component {
 export default connect(state => ({
   panningDot: state.gameArea.panningDot,
   panDirection: state.gameArea.panDirection,
-  linePosition: state.gameArea.linePosition
+  linePosition: state.gameArea.linePosition,
+  connectedLines: state.gameArea.connectedLines
 }))(EnhancedDot)

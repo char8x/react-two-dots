@@ -36,3 +36,10 @@ export const isOppositeDirection = (directA, directB) => {
       return false
   }
 }
+
+export const lineDeg = {
+  DIRECTION_UP: 270,
+  DIRECTION_LEFT: 180,
+  DIRECTION_DOWN: 90,
+  DIRECTION_RIGHT: 0
+}

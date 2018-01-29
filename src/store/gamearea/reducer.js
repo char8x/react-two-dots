@@ -5,7 +5,12 @@ import {
   PANNING_END,
   PANNING
 } from './actions'
-import { matrix, isAdjacent, isOppositeDirection } from '../../utils/data'
+import {
+  matrix,
+  isAdjacent,
+  isOppositeDirection,
+  lineDeg
+} from '../../utils/data'
 
 const initState = {
   matrix,
@@ -15,13 +20,14 @@ const initState = {
     x: 0,
     y: 0
   },
-  connectingDots: []
+  connectedDots: [],
+  connectedLines: []
 }
 
 export default (state = initState, action) => {
   switch (action.type) {
     case PANNING_START:
-      state.connectingDots.push(action.dot)
+      state.connectedDots.push(action.dot)
       return {
         ...state,
         panningDot: action.dot,
@@ -35,7 +41,11 @@ export default (state = initState, action) => {
     case ENTER_DOT:
       // if dot is slibing dot with panningDot
       if (isAdjacent(state.panningDot, action.dot)) {
-        state.connectingDots.push(action.dot)
+        state.connectedDots.push(action.dot)
+        state.connectedLines.push({
+          deg: lineDeg[state.panDirection],
+          ...state.linePosition
+        })
         return {
           ...state,
           panningDot: action.dot,
@@ -45,15 +55,16 @@ export default (state = initState, action) => {
       return state
     case LEAVE_DOT:
       if (isOppositeDirection(state.panDirection, action.direction)) {
-        state.connectingDots.pop()
+        state.connectedDots.pop()
+        state.connectedLines.pop()
       }
       return {
         ...state,
-        panningDot: state.connectingDots[state.connectingDots.length - 1]
+        panningDot: state.connectedDots[state.connectedDots.length - 1]
       }
     case PANNING_END:
-      if (state.connectingDots.length > 1) {
-        state.connectingDots = []
+      if (state.connectedDots.length > 1) {
+        state.connectedDots = []
         // clear connecting dots
         // add new dots,update matrix
         return {
@@ -63,7 +74,7 @@ export default (state = initState, action) => {
       } else {
         return {
           ...initState,
-          connectingDots: [],
+          connectedDots: [],
           matrix: state.matrix
         }
       }
