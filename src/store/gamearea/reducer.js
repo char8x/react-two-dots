@@ -9,7 +9,8 @@ import {
   matrix,
   isAdjacent,
   isOppositeDirection,
-  lineDeg
+  lineDeg,
+  removeDots
 } from '../../utils/data'
 
 const initState = {
@@ -48,7 +49,7 @@ export default (state = initState, action) => {
       }
     case ENTER_DOT:
       // if dot is slibing dot with panningDot
-      if (isAdjacent(panningDot, action.dot)) {
+      if (isAdjacent(matrix)(panningDot, action.dot)) {
         connectedDots.push(action.dot)
         connectedLines.push({
           deg: lineDeg[panDirection],
@@ -72,13 +73,11 @@ export default (state = initState, action) => {
       }
     case PANNING_END:
       if (connectedDots.length > 1) {
-        connectedDots.forEach(e => {
-          // matrix[e.col][e.row]
-        })
-
-        // clear connecting dots
-        // add new dots,update matrix
-        return state
+        removeDots(matrix)(connectedDots)
+        return {
+          ...initState,
+          matrix
+        }
       } else {
         return initState
       }

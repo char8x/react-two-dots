@@ -66,6 +66,14 @@ class EnhancedDot extends Component {
     lineAngle: 0
   }
 
+  componentWillMount() {
+    // drop effect
+  }
+
+  componentWillUnmount() {
+    // animate effect
+  }
+
   initState = () => {
     this.setState({
       isPanning: false,
@@ -220,6 +228,7 @@ class EnhancedDot extends Component {
 
         {connectedLines.map((e, i) => (
           <Line
+            key={i.toString()}
             width={80}
             height={lineHeight}
             color={color}
