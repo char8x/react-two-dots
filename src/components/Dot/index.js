@@ -10,6 +10,7 @@ import Line from '../Line'
 import { offset, shape, distance, angle } from '../../utils/dom'
 import actions from '../../store/gamearea/actions'
 import hammerDirection from '../../utils/hammerjs-direction'
+import { DIRECTION_NONE, DIRECTION_DOWN } from '../../utils/constants'
 import _debug from '../../utils/debug'
 
 const eventDebugger = _debug('rtd:event')
@@ -126,8 +127,12 @@ class EnhancedDot extends Component {
       lineAngle: angle(linePosition.x, linePosition.y, pointer.x, pointer.y)
     })
 
-    if (panDirection !== hammerDirection[e.offsetDirection]) {
-      dispatch(actions.panning(hammerDirection[e.offsetDirection]))
+    // TODO: how to ensure accurate and just trigger once ?
+    if (
+      hammerDirection[e.direction] !== DIRECTION_NONE &&
+      panDirection !== hammerDirection[e.direction]
+    ) {
+      dispatch(actions.panning(hammerDirection[e.direction]))
     }
   }
 
