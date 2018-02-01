@@ -6,7 +6,7 @@ import {
   PANNING
 } from './actions'
 import {
-  matrix,
+  originalMatrix,
   isAdjacent,
   isOppositeDirection,
   lineDeg,
@@ -14,7 +14,7 @@ import {
 } from '../../utils/data'
 
 const initState = {
-  matrix,
+  matrix: originalMatrix,
   panningDot: null,
   panDirection: null,
   linePosition: {

@@ -45,7 +45,7 @@ export const genrateDots = (
 }
 
 /**
- *  Remove connected dots and add new dots TODO:
+ *  Remove connected dots and add new dots
  *
  * @param {*} matrix
  * @param {*} connectedDots
@@ -60,8 +60,8 @@ export const removeDots = matrix => connectedDots => {
     } else {
       matrix[col].splice(dots[0].row, dots.length)
     }
-    // add new dots
-    matrix[col].push(...genrateDots()(dots.length))
+    // TODO: add new dots
+    // matrix[col].push(...genrateDots()(dots.length))
   })
 }
 
@@ -115,14 +115,30 @@ const colB = [
   }
 ]
 
-export const matrix = [blueCol, colA, colB, redCol, purpleCol]
+export const originalMatrix = [blueCol, colA, colB, redCol, purpleCol]
 
-export const isAdjacent = matrix => (dotA, dotB) =>
-  matrix[dotA.col][dotA.row] === matrix[dotB.col][dotB.row] &&
-  (dotA.col - 1 === dotB.col ||
-    dotA.col + 1 === dotB.col ||
-    dotA.row - 1 === dotB.row ||
-    dotA.row + 1 === dotB.row)
+/**
+ * if is same color and same type
+ *
+ * @param {*} matrix
+ */
+export const isAdjacent = matrix => (dotA, dotB) => {
+  const pointA = matrix[dotA.col][dotA.row]
+  const pointB = matrix[dotB.col][dotB.row]
+  if (
+    pointA.type === DOT_TYPE_DOT &&
+    pointA.type === pointB.type &&
+    pointA.color === pointB.color
+  ) {
+    return (
+      dotA.col - 1 === dotB.col ||
+      dotA.col + 1 === dotB.col ||
+      dotA.row - 1 === dotB.row ||
+      dotA.row + 1 === dotB.row
+    )
+  }
+  return false
+}
 
 export const isOppositeDirection = (directA, directB) => {
   switch (directA) {

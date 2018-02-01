@@ -66,14 +66,6 @@ class EnhancedDot extends Component {
     lineAngle: 0
   }
 
-  componentWillMount() {
-    // drop effect
-  }
-
-  componentWillUnmount() {
-    // animate effect
-  }
-
   initState = () => {
     this.setState({
       isPanning: false,
@@ -142,7 +134,6 @@ class EnhancedDot extends Component {
   handlePanEnd = () => {
     const { dispatch } = this.props
     dispatch(actions.panningEnd())
-    eventDebugger('handlePanEnd')
     this.initState()
   }
 
