@@ -7,6 +7,7 @@ import { DOT_TYPE_DOT, DOT_TYPE_EMPTY } from '../../utils/constants'
 const DotCol = styled.div`
   display: flex;
   flex-direction: column-reverse;
+  justify-content: flex-start;
 `
 
 export default class Col extends Component {

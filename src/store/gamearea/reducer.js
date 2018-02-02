@@ -13,6 +13,7 @@ import {
   lineDeg,
   removeDots
 } from '../../utils/data'
+import clone from '../../utils/clone'
 
 const initState = {
   matrix: originalMatrix,
@@ -37,9 +38,11 @@ export default (state = initState, action) => {
   } = state
   switch (action.type) {
     case PANNING_START:
-      connectedDots.push(action.dot)
+      const newConnectedDots = clone(connectedDots)
+      newConnectedDots.push(action.dot)
       return {
         ...state,
+        connectedDots: newConnectedDots,
         panningDot: action.dot,
         linePosition: action.position
       }
@@ -50,16 +53,20 @@ export default (state = initState, action) => {
       }
     case ENTER_DOT:
       // if dot is slibing dot with panningDot
-      if (isAdjacent(matrix)(panningDot, action.dot)) {
-        connectedDots.push(action.dot)
-        connectedLines.push({
-          deg: lineDeg[panDirection],
+      const { adjacent, direction } = isAdjacent(matrix)(panningDot, action.dot)
+      if (adjacent) {
+        const newConnectedDots = clone(connectedDots)
+        const newConnectedLines = clone(connectedLines)
+        newConnectedDots.push(action.dot)
+        newConnectedLines.push({
+          deg: lineDeg[direction],
           color: matrix[panningDot.col][panningDot.row].color,
           ...linePosition
         })
-        matrix[panningDot.col][panningDot.row].isActive = true
         return {
           ...state,
+          connectedDots: newConnectedDots,
+          connectedLines: newConnectedLines,
           panningDot: action.dot,
           linePosition: action.position
         }
@@ -67,26 +74,38 @@ export default (state = initState, action) => {
       return state
     case LEAVE_DOT:
       if (isOppositeDirection(panDirection, action.direction)) {
-        connectedDots.pop()
-        connectedLines.pop()
-      }
-      return {
-        ...state,
-        panningDot: connectedDots[connectedDots.length - 1]
+        const newConnectedDots = clone(connectedDots)
+        const newConnectedLines = clone(connectedLines)
+        newConnectedDots.pop()
+        newConnectedLines.pop()
+
+        return {
+          ...state,
+          connectedDots: newConnectedDots,
+          connectedLines: newConnectedLines,
+          panningDot: connectedDots[connectedDots.length - 1]
+        }
+      } else {
+        return state
       }
     case PANNING_END:
       if (connectedDots.length > 1) {
-        removeDots(matrix)(connectedDots)
+        const newMatrix = clone(matrix)
+        removeDots(newMatrix)(connectedDots)
         return {
           ...initState,
-          matrix
+          matrix: newMatrix
         }
       } else {
         return initState
       }
     case RESET_DOT_STATE:
-      matrix[action.dot.col][action.dot.row].isActive = false
-      return state
+      const newMatrix = clone(matrix)
+      newMatrix[action.dot.col][action.dot.row].isActive = false
+      return {
+        ...state,
+        matrix: newMatrix
+      }
     default:
       return state
   }

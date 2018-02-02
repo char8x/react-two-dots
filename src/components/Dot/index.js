@@ -8,6 +8,7 @@ import styled, { keyframes } from 'styled-components'
 
 import Line from '../Line'
 import { offset, shape, distance, angle } from '../../utils/dom'
+import { isAdjacent } from '../../utils/data'
 import actions from '../../store/gamearea/actions'
 import hammerDirection from '../../utils/hammerjs-direction'
 import { DIRECTION_NONE, DIRECTION_DOWN } from '../../utils/constants'
@@ -59,12 +60,16 @@ const DotContainer = styled.div`
 `
 
 class EnhancedDot extends Component {
-  state = {
-    isActive: false, // click wave effect
-    isPanning: false, // ensure only one dot is drawing line
-    lineLength: 40,
-    lineHeight: 10,
-    lineAngle: 0
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isActive: false, // click wave effect
+      isPanning: false, // ensure only one dot is drawing line
+      lineLength: 40,
+      lineHeight: 10,
+      lineAngle: 0
+    }
   }
 
   initState = () => {
@@ -78,7 +83,7 @@ class EnhancedDot extends Component {
 
   handleTap = () => {
     this.setState({ isActive: !this.state.isActive })
-    setTimeout(() => {
+    this.activeTimer = setTimeout(() => {
       this.setState({ isActive: !this.state.isActive })
     }, 650) // equal or more than animation-duration (0.65s)
   }
@@ -137,9 +142,12 @@ class EnhancedDot extends Component {
   }
 
   handlePanEnd = () => {
-    const { dispatch } = this.props
+    const { connectedLines, dispatch } = this.props
     dispatch(actions.panningEnd())
-    this.initState()
+    console.log(connectedLines.length)
+    if (connectedLines.length === 0) {
+      this.initState()
+    }
   }
 
   handlePanCancel = () => {
@@ -150,11 +158,14 @@ class EnhancedDot extends Component {
   }
 
   handleEnterDot = e => {
-    const { panningDot, col, row, dispatch } = this.props
+    const { panningDot, col, row, matrix, dispatch } = this.props
     if (
       panningDot !== null &&
       !(panningDot.col === col && panningDot.row === row)
     ) {
+      if (isAdjacent(matrix)(panningDot, { col, row }).adjacent) {
+        this.handleTap()
+      }
       // recalculate line start position
       const dotPosition = offset(e.target)
       const dotShape = shape(e.target)
@@ -182,10 +193,7 @@ class EnhancedDot extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // TODO: why isActive is false
-    console.log(nextProps)
     if (nextProps.isActive) {
-      debugger
       this.handleTap()
       this.props.dispatch(
         actions.resetDotState({
@@ -194,6 +202,10 @@ class EnhancedDot extends Component {
         })
       )
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.activeTimer)
   }
 
   render() {
@@ -256,5 +268,6 @@ export default connect(state => ({
   panningDot: state.gameArea.panningDot,
   panDirection: state.gameArea.panDirection,
   linePosition: state.gameArea.linePosition,
-  connectedLines: state.gameArea.connectedLines
+  connectedLines: state.gameArea.connectedLines,
+  matrix: state.gameArea.matrix
 }))(EnhancedDot)

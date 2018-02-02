@@ -121,6 +121,9 @@ export const originalMatrix = [blueCol, colA, colB, purpleCol, redCol]
 /**
  * if is same color and same type
  *
+ *  dotA: start
+ *  dotB: end
+ *
  * @param {*} matrix
  */
 export const isAdjacent = matrix => (dotA, dotB) => {
@@ -131,12 +134,30 @@ export const isAdjacent = matrix => (dotA, dotB) => {
     pointA.type === pointB.type &&
     pointA.color === pointB.color
   ) {
-    return (
-      dotA.col - 1 === dotB.col ||
-      dotA.col + 1 === dotB.col ||
-      dotA.row - 1 === dotB.row ||
-      dotA.row + 1 === dotB.row
-    )
+    if (dotA.col - 1 === dotB.col) {
+      return {
+        adjacent: true,
+        direction: DIRECTION_LEFT
+      }
+    } else if (dotA.col + 1 === dotB.col) {
+      return {
+        adjacent: true,
+        direction: DIRECTION_RIGHT
+      }
+    } else if (dotA.row - 1 === dotB.row) {
+      return {
+        adjacent: true,
+        direction: DIRECTION_DOWN
+      }
+    } else if (dotA.row + 1 === dotB.row) {
+      return {
+        adjacent: true,
+        direction: DIRECTION_UP
+      }
+    }
+    return {
+      adjacent: false
+    }
   }
   return false
 }
