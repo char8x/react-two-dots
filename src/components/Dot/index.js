@@ -82,9 +82,10 @@ class EnhancedDot extends Component {
   }
 
   handleTap = () => {
-    this.setState({ isActive: !this.state.isActive })
+    this.setState({ isActive: false })
+    this.setState({ isActive: true })
     this.activeTimer = setTimeout(() => {
-      this.setState({ isActive: !this.state.isActive })
+      this.setState({ isActive: false })
     }, 650) // equal or more than animation-duration (0.65s)
   }
 
