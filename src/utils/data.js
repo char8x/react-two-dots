@@ -46,24 +46,71 @@ export const genrateDots = (
 }
 
 /**
+ * Check if exists rectangle
+ *
+ * @param {*} connectedDots
+ */
+export const rectangleExist = connectedDots => {
+  const repeatDot = connectedDots[connectedDots.length - 1]
+  if (connectedDots.length >= 5) {
+    if (connectedDots.length % 2 === 0) {
+      const subDots = connectedDots.slice(0, 2)
+      if (
+        subDots.find(e => e.col === repeatDot.col && e.row === repeatDot.row)
+      ) {
+        return true
+      } else {
+        return rectangleExist(connectedDots.slice(2))
+      }
+    } else {
+      const subDots = connectedDots.slice(0, 1)
+      if (
+        subDots.find(e => e.col === repeatDot.col && e.row === repeatDot.row)
+      ) {
+        return true
+      } else {
+        return rectangleExist(connectedDots.slice(1))
+      }
+    }
+  }
+
+  return false
+}
+
+/**
  *  Remove connected dots and add new dots
  *
  * @param {*} matrix
  * @param {*} connectedDots
  */
 export const removeDots = matrix => connectedDots => {
-  connectedDots.map(e => e.col).forEach(col => {
-    const dots = connectedDots.filter(e => e.col === col)
-    dots.sort((a, b) => a - b)
-    if (dots.length > 1 && dots[1].row - dots[0].row !== 1) {
-      // not adjacent
-      dots.forEach(d => matrix[col].splice(d.row, 1))
-    } else {
-      matrix[col].splice(dots[0].row, dots.length)
-    }
-    // TODO: add new dots
-    // matrix[col].push(...genrateDots()(dots.length))
-  })
+  if (rectangleExist(connectedDots)) {
+    // first check if there is rectangle,then remove all the same color dots
+    const color = matrix[connectedDots[0].col][connectedDots[0].row].color
+    matrix.forEach((col, i) => {
+      const colLength = col.length
+      matrix[i] = col.filter(
+        d => !(d.color === color && d.type === DOT_TYPE_DOT)
+      )
+      // TODO: add new dots
+      // const newDots = genrateDots()(colLength - col.length)
+      // matrix[i].push(...newDots)
+    })
+  } else {
+    connectedDots
+      .map(e => e.col)
+      .filter((v, i, a) => a.indexOf(v) === i) // unique col
+      .forEach(col => {
+        const dots = connectedDots.filter(e => e.col === col)
+        dots.sort((a, b) => a.row - b.row)
+        matrix[col] = matrix[col].filter(d =>
+          dots.find(dot => !(d.col === dot.col && d.row === dot.row))
+        )
+        // TODO: add new dots
+        // const newDots = genrateDots()(dots.length)
+        // matrix[col].push(...newDots)
+      })
+  }
 }
 
 export const blueCol = genrateDots({ colors: [COLOR_BLUE] })(5)
@@ -116,7 +163,7 @@ const colB = [
   }
 ]
 
-export const originalMatrix = [blueCol, colA, colB, purpleCol, redCol]
+export const originalMatrix = [blueCol, colA, colB, redCol, purpleCol]
 
 /**
  * if is same color and same type

@@ -144,17 +144,18 @@ class EnhancedDot extends Component {
   handlePanEnd = () => {
     const { connectedLines, dispatch } = this.props
     dispatch(actions.panningEnd())
-    console.log(connectedLines.length)
     if (connectedLines.length === 0) {
       this.initState()
     }
   }
 
   handlePanCancel = () => {
-    const { dispatch } = this.props
+    const { connectedLines, dispatch } = this.props
     dispatch(actions.panningEnd())
     eventDebugger('handlePanCancel')
-    this.initState()
+    if (connectedLines.length === 0) {
+      this.initState()
+    }
   }
 
   handleEnterDot = e => {

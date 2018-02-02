@@ -11,8 +11,10 @@ import {
   isAdjacent,
   isOppositeDirection,
   lineDeg,
-  removeDots
+  removeDots,
+  rectangleExist
 } from '../../utils/data'
+import { DOT_TYPE_DOT } from '../../utils/constants'
 import clone from '../../utils/clone'
 
 const initState = {
@@ -63,6 +65,26 @@ export default (state = initState, action) => {
           color: matrix[panningDot.col][panningDot.row].color,
           ...linePosition
         })
+        if (rectangleExist(newConnectedDots)) {
+          const newMatrix = clone(matrix)
+          const color =
+            newMatrix[connectedDots[0].col][connectedDots[0].row].color
+          newMatrix.forEach((col, i) => {
+            col.forEach(d => {
+              if (d.color === color && d.type === DOT_TYPE_DOT) {
+                d.isActive = true
+              }
+            })
+          })
+          return {
+            ...state,
+            matrix: newMatrix,
+            connectedDots: newConnectedDots,
+            connectedLines: newConnectedLines,
+            panningDot: action.dot,
+            linePosition: action.position
+          }
+        }
         return {
           ...state,
           connectedDots: newConnectedDots,
@@ -96,9 +118,8 @@ export default (state = initState, action) => {
           ...initState,
           matrix: newMatrix
         }
-      } else {
-        return initState
       }
+      return state
     case RESET_DOT_STATE:
       const newMatrix = clone(matrix)
       newMatrix[action.dot.col][action.dot.row].isActive = false
