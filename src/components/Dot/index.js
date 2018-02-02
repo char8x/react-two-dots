@@ -181,9 +181,24 @@ class EnhancedDot extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    // TODO: why isActive is false
+    console.log(nextProps)
+    if (nextProps.isActive) {
+      debugger
+      this.handleTap()
+      this.props.dispatch(
+        actions.resetDotState({
+          col: this.props.col,
+          row: this.props.row
+        })
+      )
+    }
+  }
+
   render() {
     // col,row is for dot matrix position
-    const { color, col, row, connectedLines, linePosition } = this.props
+    const { color, connectedLines, linePosition } = this.props
     const {
       isActive,
       isPanning,
@@ -191,7 +206,6 @@ class EnhancedDot extends Component {
       lineHeight,
       lineAngle
     } = this.state
-
     return (
       <DotContainer>
         <Hammer
@@ -227,7 +241,7 @@ class EnhancedDot extends Component {
             key={i.toString()}
             width={80}
             height={lineHeight}
-            color={color}
+            color={e.color}
             deg={e.deg}
             left={e.x}
             top={e.y}

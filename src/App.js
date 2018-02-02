@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 import DotMatrix from './components/DotMatrix'
 import TopBar from './components/TopBar'
@@ -20,6 +21,7 @@ const AppContainer = styled.div`
 
 class App extends Component {
   render() {
+    const { matrix } = this.props
     const chance = 20
     const score = 0
     const level = 1
@@ -50,11 +52,13 @@ class App extends Component {
     return (
       <AppContainer>
         <TopBar chance={chance} dots={dots} />
-        <DotMatrix />
+        <DotMatrix matrix={matrix} />
         <BottomBar level={level} clearDots={clearDots} score={score} />
       </AppContainer>
     )
   }
 }
 
-export default App
+export default connect(state => ({
+  matrix: state.gameArea.matrix
+}))(App)

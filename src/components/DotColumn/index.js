@@ -17,7 +17,7 @@ export default class Col extends Component {
         {list.map((e, i) => {
           switch (e.type) {
             case DOT_TYPE_DOT:
-              return <Dot key={i} color={e.color} col={col} row={i} />
+              return <Dot {...e} key={i} col={col} row={i} />
             default:
               return ''
           }

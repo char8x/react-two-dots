@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
 import Col from '../DotColumn'
 
 const DotMatrix = styled.div`
@@ -10,7 +9,7 @@ const DotMatrix = styled.div`
   align-items: center;
 `
 
-class Matrix extends Component {
+export default class Matrix extends Component {
   render() {
     const { matrix } = this.props
     return (
@@ -20,7 +19,3 @@ class Matrix extends Component {
     )
   }
 }
-
-export default connect(state => ({
-  matrix: state.gameArea.matrix
-}))(Matrix)

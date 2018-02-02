@@ -3,7 +3,8 @@ import {
   ENTER_DOT,
   LEAVE_DOT,
   PANNING_END,
-  PANNING
+  PANNING,
+  RESET_DOT_STATE
 } from './actions'
 import {
   originalMatrix,
@@ -53,8 +54,10 @@ export default (state = initState, action) => {
         connectedDots.push(action.dot)
         connectedLines.push({
           deg: lineDeg[panDirection],
+          color: matrix[panningDot.col][panningDot.row].color,
           ...linePosition
         })
+        matrix[panningDot.col][panningDot.row].isActive = true
         return {
           ...state,
           panningDot: action.dot,
@@ -81,6 +84,9 @@ export default (state = initState, action) => {
       } else {
         return initState
       }
+    case RESET_DOT_STATE:
+      matrix[action.dot.col][action.dot.row].isActive = false
+      return state
     default:
       return state
   }

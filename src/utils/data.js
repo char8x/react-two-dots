@@ -39,7 +39,8 @@ export const genrateDots = (
   return Array.from({ length: num }).map((e, i) => {
     return {
       type: dotTypes[random(dotTypes.length)],
-      color: colors[random(colors.length)]
+      color: colors[random(colors.length)],
+      isActive: false // for animate effect
     }
   })
 }
@@ -115,7 +116,7 @@ const colB = [
   }
 ]
 
-export const originalMatrix = [blueCol, colA, colB, redCol, purpleCol]
+export const originalMatrix = [blueCol, colA, colB, purpleCol, redCol]
 
 /**
  * if is same color and same type
