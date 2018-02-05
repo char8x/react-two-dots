@@ -16,8 +16,8 @@ import _debug from '../../utils/debug'
 
 const eventDebugger = _debug('rtd:event')
 
-// click wave effect
-const clickWave = keyframes`
+// vanish effect https://github.com/miniMAC/magic/blob/master/magic.css#L66
+const vanish = keyframes`
   0% {
     opacity: 1;
     transform-origin: 50% 50%;
@@ -33,6 +33,7 @@ const clickWave = keyframes`
   }
 `
 
+// bounce effect https://github.com/daneden/animate.css/blob/master/animate.css#L23
 const bounce = keyframes`
   from,
   20%,
@@ -86,7 +87,7 @@ const AnimateDot = Dot.extend`
 
   ${props =>
     props.isActive
-      ? `animation-name: ${clickWave};
+      ? `animation-name: ${vanish};
          animation-duration: 0.65s;
          animation-fill-mode: both;`
       : ''};
@@ -236,7 +237,7 @@ class EnhancedDot extends Component {
   componentWillMount() {
     // FIXME: cannot trigger here,only need trigger once
     // this.setState({
-    //   isBounce: true
+    //   isBounce: false
     // })
   }
 
