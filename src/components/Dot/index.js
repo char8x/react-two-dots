@@ -122,7 +122,7 @@ class EnhancedDot extends Component {
   }
 
   handleTap = () => {
-    this.setState({ isActive: false })
+    this.setState({ isActive: false, isBounce: false })
     this.setState({ isActive: true })
     this.activeTimer = setTimeout(() => {
       this.setState({ isActive: false })
