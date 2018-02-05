@@ -21,6 +21,7 @@ import clone from '../../utils/clone'
 
 const initState = {
   matrix: originalMatrix,
+  colLength: 5,
   panningDot: null,
   panDirection: null,
   linePosition: {
@@ -34,6 +35,7 @@ const initState = {
 export default (state = initState, action) => {
   const {
     matrix,
+    colLength,
     connectedDots,
     connectedLines,
     panningDot,
@@ -121,10 +123,10 @@ export default (state = initState, action) => {
           matrix: newMatrix
         }
       }
-      return state
+      return initState
     case REFRESH_MATRIX:
       const tempMatrix = clone(matrix)
-      addNewDots(tempMatrix, 5)
+      addNewDots(tempMatrix, colLength)
       return {
         ...state,
         matrix: tempMatrix

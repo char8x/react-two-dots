@@ -122,6 +122,7 @@ class EnhancedDot extends Component {
   }
 
   handleTap = () => {
+    // let dot only bounce once
     this.setState({ isActive: false, isBounce: false })
     this.setState({ isActive: true })
     this.activeTimer = setTimeout(() => {
@@ -232,13 +233,6 @@ class EnhancedDot extends Component {
       // eventDebugger(`panningDot ${panningDot} leave dot ${col} ${row}`)
       // dispatch(actions.leaveDot({ col, row }))
     }
-  }
-
-  componentWillMount() {
-    // FIXME: cannot trigger here,only need trigger once
-    // this.setState({
-    //   isBounce: false
-    // })
   }
 
   componentWillReceiveProps(nextProps) {
