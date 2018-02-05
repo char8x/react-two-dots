@@ -101,11 +101,8 @@ export const removeDots = matrix => connectedDots => {
       .map(e => e.col)
       .filter((v, i, a) => a.indexOf(v) === i) // unique col
       .forEach(col => {
-        const dots = connectedDots.filter(e => e.col === col)
-        dots.sort((a, b) => a.row - b.row)
-        matrix[col] = matrix[col].filter(d =>
-          dots.find(dot => !(d.col === dot.col && d.row === dot.row))
-        )
+        const dotRows = connectedDots.filter(e => e.col === col).map(d => d.row)
+        matrix[col] = matrix[col].filter((d, i) => dotRows.indexOf(i) === -1)
         // TODO: add new dots
         // const newDots = genrateDots()(dots.length)
         // matrix[col].push(...newDots)
