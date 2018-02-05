@@ -33,6 +33,32 @@ const clickWave = keyframes`
   }
 `
 
+const bounce = keyframes`
+  from,
+  20%,
+  53%,
+  80%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: translate3d(0, 0, 0);
+  }
+
+  40%,
+  43% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: translate3d(0, -30px, 0);
+  }
+
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: translate3d(0, -15px, 0);
+  }
+
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
+`
+
 export const Dot = styled.div`
   background-color: ${props => props.color};
   border-radius: 50%;
@@ -43,15 +69,27 @@ export const Dot = styled.div`
     width: ${props.radius * 2}px;`
   }} overflow: hidden;
   box-shadow: none;
+
+  ${props =>
+    props.isBounce
+      ? `animation-name: ${bounce};
+  transform-origin: center bottom;
+  animation-duration: 1s;
+  animation-fill-mode: both;`
+      : ''};
 `
 
 const AnimateDot = Dot.extend`
   position: relative;
   top: -40px;
   z-index: -1;
-  animation-duration: 0.65s;
-  animation-fill-mode: both;
-  ${props => (props.isActive ? `animation-name: ${clickWave};` : '')};
+
+  ${props =>
+    props.isActive
+      ? `animation-name: ${clickWave};
+         animation-duration: 0.65s;
+         animation-fill-mode: both;`
+      : ''};
 `
 
 const DotContainer = styled.div`
@@ -64,6 +102,7 @@ class EnhancedDot extends Component {
     super(props)
 
     this.state = {
+      isBounce: false,
       isActive: false, // click wave effect
       isPanning: false, // ensure only one dot is drawing line
       lineLength: 40,
@@ -194,6 +233,12 @@ class EnhancedDot extends Component {
     }
   }
 
+  componentWillMount() {
+    this.setState({
+      isBounce: true
+    })
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.isActive) {
       this.handleTap()
@@ -214,6 +259,7 @@ class EnhancedDot extends Component {
     // col,row is for dot matrix position
     const { color, connectedLines, linePosition } = this.props
     const {
+      isBounce,
       isActive,
       isPanning,
       lineLength,
@@ -235,10 +281,15 @@ class EnhancedDot extends Component {
             onPointerLeave={this.handleLeaveDot}
             touchAction="none"
           >
-            <Dot color={color} radius={20} />
+            <Dot color={color} radius={20} isBounce={isBounce} />
           </Pointable>
         </Hammer>
-        <AnimateDot color={color} isActive={isActive} radius={20} />
+        <AnimateDot
+          color={color}
+          isActive={isActive}
+          radius={20}
+          isBounce={isBounce}
+        />
         {isPanning && (
           <Line
             width={lineLength}
