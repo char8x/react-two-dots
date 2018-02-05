@@ -4,7 +4,8 @@ import {
   LEAVE_DOT,
   PANNING_END,
   PANNING,
-  RESET_DOT_STATE
+  RESET_DOT_STATE,
+  REFRESH_MATRIX
 } from './actions'
 import {
   originalMatrix,
@@ -12,7 +13,8 @@ import {
   isOppositeDirection,
   lineDeg,
   removeDots,
-  rectangleExist
+  rectangleExist,
+  addNewDots
 } from '../../utils/data'
 import { DOT_TYPE_DOT } from '../../utils/constants'
 import clone from '../../utils/clone'
@@ -120,6 +122,13 @@ export default (state = initState, action) => {
         }
       }
       return state
+    case REFRESH_MATRIX:
+      const tempMatrix = clone(matrix)
+      addNewDots(tempMatrix, 5)
+      return {
+        ...state,
+        matrix: tempMatrix
+      }
     case RESET_DOT_STATE:
       const newMatrix = clone(matrix)
       newMatrix[action.dot.col][action.dot.row].isActive = false

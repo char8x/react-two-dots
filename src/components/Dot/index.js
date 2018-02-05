@@ -102,7 +102,7 @@ class EnhancedDot extends Component {
     super(props)
 
     this.state = {
-      isBounce: false,
+      isBounce: true,
       isActive: false, // click wave effect
       isPanning: false, // ensure only one dot is drawing line
       lineLength: 40,
@@ -234,9 +234,10 @@ class EnhancedDot extends Component {
   }
 
   componentWillMount() {
-    this.setState({
-      isBounce: true
-    })
+    // FIXME: cannot trigger here,only need trigger once
+    // this.setState({
+    //   isBounce: true
+    // })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -253,6 +254,8 @@ class EnhancedDot extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.activeTimer)
+    // WARN: may be called multiple times,bad performance
+    this.props.dispatch(actions.refreshMatrix())
   }
 
   render() {

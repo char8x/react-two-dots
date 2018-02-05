@@ -4,6 +4,7 @@ export const PANNING_END = 'PANNING_END'
 export const ENTER_DOT = 'ENTER_DOT'
 export const LEAVE_DOT = 'LEAVE_DOT'
 export const RESET_DOT_STATE = 'RESET_DOT_STATE'
+export const REFRESH_MATRIX = 'REFRESH_MATRIX'
 
 const panningStart = (dot, position) => ({
   dot,
@@ -36,11 +37,16 @@ const resetDotState = dot => ({
   type: RESET_DOT_STATE
 })
 
+const refreshMatrix = () => ({
+  type: REFRESH_MATRIX
+})
+
 export default {
   panningStart,
   panning,
   panningEnd,
   enterDot,
   leaveDot,
-  resetDotState
+  resetDotState,
+  refreshMatrix
 }

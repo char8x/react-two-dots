@@ -93,7 +93,7 @@ export const removeDots = matrix => connectedDots => {
         d => !(d.color === color && d.type === DOT_TYPE_DOT)
       )
       // TODO: add new dots
-      // const newDots = genrateDots()(colLength - col.length)
+      // const newDots = genrateDots()(colLength - matrix[i].length)
       // matrix[i].push(...newDots)
     })
   } else {
@@ -104,10 +104,18 @@ export const removeDots = matrix => connectedDots => {
         const dotRows = connectedDots.filter(e => e.col === col).map(d => d.row)
         matrix[col] = matrix[col].filter((d, i) => dotRows.indexOf(i) === -1)
         // TODO: add new dots
-        // const newDots = genrateDots()(dots.length)
+        // const newDots = genrateDots()(dotRows.length)
         // matrix[col].push(...newDots)
       })
   }
+}
+
+export const addNewDots = (matrix, colLength) => {
+  matrix.forEach((col, i) => {
+    // TODO: add new dots
+    const newDots = genrateDots()(colLength - matrix[i].length)
+    matrix[i].push(...newDots)
+  })
 }
 
 export const blueCol = genrateDots({ colors: [COLOR_BLUE] })(5)
