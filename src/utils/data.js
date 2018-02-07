@@ -7,8 +7,7 @@ import {
   DIRECTION_LEFT,
   DIRECTION_UP,
   DIRECTION_RIGHT,
-  DOT_TYPE_DOT,
-  DOT_TYPE_EMPTY
+  DOT_TYPE_DOT
 } from './constants'
 
 import random from './random-index'
@@ -41,7 +40,8 @@ export const genrateDots = (
       type: dotTypes[random(dotTypes.length)],
       color: colors[random(colors.length)],
       isActive: false, // for animate effect
-      isClear: false // for clear effect
+      isClear: false, // for clear effect
+      isBounce: true // for bounce effect
     }
   })
 }
@@ -85,30 +85,36 @@ export const rectangleExist = connectedDots => {
  * @param {*} connectedDots
  */
 export const removeDots = matrix => connectedDots => {
+  const bounceStartDots = []
   if (rectangleExist(connectedDots)) {
     // first check if there is rectangle,then remove all the same color dots
     const color = matrix[connectedDots[0].col][connectedDots[0].row].color
     matrix.forEach((col, i) => {
-      const colLength = col.length
+      bounceStartDots.push({
+        col: i,
+        row: col.findIndex(d => d.color === color && d.type === DOT_TYPE_DOT)
+      })
       matrix[i] = col.filter(
         d => !(d.color === color && d.type === DOT_TYPE_DOT)
       )
-      // TODO: add new dots
-      // const newDots = genrateDots()(colLength - matrix[i].length)
-      // matrix[i].push(...newDots)
     })
   } else {
     connectedDots
       .map(e => e.col)
       .filter((v, i, a) => a.indexOf(v) === i) // unique col
       .forEach(col => {
-        const dotRows = connectedDots.filter(e => e.col === col).map(d => d.row)
+        const dotRows = connectedDots
+          .filter(e => e.col === col)
+          .map(d => d.row)
+          .sort((a, b) => a - b)
+        bounceStartDots.push({
+          col,
+          row: dotRows[0]
+        })
         matrix[col] = matrix[col].filter((d, i) => dotRows.indexOf(i) === -1)
-        // TODO: add new dots
-        // const newDots = genrateDots()(dotRows.length)
-        // matrix[col].push(...newDots)
       })
   }
+  return bounceStartDots
 }
 
 export const addNewDots = (matrix, colLength) => {

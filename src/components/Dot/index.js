@@ -4,7 +4,6 @@ import Pointable from 'react-pointable' // https://github.com/MilllerTime/react-
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { CSSTransition } from 'react-transition-group'
 // import _debounce from 'lodash/debounce'
 
 import './index.css'
@@ -14,7 +13,7 @@ import { offset, shape, distance, angle } from '../../utils/dom'
 import { isAdjacent } from '../../utils/data'
 import actions from '../../store/gamearea/actions'
 import hammerDirection from '../../utils/hammerjs-direction'
-import { DIRECTION_NONE, DIRECTION_DOWN } from '../../utils/constants'
+import { DIRECTION_NONE } from '../../utils/constants'
 import _debug from '../../utils/debug'
 
 const eventDebugger = _debug('rtd:event')
@@ -29,34 +28,40 @@ export const Dot = styled.div`
     width: ${props.radius * 2}px;`
   }} overflow: hidden;
   box-shadow: none;
+`
 
+const AnimateDotTop = Dot.extend`
   ${props =>
     props.isBounce
       ? `animation-name: ${bounce};
   transform-origin: center bottom;
   animation-duration: 1s;
-  animation-fill-mode: both;`
+  animation-fill-mode: both;
+  opacity: 1;`
       : ''};
 
   ${props =>
     props.isClear
       ? `animation-name: ${zoomOut};
       transform-origin: center;
-      animation-duration: 1s;
-      animation-fill-mode: both;`
+      animation-duration: 0.5s;
+      animation-fill-mode: both;
+      opacity: 1;`
       : ''};
 `
 
-const AnimateDot = Dot.extend`
+const AnimateDotBottom = AnimateDotTop.extend`
   position: relative;
   top: -40px;
   z-index: -1;
+  opacity: 0;
 
   ${props =>
     props.isActive
       ? `animation-name: ${vanish};
          animation-duration: 0.65s;
-         animation-fill-mode: both;`
+         animation-fill-mode: both;
+         opacity: 1;`
       : ''};
 `
 
@@ -70,9 +75,9 @@ class EnhancedDot extends Component {
     super(props)
 
     this.state = {
-      isBounce: true,
+      isBounce: true, // bounce effect
       isActive: false, // click wave effect
-      isClear: false,
+      isClear: false, // clear effect
       isPanning: false, // ensure only one dot is drawing line
       lineLength: 40,
       lineHeight: 10,
@@ -91,15 +96,25 @@ class EnhancedDot extends Component {
 
   handleTap = () => {
     // let dot only bounce once
-    this.setState({ isActive: false, isBounce: false })
+    this.setState({ isActive: false })
     this.setState({ isActive: true })
-    this.activeTimer = setTimeout(() => {
+    this.activeDotTimer = setTimeout(() => {
       this.setState({ isActive: false })
     }, 650) // equal or more than animation-duration (0.65s)
   }
 
   handleClear = () => {
-    this.setState({ isClear: true })
+    const { dispatch } = this.props
+    this.setState({ isClear: true, isPanning: false })
+    this.clearDotTimer = setTimeout(() => {
+      this.setState({ isClear: false })
+      this.initState()
+      dispatch(actions.panningEnd())
+    }, 300) // equal or more than animation-duration (1s)
+  }
+
+  hanldeBounce = () => {
+    this.setState({ isBounce: true })
   }
 
   handlePanStart = e => {
@@ -129,7 +144,7 @@ class EnhancedDot extends Component {
   }
 
   handlePanMove = e => {
-    const { dispatch, panDirection, panningDot, linePosition } = this.props
+    const { dispatch, panDirection, linePosition } = this.props
     // console.log(`panningDot ${panningDot.col} ${panningDot.row}`)
     // calculate length and rotate
     let pointer = {
@@ -157,19 +172,21 @@ class EnhancedDot extends Component {
 
   handlePanEnd = () => {
     const { connectedLines, dispatch } = this.props
-    dispatch(actions.beforePanningEnd())
-    dispatch(actions.panningEnd())
+
     if (connectedLines.length === 0) {
       this.initState()
+    } else {
+      dispatch(actions.beforePanningEnd())
     }
   }
 
   handlePanCancel = () => {
-    const { connectedLines, dispatch } = this.props
-    dispatch(actions.panningEnd())
     eventDebugger('handlePanCancel')
+    const { connectedLines, dispatch } = this.props
     if (connectedLines.length === 0) {
       this.initState()
+    } else {
+      dispatch(actions.beforePanningEnd())
     }
   }
 
@@ -219,11 +236,14 @@ class EnhancedDot extends Component {
       )
     } else if (nextProps.isClear) {
       this.handleClear()
+    } else if (nextProps.isBounce) {
+      this.hanldeBounce()
     }
   }
 
   componentWillUnmount() {
     clearTimeout(this.activeTimer)
+    clearTimeout(this.clearDotTimer)
     // WARN: may be called multiple times,bad performance
     this.props.dispatch(actions.refreshMatrix())
   }
@@ -255,7 +275,7 @@ class EnhancedDot extends Component {
             onPointerLeave={this.handleLeaveDot}
             touchAction="none"
           >
-            <Dot
+            <AnimateDotTop
               color={color}
               radius={20}
               isBounce={isBounce}
@@ -263,13 +283,7 @@ class EnhancedDot extends Component {
             />
           </Pointable>
         </Hammer>
-        <AnimateDot
-          color={color}
-          isActive={isActive}
-          radius={20}
-          isBounce={isBounce}
-          isClear={isClear}
-        />
+        <AnimateDotBottom color={color} isActive={isActive} radius={20} />
 
         {isPanning && (
           <Line

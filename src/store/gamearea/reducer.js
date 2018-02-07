@@ -30,7 +30,8 @@ const initState = {
     y: 0
   },
   connectedDots: [],
-  connectedLines: []
+  connectedLines: [],
+  bounceStartDots: [] // col start bounce dot
 }
 
 export default (state = initState, action) => {
@@ -41,7 +42,8 @@ export default (state = initState, action) => {
     connectedLines,
     panningDot,
     panDirection,
-    linePosition
+    linePosition,
+    bounceStartDots
   } = state
   switch (action.type) {
     case PANNING_START:
@@ -118,9 +120,21 @@ export default (state = initState, action) => {
     case BEFORE_PANNING_END:
       if (connectedDots.length > 1) {
         const newMatrix = clone(matrix)
-        connectedDots.forEach(d => (newMatrix[d.col][d.row].isClear = true))
+        if (rectangleExist(connectedDots)) {
+          const color = matrix[connectedDots[0].col][connectedDots[0].row].color
+          newMatrix.forEach(col => {
+            col.forEach(row => {
+              if (row.color === color && row.type === DOT_TYPE_DOT) {
+                row.isClear = true
+              }
+            })
+          })
+        } else {
+          connectedDots.forEach(d => (newMatrix[d.col][d.row].isClear = true))
+        }
         return {
           ...state,
+          connectedLines: [],
           matrix: newMatrix
         }
       }
@@ -128,18 +142,26 @@ export default (state = initState, action) => {
     case PANNING_END:
       if (connectedDots.length > 1) {
         const newMatrix = clone(matrix)
-        removeDots(newMatrix)(connectedDots)
+        const bounceStartDots = removeDots(newMatrix)(connectedDots)
         return {
           ...initState,
+          bounceStartDots,
           matrix: newMatrix
         }
       }
-      return initState
+      return state
     case REFRESH_MATRIX:
       const tempMatrix = clone(matrix)
       addNewDots(tempMatrix, colLength)
+      // update bounce effect
+      // bounceStartDots.forEach(d => {
+      //   for (let i = d.row; i < tempMatrix[d.col].length; i++) {
+      //     tempMatrix[d.col][i].isBounce = true
+      //   }
+      // })
       return {
         ...state,
+        bounceStartDots: [],
         matrix: tempMatrix
       }
     case RESET_DOT_STATE:
