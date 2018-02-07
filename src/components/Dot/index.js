@@ -3,9 +3,12 @@ import Hammer from 'rc-hammerjs' // http://hammerjs.github.io/api/
 import Pointable from 'react-pointable' // https://github.com/MilllerTime/react-pointable
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
+import { CSSTransition } from 'react-transition-group'
 // import _debounce from 'lodash/debounce'
 
+import './index.css'
+import { bounce, vanish, zoomOut } from '../../utils/animate-keyframes'
 import Line from '../Line'
 import { offset, shape, distance, angle } from '../../utils/dom'
 import { isAdjacent } from '../../utils/data'
@@ -15,50 +18,6 @@ import { DIRECTION_NONE, DIRECTION_DOWN } from '../../utils/constants'
 import _debug from '../../utils/debug'
 
 const eventDebugger = _debug('rtd:event')
-
-// vanish effect https://github.com/miniMAC/magic/blob/master/magic.css#L66
-const vanish = keyframes`
-  0% {
-    opacity: 1;
-    transform-origin: 50% 50%;
-    transform: scale(1,1);
-    filter: blur(0px);
-  }
-
-  100% {
-    opacity: 0;
-    transform-origin: 50% 50%;
-    transform: scale(3,3);
-    filter: blur(2px);
-  }
-`
-
-// bounce effect https://github.com/daneden/animate.css/blob/master/animate.css#L23
-const bounce = keyframes`
-  from,
-  20%,
-  53%,
-  80%,
-  to {
-    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-    transform: translate3d(0, 0, 0);
-  }
-
-  40%,
-  43% {
-    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-    transform: translate3d(0, -30px, 0);
-  }
-
-  70% {
-    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-    transform: translate3d(0, -15px, 0);
-  }
-
-  90% {
-    transform: translate3d(0, -4px, 0);
-  }
-`
 
 export const Dot = styled.div`
   background-color: ${props => props.color};
@@ -77,6 +36,14 @@ export const Dot = styled.div`
   transform-origin: center bottom;
   animation-duration: 1s;
   animation-fill-mode: both;`
+      : ''};
+
+  ${props =>
+    props.isClear
+      ? `animation-name: ${zoomOut};
+      transform-origin: center;
+      animation-duration: 1s;
+      animation-fill-mode: both;`
       : ''};
 `
 
@@ -105,6 +72,7 @@ class EnhancedDot extends Component {
     this.state = {
       isBounce: true,
       isActive: false, // click wave effect
+      isClear: false,
       isPanning: false, // ensure only one dot is drawing line
       lineLength: 40,
       lineHeight: 10,
@@ -128,6 +96,10 @@ class EnhancedDot extends Component {
     this.activeTimer = setTimeout(() => {
       this.setState({ isActive: false })
     }, 650) // equal or more than animation-duration (0.65s)
+  }
+
+  handleClear = () => {
+    this.setState({ isClear: true })
   }
 
   handlePanStart = e => {
@@ -185,6 +157,7 @@ class EnhancedDot extends Component {
 
   handlePanEnd = () => {
     const { connectedLines, dispatch } = this.props
+    dispatch(actions.beforePanningEnd())
     dispatch(actions.panningEnd())
     if (connectedLines.length === 0) {
       this.initState()
@@ -244,6 +217,8 @@ class EnhancedDot extends Component {
           row: this.props.row
         })
       )
+    } else if (nextProps.isClear) {
+      this.handleClear()
     }
   }
 
@@ -258,6 +233,7 @@ class EnhancedDot extends Component {
     const { color, connectedLines, linePosition } = this.props
     const {
       isBounce,
+      isClear,
       isActive,
       isPanning,
       lineLength,
@@ -279,7 +255,12 @@ class EnhancedDot extends Component {
             onPointerLeave={this.handleLeaveDot}
             touchAction="none"
           >
-            <Dot color={color} radius={20} isBounce={isBounce} />
+            <Dot
+              color={color}
+              radius={20}
+              isBounce={isBounce}
+              isClear={isClear}
+            />
           </Pointable>
         </Hammer>
         <AnimateDot
@@ -287,7 +268,9 @@ class EnhancedDot extends Component {
           isActive={isActive}
           radius={20}
           isBounce={isBounce}
+          isClear={isClear}
         />
+
         {isPanning && (
           <Line
             width={lineLength}

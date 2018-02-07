@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import Dot from '../Dot'
+
 import { DOT_TYPE_DOT, DOT_TYPE_EMPTY } from '../../utils/constants'
+import Dot from '../Dot'
 
 // important flex-direction: column-reverse
 const DotCol = styled.div`

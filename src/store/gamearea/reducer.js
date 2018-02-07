@@ -2,6 +2,7 @@ import {
   PANNING_START,
   ENTER_DOT,
   LEAVE_DOT,
+  BEFORE_PANNING_END,
   PANNING_END,
   PANNING,
   RESET_DOT_STATE,
@@ -114,6 +115,16 @@ export default (state = initState, action) => {
       } else {
         return state
       }
+    case BEFORE_PANNING_END:
+      if (connectedDots.length > 1) {
+        const newMatrix = clone(matrix)
+        connectedDots.forEach(d => (newMatrix[d.col][d.row].isClear = true))
+        return {
+          ...state,
+          matrix: newMatrix
+        }
+      }
+      return state
     case PANNING_END:
       if (connectedDots.length > 1) {
         const newMatrix = clone(matrix)

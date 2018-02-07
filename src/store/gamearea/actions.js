@@ -1,5 +1,6 @@
 export const PANNING_START = 'PANNING_START'
 export const PANNING = 'PANNING'
+export const BEFORE_PANNING_END = 'BEFORE_PANNING_END'
 export const PANNING_END = 'PANNING_END'
 export const ENTER_DOT = 'ENTER_DOT'
 export const LEAVE_DOT = 'LEAVE_DOT'
@@ -15,6 +16,10 @@ const panningStart = (dot, position) => ({
 const panning = direction => ({
   direction,
   type: PANNING
+})
+
+const beforePanningEnd = () => ({
+  type: BEFORE_PANNING_END
 })
 
 const panningEnd = () => ({
@@ -44,6 +49,7 @@ const refreshMatrix = () => ({
 export default {
   panningStart,
   panning,
+  beforePanningEnd,
   panningEnd,
   enterDot,
   leaveDot,

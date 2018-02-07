@@ -40,7 +40,8 @@ export const genrateDots = (
     return {
       type: dotTypes[random(dotTypes.length)],
       color: colors[random(colors.length)],
-      isActive: false // for animate effect
+      isActive: false, // for animate effect
+      isClear: false // for clear effect
     }
   })
 }
