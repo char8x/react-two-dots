@@ -14,20 +14,22 @@ const GoalNumber = styled.div`
 const DotGoal = props => (
   <div>
     <Dot color={props.color} radius={10} style={{ margin: '15px 15px 5px' }} />
+
     <GoalNumber>
-      {props.clear} / {props.goal}
+      {props.showClear ? `${props.clear} / ${props.goal}` : props.goal}
     </GoalNumber>
   </div>
 )
 
 const Goal = props => (
-  <div className={props.className}>
-    {props.dots.map((e, i) => (
+  <div className={props.className} style={props.style}>
+    {props.goals.map((e, i) => (
       <DotGoal
         key={i.toString()}
         color={e.color}
         clear={e.clear}
         goal={e.goal}
+        showClear={props.showClear}
       />
     ))}
   </div>

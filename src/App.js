@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import DotMatrix from './components/DotMatrix'
 import TopBar from './components/TopBar'
 import BottomBar from './components/BottomBar'
+import GameGoal from './components/GameGoal'
 import {
   COLOR_BLUE,
   COLOR_PURPLE,
@@ -26,7 +27,7 @@ class App extends Component {
     const score = 0
     const level = 1
     const clearDots = 0
-    const dots = [
+    const goals = [
       {
         color: COLOR_BLUE,
         clear: 0,
@@ -51,7 +52,8 @@ class App extends Component {
 
     return (
       <AppContainer>
-        <TopBar chance={chance} dots={dots} />
+        <GameGoal chance={chance} goals={goals} level={level} />
+        <TopBar chance={chance} goals={goals} />
         <DotMatrix matrix={matrix} />
         <BottomBar level={level} clearDots={clearDots} score={score} />
       </AppContainer>

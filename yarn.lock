@@ -2384,6 +2384,10 @@ execa@^0.7.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "http://registry.npm.taobao.org/exenv/download/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+
 expand-brackets@^0.1.4:
   version "0.1.5"
   resolved "http://registry.npm.taobao.org/expand-brackets/download/expand-brackets-0.1.5.tgz#df07284e342a807cd733ac5af72411e581d1177b"
@@ -5238,6 +5242,14 @@ react-error-overlay@^4.0.0:
   version "4.0.0"
   resolved "http://registry.npm.taobao.org/react-error-overlay/download/react-error-overlay-4.0.0.tgz#d198408a85b4070937a98667f500c832f86bd5d4"
 
+react-modal@^3.1.12:
+  version "3.1.12"
+  resolved "http://registry.npm.taobao.org/react-modal/download/react-modal-3.1.12.tgz#e80ab4e553ce946a6c96faf85eb31e0f9bd07470"
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
+    warning "^3.0.0"
+
 react-pointable@^1.1.1:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/react-pointable/download/react-pointable-1.1.1.tgz#4f9b1ca397dfb5f506923d3b470421b0b30d16c2"
@@ -6322,22 +6334,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "http://registry.npm.taobao.org/typedarray/download/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript-styled-plugin@^0.4.0:
-  version "0.4.0"
-  resolved "http://registry.npm.taobao.org/typescript-styled-plugin/download/typescript-styled-plugin-0.4.0.tgz#c97e9d243d3f9ced21d613954ce7d93631ad79a7"
-  dependencies:
-    typescript-template-language-service-decorator "^1.1.0"
-    vscode-css-languageservice "^2.1.10"
-    vscode-languageserver-types "^3.4.0"
-
-typescript-template-language-service-decorator@^1.1.0:
-  version "1.1.0"
-  resolved "http://registry.npm.taobao.org/typescript-template-language-service-decorator/download/typescript-template-language-service-decorator-1.1.0.tgz#0b3dacebc1442fea1e8288b0952ec01ba6bfa595"
-
-typescript@^2.6.2:
-  version "2.6.2"
-  resolved "http://registry.npm.taobao.org/typescript/download/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
-
 ua-parser-js@^0.7.9:
   version "0.7.17"
   resolved "http://registry.npm.taobao.org/ua-parser-js/download/ua-parser-js-0.7.17.tgz#e9ec5f9498b9ec910e7ae3ac626a805c4d09ecac"
@@ -6518,21 +6514,6 @@ vm-browserify@0.0.4:
   resolved "http://registry.npm.taobao.org/vm-browserify/download/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
   dependencies:
     indexof "0.0.1"
-
-vscode-css-languageservice@^2.1.10:
-  version "2.1.11"
-  resolved "http://registry.npm.taobao.org/vscode-css-languageservice/download/vscode-css-languageservice-2.1.11.tgz#051ad9681d50ceee5f83a20142c8c659a8011ede"
-  dependencies:
-    vscode-languageserver-types "^3.4.0"
-    vscode-nls "^2.0.1"
-
-vscode-languageserver-types@^3.4.0:
-  version "3.5.0"
-  resolved "http://registry.npm.taobao.org/vscode-languageserver-types/download/vscode-languageserver-types-3.5.0.tgz#e48d79962f0b8e02de955e3f524908e2b19c0374"
-
-vscode-nls@^2.0.1:
-  version "2.0.2"
-  resolved "http://registry.npm.taobao.org/vscode-nls/download/vscode-nls-2.0.2.tgz#808522380844b8ad153499af5c3b03921aea02da"
 
 walker@~1.0.5:
   version "1.0.7"

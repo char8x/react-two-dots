@@ -22,7 +22,7 @@ const Background = styled.div`
 const TopBar = props => (
   <Background>
     <Chance chance={props.chance} />
-    <Goal dots={props.dots} />
+    <Goal goals={props.goals} showClear={true} />
     <Setting />
   </Background>
 )

@@ -1,0 +1,21 @@
+.moveFromTop {
+  animation-name: moveFromTop;
+  animation-duration: 0.5s;
+}
+
+@keyframes moveFromTop {
+  from {
+    transform: translateY(-800px);
+  }
+}
+
+.moveToBottom {
+  animation-name: moveToBottom;
+  animation-duration: 0.5s;
+}
+
+@keyframes moveToBottom {
+  to {
+    transform: translateY(800px);
+  }
+}

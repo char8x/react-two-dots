@@ -173,20 +173,19 @@ class EnhancedDot extends Component {
   handlePanEnd = () => {
     const { connectedLines, dispatch } = this.props
 
+    // remove dots or clear global state
+    dispatch(actions.beforePanningEnd())
     if (connectedLines.length === 0) {
       this.initState()
-    } else {
-      dispatch(actions.beforePanningEnd())
     }
   }
 
   handlePanCancel = () => {
     eventDebugger('handlePanCancel')
     const { connectedLines, dispatch } = this.props
+    dispatch(actions.beforePanningEnd())
     if (connectedLines.length === 0) {
       this.initState()
-    } else {
-      dispatch(actions.beforePanningEnd())
     }
   }
 
@@ -237,6 +236,7 @@ class EnhancedDot extends Component {
     } else if (nextProps.isClear) {
       this.handleClear()
     } else if (nextProps.isBounce) {
+      console.log('receive isBounce')
       this.hanldeBounce()
     }
   }
@@ -285,6 +285,7 @@ class EnhancedDot extends Component {
         </Hammer>
         <AnimateDotBottom color={color} isActive={isActive} radius={20} />
 
+        {/* TODO: lines could move to Matrix Component */}
         {isPanning && (
           <Line
             width={lineLength}

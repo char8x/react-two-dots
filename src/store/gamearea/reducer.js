@@ -138,7 +138,10 @@ export default (state = initState, action) => {
           matrix: newMatrix
         }
       }
-      return state
+      return {
+        ...initState,
+        matrix
+      }
     case PANNING_END:
       if (connectedDots.length > 1) {
         const newMatrix = clone(matrix)
@@ -149,11 +152,14 @@ export default (state = initState, action) => {
           matrix: newMatrix
         }
       }
-      return state
+      return {
+        ...initState,
+        matrix
+      }
     case REFRESH_MATRIX:
       const tempMatrix = clone(matrix)
       addNewDots(tempMatrix, colLength)
-      // update bounce effect
+      // TODO: update bounce effect
       // bounceStartDots.forEach(d => {
       //   for (let i = d.row; i < tempMatrix[d.col].length; i++) {
       //     tempMatrix[d.col][i].isBounce = true
