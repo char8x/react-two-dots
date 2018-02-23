@@ -17,8 +17,41 @@ import {
   rectangleExist,
   addNewDots
 } from '../../utils/data'
-import { DOT_TYPE_DOT } from '../../utils/constants'
+import {
+  DOT_TYPE_DOT,
+  COLOR_BLUE,
+  COLOR_PURPLE,
+  COLOR_RED,
+  COLOR_YELLOW
+} from '../../utils/constants'
 import clone from '../../utils/clone'
+
+const chance = 20
+const score = 0
+const level = 1
+const clearDots = 0
+const dotGoals = [
+  {
+    color: COLOR_BLUE,
+    clear: 0,
+    goal: 15
+  },
+  {
+    color: COLOR_PURPLE,
+    clear: 0,
+    goal: 15
+  },
+  {
+    color: COLOR_RED,
+    clear: 0,
+    goal: 15
+  },
+  {
+    color: COLOR_YELLOW,
+    clear: 0,
+    goal: 15
+  }
+]
 
 const initState = {
   matrix: originalMatrix,
@@ -31,7 +64,12 @@ const initState = {
   },
   connectedDots: [],
   connectedLines: [],
-  bounceStartDots: [] // col start bounce dot
+  bounceStartDots: [], // col start bounce dot
+  chances: chance,
+  clearDots: 0,
+  score: 0,
+  level: level,
+  goals: dotGoals
 }
 
 export default (state = initState, action) => {
@@ -43,7 +81,11 @@ export default (state = initState, action) => {
     panningDot,
     panDirection,
     linePosition,
-    bounceStartDots
+    bounceStartDots,
+    chances,
+    clearDots,
+    score,
+    goals
   } = state
   switch (action.type) {
     case PANNING_START:
@@ -140,21 +182,42 @@ export default (state = initState, action) => {
       }
       return {
         ...initState,
-        matrix
+        matrix,
+        chances,
+        clearDots,
+        goals,
+        score
       }
     case PANNING_END:
       if (connectedDots.length > 1) {
         const newMatrix = clone(matrix)
-        const bounceStartDots = removeDots(newMatrix)(connectedDots)
+        const { bounceStartDots, removedDotsCount, color } = removeDots(
+          newMatrix
+        )(connectedDots)
+        let newGoals = clone(goals)
+        for (let i = 0; i < newGoals.length; i++) {
+          if (newGoals[i].color === color) {
+            newGoals[i].clear += removedDotsCount
+          }
+        }
+
         return {
           ...initState,
           bounceStartDots,
-          matrix: newMatrix
+          matrix: newMatrix,
+          chances: chances - 1,
+          clearDots: clearDots + removedDotsCount,
+          goals: newGoals,
+          score
         }
       }
       return {
         ...initState,
-        matrix
+        matrix,
+        chances,
+        clearDots,
+        goals,
+        score
       }
     case REFRESH_MATRIX:
       const tempMatrix = clone(matrix)

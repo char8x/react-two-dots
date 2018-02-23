@@ -173,8 +173,9 @@ class EnhancedDot extends Component {
   handlePanEnd = () => {
     const { connectedLines, dispatch } = this.props
 
-    // remove dots or clear global state
+    // remove dots
     dispatch(actions.beforePanningEnd())
+    // if no dots connected, clear global state
     if (connectedLines.length === 0) {
       this.initState()
     }

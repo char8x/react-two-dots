@@ -86,19 +86,29 @@ export const rectangleExist = connectedDots => {
  */
 export const removeDots = matrix => connectedDots => {
   const bounceStartDots = []
+  let removedDotsCount = 0
+  const color = matrix[connectedDots[0].col][connectedDots[0].row].color
   if (rectangleExist(connectedDots)) {
     // first check if there is rectangle,then remove all the same color dots
-    const color = matrix[connectedDots[0].col][connectedDots[0].row].color
     matrix.forEach((col, i) => {
+      // calculate start bounce dot position
       bounceStartDots.push({
         col: i,
         row: col.findIndex(d => d.color === color && d.type === DOT_TYPE_DOT)
       })
+      // calculate removed dot count (fast because of for loop optimization)
+      for (let j = 0; j < col.length; j++) {
+        if (col[j].color === color && col[j].type === DOT_TYPE_DOT) {
+          removedDotsCount++
+        }
+      }
+      // remove dots
       matrix[i] = col.filter(
         d => !(d.color === color && d.type === DOT_TYPE_DOT)
       )
     })
   } else {
+    removedDotsCount = connectedDots.length
     connectedDots
       .map(e => e.col)
       .filter((v, i, a) => a.indexOf(v) === i) // unique col
@@ -107,14 +117,20 @@ export const removeDots = matrix => connectedDots => {
           .filter(e => e.col === col)
           .map(d => d.row)
           .sort((a, b) => a - b)
+        // calculate start bounce dot position
         bounceStartDots.push({
           col,
           row: dotRows[0]
         })
+        // remove dots
         matrix[col] = matrix[col].filter((d, i) => dotRows.indexOf(i) === -1)
       })
   }
-  return bounceStartDots
+  return {
+    bounceStartDots,
+    removedDotsCount,
+    color
+  }
 }
 
 export const addNewDots = (matrix, colLength) => {

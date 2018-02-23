@@ -11,13 +11,25 @@ const GoalNumber = styled.div`
   text-align: center;
 `
 
+const CheckMark = styled.div`
+  font-family: Arial;
+  color: #fff;
+  font-weight: bold;
+  transform: scaleX(-1) rotate(-35deg);
+  text-align: center;
+`
+
 const DotGoal = props => (
   <div>
-    <Dot color={props.color} radius={10} style={{ margin: '15px 15px 5px' }} />
-
-    <GoalNumber>
-      {props.showClear ? `${props.clear} / ${props.goal}` : props.goal}
-    </GoalNumber>
+    <Dot color={props.color} radius={10} style={{ margin: '15px 15px 5px' }}>
+      {props.clear !== 0 &&
+        props.clear >= props.goal && <CheckMark>L</CheckMark>}
+    </Dot>
+    {props.goal > props.clear && (
+      <GoalNumber>
+        {props.showClear ? `${props.clear} / ${props.goal}` : props.goal}
+      </GoalNumber>
+    )}
   </div>
 )
 

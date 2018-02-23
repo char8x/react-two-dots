@@ -6,12 +6,6 @@ import DotMatrix from './components/DotMatrix'
 import TopBar from './components/TopBar'
 import BottomBar from './components/BottomBar'
 import GameGoal from './components/GameGoal'
-import {
-  COLOR_BLUE,
-  COLOR_PURPLE,
-  COLOR_RED,
-  COLOR_YELLOW
-} from './utils/constants'
 
 const AppContainer = styled.div`
   width: 100%;
@@ -22,38 +16,12 @@ const AppContainer = styled.div`
 
 class App extends Component {
   render() {
-    const { matrix } = this.props
-    const chance = 20
-    const score = 0
-    const level = 1
-    const clearDots = 0
-    const goals = [
-      {
-        color: COLOR_BLUE,
-        clear: 0,
-        goal: 15
-      },
-      {
-        color: COLOR_PURPLE,
-        clear: 0,
-        goal: 15
-      },
-      {
-        color: COLOR_RED,
-        clear: 0,
-        goal: 15
-      },
-      {
-        color: COLOR_YELLOW,
-        clear: 0,
-        goal: 15
-      }
-    ]
+    const { matrix, chances, goals, level, clearDots, score } = this.props
 
     return (
       <AppContainer>
-        <GameGoal chance={chance} goals={goals} level={level} />
-        <TopBar chance={chance} goals={goals} />
+        <GameGoal chance={chances} goals={goals} level={level} />
+        <TopBar chance={chances} goals={goals} />
         <DotMatrix matrix={matrix} />
         <BottomBar level={level} clearDots={clearDots} score={score} />
       </AppContainer>
@@ -62,5 +30,10 @@ class App extends Component {
 }
 
 export default connect(state => ({
-  matrix: state.gameArea.matrix
+  matrix: state.gameArea.matrix,
+  chances: state.gameArea.chances,
+  goals: state.gameArea.goals,
+  level: state.gameArea.level,
+  score: state.gameArea.score,
+  clearDots: state.gameArea.clearDots
 }))(App)
