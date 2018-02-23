@@ -7,7 +7,7 @@ import './index.css'
 ReactModal.setAppElement('#root')
 const modalStyle = show => ({
   overlay: {
-    backgroundColor: 'rgb(68,68,68,0.8)'
+    backgroundColor: 'rgba(68,68,68,0.8)'
   },
   content: {
     top: '35%',
@@ -21,7 +21,7 @@ const modalStyle = show => ({
     padding: 0,
     paddingTop: '10px',
 
-    height: '30%',
+    height: '240px',
     width: '70%',
 
     textAlign: 'center',

@@ -1,0 +1,3 @@
+export const REDUCE_CHANCE = 'REDUCE_CHANCE'
+export const ADD_CONNECTED_DOT = 'ADD_CONNECTED_DOT'
+
