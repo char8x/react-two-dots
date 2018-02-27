@@ -37,8 +37,9 @@ const leaveDot = dot => ({
   type: LEAVE_DOT
 })
 
-const resetDotState = dot => ({
+const resetDotState = (dot, property) => ({
   dot,
+  property,
   type: RESET_DOT_STATE
 })
 

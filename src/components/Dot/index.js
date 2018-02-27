@@ -37,7 +37,7 @@ const AnimateDotTop = Dot.extend`
   transform-origin: center bottom;
   animation-duration: 1s;
   animation-fill-mode: both;
-  opacity: 1;`
+  `
       : ''};
 
   ${props =>
@@ -115,6 +115,9 @@ class EnhancedDot extends Component {
 
   hanldeBounce = () => {
     this.setState({ isBounce: true })
+    this.bounceTimer = setTimeout(() => {
+      this.setState({ isBounce: false })
+    }, 1000)
   }
 
   handlePanStart = e => {
@@ -240,26 +243,49 @@ class EnhancedDot extends Component {
     }
   }
 
+  componentDidMount() {
+    this.bounceTimer = setTimeout(() => {
+      this.setState({ isBounce: false })
+    }, 1000)
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.isActive) {
       this.handleTap()
       this.props.dispatch(
-        actions.resetDotState({
-          col: this.props.col,
-          row: this.props.row
-        })
+        actions.resetDotState(
+          {
+            col: this.props.col,
+            row: this.props.row
+          },
+          'isActive'
+        )
       )
     } else if (nextProps.isClear) {
       this.handleClear()
-    } else if (nextProps.isBounce) {
+    } else if (
+      this.props.isBounce !== nextProps.isBounce &&
+      nextProps.isBounce
+    ) {
       // console.log('receive isBounce')
+      console.log(nextProps.isBounce)
       this.hanldeBounce()
+      this.props.dispatch(
+        actions.resetDotState(
+          {
+            col: this.props.col,
+            row: this.props.row
+          },
+          'isBounce'
+        )
+      )
     }
   }
 
   componentWillUnmount() {
     clearTimeout(this.activeTimer)
     clearTimeout(this.clearDotTimer)
+    clearTimeout(this.bounceTimer)
     // WARN: may be called multiple times,bad performance
     this.props.dispatch(actions.refreshMatrix())
   }

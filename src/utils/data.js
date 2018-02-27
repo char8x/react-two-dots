@@ -41,7 +41,7 @@ export const genrateDots = (
       color: colors[random(colors.length)],
       isActive: false, // for animate effect
       isClear: false, // for clear effect
-      isBounce: true // for bounce effect
+      isBounce: false // for bounce effect
     }
   })
 }
@@ -127,9 +127,9 @@ export const removeDots = matrix => connectedDots => {
       })
   }
   return {
-    bounceStartDots,
     removedDotsCount,
-    color
+    color,
+    startDots: bounceStartDots
   }
 }
 
@@ -149,45 +149,75 @@ export const purpleCol = genrateDots({ colors: [COLOR_PURPLE] })(5)
 const colA = [
   {
     type: DOT_TYPE_DOT,
-    color: COLOR_YELLOW
+    color: COLOR_YELLOW,
+    isActive: false, // for animate effect
+    isClear: false, // for clear effect
+    isBounce: false // for bounce effect
   },
   {
     type: DOT_TYPE_DOT,
-    color: COLOR_YELLOW
+    color: COLOR_YELLOW,
+    isActive: false, // for animate effect
+    isClear: false, // for clear effect
+    isBounce: false // for bounce effect
   },
   {
     type: DOT_TYPE_DOT,
-    color: COLOR_YELLOW
+    color: COLOR_YELLOW,
+    isActive: false, // for animate effect
+    isClear: false, // for clear effect
+    isBounce: false // for bounce effect
   },
   {
     type: DOT_TYPE_DOT,
-    color: COLOR_YELLOW
+    color: COLOR_YELLOW,
+    isActive: false, // for animate effect
+    isClear: false, // for clear effect
+    isBounce: false // for bounce effect
   },
   {
     type: DOT_TYPE_DOT,
-    color: COLOR_BLUE
+    color: COLOR_BLUE,
+    isActive: false, // for animate effect
+    isClear: false, // for clear effect
+    isBounce: false // for bounce effect
   }
 ]
 const colB = [
   {
     type: DOT_TYPE_DOT,
-    color: COLOR_RED
+    color: COLOR_RED,
+    isActive: false, // for animate effect
+    isClear: false, // for clear effect
+    isBounce: false // for bounce effect
   },
   {
     type: DOT_TYPE_DOT,
-    color: COLOR_RED
+    color: COLOR_RED,
+    isActive: false, // for animate effect
+    isClear: false, // for clear effect
+    isBounce: false // for bounce effect
   },
   {
     type: DOT_TYPE_DOT,
-    color: COLOR_RED
+    color: COLOR_RED,
+    isActive: false, // for animate effect
+    isClear: false, // for clear effect
+    isBounce: false // for bounce effect
   },
   {
     type: DOT_TYPE_DOT,
-    color: COLOR_RED
+    color: COLOR_RED,
+    isActive: false, // for animate effect
+    isClear: false, // for clear effect
+    isBounce: false // for bounce effect
   },
   {
     type: DOT_TYPE_DOT,
-    color: COLOR_PURPLE
+    color: COLOR_PURPLE,
+    isActive: false, // for animate effect
+    isClear: false, // for clear effect
+    isBounce: false // for bounce effect
   }
 ]
 

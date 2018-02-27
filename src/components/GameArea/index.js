@@ -1,6 +1,5 @@
 // Level 7 best for test progress bar
 import React, { Component } from 'react'
-import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import { VerticalProgress, HorizonProgress } from '../ProgressBar'

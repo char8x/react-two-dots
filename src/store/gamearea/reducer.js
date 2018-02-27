@@ -9,9 +9,8 @@ import {
   REFRESH_MATRIX
 } from './actions'
 import {
-  matrix2 as originalMatrix,
+  originalMatrix,
   isAdjacent,
-  isOppositeDirection,
   lineDeg,
   removeDots,
   rectangleExist,
@@ -79,7 +78,6 @@ export default (state = initState, action) => {
     connectedDots,
     connectedLines,
     panningDot,
-    panDirection,
     linePosition,
     bounceStartDots,
     chances,
@@ -194,9 +192,9 @@ export default (state = initState, action) => {
     case PANNING_END:
       if (connectedDots.length > 1) {
         const newMatrix = clone(matrix)
-        const { bounceStartDots, removedDotsCount, color } = removeDots(
-          newMatrix
-        )(connectedDots)
+        const { startDots, removedDotsCount, color } = removeDots(newMatrix)(
+          connectedDots
+        )
         let newGoals = clone(goals)
         for (let i = 0; i < newGoals.length; i++) {
           if (newGoals[i].color === color) {
@@ -206,7 +204,7 @@ export default (state = initState, action) => {
 
         return {
           ...initState,
-          bounceStartDots,
+          bounceStartDots: startDots,
           matrix: newMatrix,
           chances: chances - 1,
           clearDots: clearDots + removedDotsCount,
@@ -224,13 +222,13 @@ export default (state = initState, action) => {
       }
     case REFRESH_MATRIX:
       const tempMatrix = clone(matrix)
+      // update bounce effect
+      bounceStartDots.forEach(d => {
+        for (let i = d.row; i < tempMatrix[d.col].length && i >= 0; i++) {
+          tempMatrix[d.col][i].isBounce = true
+        }
+      })
       addNewDots(tempMatrix, colLength)
-      // TODO: update bounce effect
-      // bounceStartDots.forEach(d => {
-      //   for (let i = d.row; i < tempMatrix[d.col].length; i++) {
-      //     tempMatrix[d.col][i].isBounce = true
-      //   }
-      // })
       return {
         ...state,
         bounceStartDots: [],
@@ -238,7 +236,7 @@ export default (state = initState, action) => {
       }
     case RESET_DOT_STATE:
       const newMatrix = clone(matrix)
-      newMatrix[action.dot.col][action.dot.row].isActive = false
+      newMatrix[action.dot.col][action.dot.row][action.property] = false
       return {
         ...state,
         matrix: newMatrix
