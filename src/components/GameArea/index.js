@@ -8,13 +8,12 @@ import DotMatrix from '../DotMatrix'
 
 class GameArea extends Component {
   render() {
-    const { matrix, progress, color, rectangle } = this.props
+    const { matrix, color, rectangle } = this.props
+    let { progress } = this.props
+    if (rectangle) {
+      progress = 12
+    }
 
-    const Container = styled.div`
-      height: 100%;
-      background-color: ${props => (props.rectangle ? props.color : '#FFF')};
-      opacity: ${props => (props.rectangle ? 0.3 : 1)};
-    `
     return (
       <div style={{ height: '100%' }}>
         <HorizonProgress progress={progress} color={color} />

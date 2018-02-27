@@ -7,6 +7,7 @@ import TopBar from './components/TopBar'
 import BottomBar from './components/BottomBar'
 import GameGoal from './components/GameGoal'
 import GameArea from './components/GameArea'
+import hex2rgb from './utils/hex2rgb'
 
 const AppContainer = styled.div`
   width: 100%;
@@ -16,14 +17,28 @@ const AppContainer = styled.div`
 
   display: flex;
   flex-direction: column;
+
+  z-index: -10;
+  ${props =>
+    props.rectangle
+      ? `background-color: rgba(${hex2rgb(props.color)},0.3);`
+      : ''};
 `
 
 class App extends Component {
   render() {
-    const { chances, goals, level, clearDots, score } = this.props
+    const {
+      chances,
+      goals,
+      level,
+      clearDots,
+      score,
+      color,
+      rectangle
+    } = this.props
 
     return (
-      <AppContainer>
+      <AppContainer color={color} rectangle={rectangle}>
         <GameGoal chance={chances} goals={goals} level={level} />
         <TopBar chance={chances} goals={goals} />
         <GameArea />
@@ -38,5 +53,7 @@ export default connect(state => ({
   goals: state.gameArea.goals,
   level: state.gameArea.level,
   score: state.gameArea.score,
-  clearDots: state.gameArea.clearDots
+  clearDots: state.gameArea.clearDots,
+  color: state.gameArea.dotColor,
+  rectangle: state.gameArea.rectangle
 }))(App)
