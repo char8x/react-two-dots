@@ -111,6 +111,7 @@ export default (state = initState, action) => {
         const newConnectedLines = clone(connectedLines)
         newConnectedDots.push(action.dot)
         newConnectedLines.push({
+          direction,
           deg: lineDeg[direction],
           color: color,
           ...linePosition
@@ -148,20 +149,18 @@ export default (state = initState, action) => {
       }
       return state
     case LEAVE_DOT:
-      if (isOppositeDirection(panDirection, action.direction)) {
-        const newConnectedDots = clone(connectedDots)
-        const newConnectedLines = clone(connectedLines)
-        newConnectedDots.pop()
-        newConnectedLines.pop()
+      const clonedConnectedDots = clone(connectedDots)
+      const clonedConnectedLines = clone(connectedLines)
+      clonedConnectedDots.pop()
+      const lastLine = clonedConnectedLines.pop()
 
-        return {
-          ...state,
-          connectedDots: newConnectedDots,
-          connectedLines: newConnectedLines,
-          panningDot: connectedDots[connectedDots.length - 1]
-        }
-      } else {
-        return state
+      return {
+        ...state,
+        rectangle: false,
+        connectedDots: clonedConnectedDots,
+        connectedLines: clonedConnectedLines,
+        panningDot: clonedConnectedDots[clonedConnectedDots.length - 1],
+        linePosition: { x: lastLine.x, y: lastLine.y }
       }
     case BEFORE_PANNING_END:
       if (connectedDots.length > 1) {

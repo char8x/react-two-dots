@@ -10,7 +10,7 @@ import './index.css'
 import { bounce, vanish, zoomOut } from '../../utils/animate-keyframes'
 import Line from '../Line'
 import { offset, shape, distance, angle } from '../../utils/dom'
-import { isAdjacent } from '../../utils/data'
+import { isAdjacent, isOppositeDirection } from '../../utils/data'
 import actions from '../../store/gamearea/actions'
 import hammerDirection from '../../utils/hammerjs-direction'
 import { DIRECTION_NONE } from '../../utils/constants'
@@ -145,6 +145,7 @@ class EnhancedDot extends Component {
 
   handlePanMove = e => {
     const { dispatch, panDirection, linePosition } = this.props
+
     // console.log(`panningDot ${panningDot.col} ${panningDot.row}`)
     // calculate length and rotate
     let pointer = {
@@ -191,7 +192,10 @@ class EnhancedDot extends Component {
   }
 
   handleEnterDot = e => {
-    const { panningDot, col, row, matrix, dispatch } = this.props
+    const { panningDot, col, row, matrix, dispatch, rectangle } = this.props
+    if (rectangle) {
+      return
+    }
     if (
       panningDot !== null &&
       !(panningDot.col === col && panningDot.row === row)
@@ -215,13 +219,24 @@ class EnhancedDot extends Component {
   }
 
   handleLeaveDot = () => {
-    const { panningDot, col, row, dispatch } = this.props
+    const {
+      panningDot,
+      panDirection,
+      connectedLines,
+      col,
+      row,
+      dispatch
+    } = this.props
     if (
+      connectedLines.length > 0 &&
       panningDot !== null &&
-      !(panningDot.col === col && panningDot.row === row)
+      (panningDot.col === col && panningDot.row === row) &&
+      isOppositeDirection(
+        panDirection,
+        connectedLines[connectedLines.length - 1].direction
+      )
     ) {
-      // eventDebugger(`panningDot ${panningDot} leave dot ${col} ${row}`)
-      // dispatch(actions.leaveDot({ col, row }))
+      dispatch(actions.leaveDot({ col, row }))
     }
   }
 
@@ -251,7 +266,7 @@ class EnhancedDot extends Component {
 
   render() {
     // col,row is for dot matrix position
-    const { color, connectedLines, linePosition } = this.props
+    const { color, connectedLines, linePosition, rectangle } = this.props
     const {
       isBounce,
       isClear,
@@ -287,16 +302,17 @@ class EnhancedDot extends Component {
         <AnimateDotBottom color={color} isActive={isActive} radius={20} />
 
         {/* TODO: lines could move to Matrix Component */}
-        {isPanning && (
-          <Line
-            width={lineLength}
-            height={lineHeight}
-            color={color}
-            deg={lineAngle}
-            left={linePosition.x}
-            top={linePosition.y}
-          />
-        )}
+        {isPanning &&
+          !rectangle && (
+            <Line
+              width={lineLength}
+              height={lineHeight}
+              color={color}
+              deg={lineAngle}
+              left={linePosition.x}
+              top={linePosition.y}
+            />
+          )}
 
         {connectedLines.map((e, i) => (
           <Line
@@ -319,5 +335,6 @@ export default connect(state => ({
   panDirection: state.gameArea.panDirection,
   linePosition: state.gameArea.linePosition,
   connectedLines: state.gameArea.connectedLines,
-  matrix: state.gameArea.matrix
+  matrix: state.gameArea.matrix,
+  rectangle: state.gameArea.rectangle
 }))(EnhancedDot)
