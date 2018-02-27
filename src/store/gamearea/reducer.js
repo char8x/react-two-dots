@@ -57,7 +57,7 @@ const initState = {
   panningDot: null,
   panDirection: null,
   dotColor: '',
-  rectangleExist: false,
+  rectangle: false,
   linePosition: {
     x: 0,
     y: 0
@@ -127,7 +127,7 @@ export default (state = initState, action) => {
           })
           return {
             ...state,
-            rectangleExist: true,
+            rectangle: true,
             dotColor: color,
             matrix: newMatrix,
             connectedDots: newConnectedDots,
@@ -138,7 +138,7 @@ export default (state = initState, action) => {
         }
         return {
           ...state,
-          rectangleExist: false,
+          rectangle: false,
           dotColor: color,
           connectedDots: newConnectedDots,
           connectedLines: newConnectedLines,

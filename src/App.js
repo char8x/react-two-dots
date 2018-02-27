@@ -7,9 +7,6 @@ import TopBar from './components/TopBar'
 import BottomBar from './components/BottomBar'
 import GameGoal from './components/GameGoal'
 import GameArea from './components/GameArea'
-import { StyledVerticalProgress as Progress } from './components/ProgressBar'
-
-import { COLOR_BLUE } from './utils/constants'
 
 const AppContainer = styled.div`
   width: 100%;
@@ -31,10 +28,6 @@ class App extends Component {
         <TopBar chance={chances} goals={goals} />
         <GameArea />
         <BottomBar level={level} clearDots={clearDots} score={score} />
-
-        {/* <div style={{ height: '100%' }}>
-          <Progress color={COLOR_BLUE} progress={1} />
-        </div> */}
       </AppContainer>
     )
   }

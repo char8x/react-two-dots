@@ -8,18 +8,15 @@ import DotMatrix from '../DotMatrix'
 
 class GameArea extends Component {
   render() {
-    const { matrix, progress, color, rectangleExist } = this.props
+    const { matrix, progress, color, rectangle } = this.props
 
     const Container = styled.div`
       height: 100%;
-      ${props =>
-        props.rectangleExist
-          ? `backgroundColor: ${props.color};opacity: 0.3;`
-          : ''};
+      background-color: ${props => (props.rectangle ? props.color : '#FFF')};
+      opacity: ${props => (props.rectangle ? 0.3 : 1)};
     `
-
     return (
-      <Container rectangleExist={rectangleExist} color={color}>
+      <div style={{ height: '100%' }}>
         <HorizonProgress progress={progress} color={color} />
         <div
           style={{
@@ -31,15 +28,13 @@ class GameArea extends Component {
           <div>
             <VerticalProgress progress={progress - 6} color={color} />
           </div>
-          <div>
-            <DotMatrix matrix={matrix} />
-          </div>
+          <DotMatrix matrix={matrix} />
           <div>
             <VerticalProgress progress={progress - 6} color={color} />
           </div>
         </div>
         <HorizonProgress progress={progress} color={color} />
-      </Container>
+      </div>
     )
   }
 }
@@ -48,5 +43,5 @@ export default connect(state => ({
   matrix: state.gameArea.matrix,
   progress: state.gameArea.connectedLines.length,
   color: state.gameArea.dotColor,
-  rectangleExist: state.gameArea.rectangleExist
+  rectangle: state.gameArea.rectangle
 }))(GameArea)
