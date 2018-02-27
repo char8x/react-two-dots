@@ -7,6 +7,7 @@ const DotMatrix = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin: 15% 5%;
 `
 
 export default class Matrix extends Component {

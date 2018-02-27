@@ -237,7 +237,7 @@ class EnhancedDot extends Component {
     } else if (nextProps.isClear) {
       this.handleClear()
     } else if (nextProps.isBounce) {
-      console.log('receive isBounce')
+      // console.log('receive isBounce')
       this.hanldeBounce()
     }
   }

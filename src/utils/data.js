@@ -192,6 +192,7 @@ const colB = [
 ]
 
 export const originalMatrix = [blueCol, colA, colB, redCol, purpleCol]
+export const matrix2 = [blueCol, blueCol, blueCol, blueCol, blueCol]
 
 /**
  * if is same color and same type

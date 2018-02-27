@@ -9,7 +9,7 @@ import {
   REFRESH_MATRIX
 } from './actions'
 import {
-  originalMatrix,
+  matrix2 as originalMatrix,
   isAdjacent,
   isOppositeDirection,
   lineDeg,
@@ -27,9 +27,7 @@ import {
 import clone from '../../utils/clone'
 
 const chance = 20
-const score = 0
 const level = 1
-const clearDots = 0
 const dotGoals = [
   {
     color: COLOR_BLUE,
@@ -58,6 +56,8 @@ const initState = {
   colLength: 5,
   panningDot: null,
   panDirection: null,
+  dotColor: '',
+  rectangleExist: false,
   linePosition: {
     x: 0,
     y: 0
@@ -105,19 +105,19 @@ export default (state = initState, action) => {
     case ENTER_DOT:
       // if dot is slibing dot with panningDot
       const { adjacent, direction } = isAdjacent(matrix)(panningDot, action.dot)
+      const color = matrix[panningDot.col][panningDot.row].color
       if (adjacent) {
         const newConnectedDots = clone(connectedDots)
         const newConnectedLines = clone(connectedLines)
         newConnectedDots.push(action.dot)
         newConnectedLines.push({
           deg: lineDeg[direction],
-          color: matrix[panningDot.col][panningDot.row].color,
+          color: color,
           ...linePosition
         })
+
         if (rectangleExist(newConnectedDots)) {
           const newMatrix = clone(matrix)
-          const color =
-            newMatrix[connectedDots[0].col][connectedDots[0].row].color
           newMatrix.forEach((col, i) => {
             col.forEach(d => {
               if (d.color === color && d.type === DOT_TYPE_DOT) {
@@ -127,6 +127,8 @@ export default (state = initState, action) => {
           })
           return {
             ...state,
+            rectangleExist: true,
+            dotColor: color,
             matrix: newMatrix,
             connectedDots: newConnectedDots,
             connectedLines: newConnectedLines,
@@ -136,6 +138,8 @@ export default (state = initState, action) => {
         }
         return {
           ...state,
+          rectangleExist: false,
+          dotColor: color,
           connectedDots: newConnectedDots,
           connectedLines: newConnectedLines,
           panningDot: action.dot,
