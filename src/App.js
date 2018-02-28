@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 import TopBar from './components/TopBar'
 import BottomBar from './components/BottomBar'
 import GameStart from './components/GameStart'
+import GameSucceed from './components/GameSucceed'
+import GameFail from './components/GameFail'
 import GameArea from './components/GameArea'
 import hex2rgb from './utils/hex2rgb'
 
@@ -43,6 +45,8 @@ class App extends Component {
         <TopBar chance={chances} goals={goals} />
         <GameArea />
         <BottomBar level={level} clearDots={clearDots} score={score} />
+        {/* <GameSucceed level={level} score={2400} /> */}
+        {/* <GameFail level={level} /> */}
       </AppContainer>
     )
   }

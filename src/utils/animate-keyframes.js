@@ -19,7 +19,11 @@ export const vanish = keyframes`
 
 // bounce effect https://github.com/daneden/animate.css/blob/master/animate.css#L23
 export const bounce = keyframes`
-  from,
+  from {
+    transform: translate3d(0, -40px, 0);
+    opacity: 0.8;
+  }
+
   20%,
   53%,
   80%,

@@ -11,6 +11,7 @@
     "polished": "^1.9.0",
     "rc-hammerjs": "^0.6.9",
     "react": "^16.2.0",
+    "react-countup": "^3.0.3",
     "react-dom": "^16.2.0",
     "react-modal": "^3.3.1",
     "react-pointable": "^1.1.1",
@@ -30,7 +31,9 @@
     "eject": "react-scripts eject"
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
