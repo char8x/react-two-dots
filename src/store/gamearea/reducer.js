@@ -1,4 +1,5 @@
 import {
+  SHOW_MATRIX,
   PANNING_START,
   ENTER_DOT,
   LEAVE_DOT,
@@ -51,7 +52,7 @@ const dotGoals = [
 ]
 
 const initState = {
-  matrix: originalMatrix,
+  matrix: [[]],
   colLength: 5,
   panningDot: null,
   panDirection: null,
@@ -86,6 +87,11 @@ export default (state = initState, action) => {
     goals
   } = state
   switch (action.type) {
+    case SHOW_MATRIX:
+      return {
+        ...state,
+        matrix: originalMatrix
+      }
     case PANNING_START:
       const newConnectedDots = clone(connectedDots)
       newConnectedDots.push(action.dot)

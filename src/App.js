@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 // import DotMatrix from './components/DotMatrix'
 import TopBar from './components/TopBar'
 import BottomBar from './components/BottomBar'
-import GameGoal from './components/GameGoal'
+import GameStart from './components/GameStart'
 import GameArea from './components/GameArea'
 import hex2rgb from './utils/hex2rgb'
 
@@ -39,7 +39,7 @@ class App extends Component {
 
     return (
       <AppContainer color={color} rectangle={rectangle}>
-        <GameGoal chance={chances} goals={goals} level={level} />
+        <GameStart chance={chances} goals={goals} level={level} />
         <TopBar chance={chances} goals={goals} />
         <GameArea />
         <BottomBar level={level} clearDots={clearDots} score={score} />

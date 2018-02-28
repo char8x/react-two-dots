@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import ReactModal from 'react-modal'
+import { connect } from 'react-redux'
+
 import Goal from '../Goal'
 import './index.css'
+import actions from '../../store/gamearea/actions'
 
 ReactModal.setAppElement('#root')
 const modalStyle = show => ({
@@ -54,7 +57,7 @@ const Button = styled.button`
   border-radius: 20px;
 `
 
-export default class GameGoal extends Component {
+class GameStart extends Component {
   constructor(props) {
     super()
 
@@ -68,6 +71,8 @@ export default class GameGoal extends Component {
     this.setState({ show: false })
     this.closeTimer = setTimeout(() => {
       this.setState({ open: false })
+      // request GameArea component load
+      this.props.dispatch(actions.showMatrix())
     }, 500)
   }
 
@@ -103,3 +108,5 @@ export default class GameGoal extends Component {
     )
   }
 }
+
+export default connect()(GameStart)

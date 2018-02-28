@@ -10,6 +10,7 @@ class GameArea extends Component {
     const { matrix, color, rectangle } = this.props
     let { progress } = this.props
     if (rectangle) {
+      // fullfill all progress
       progress = 12
     }
 
