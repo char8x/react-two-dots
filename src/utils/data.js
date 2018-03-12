@@ -240,22 +240,22 @@ export const isAdjacent = matrix => (dotA, dotB) => {
     pointA.type === pointB.type &&
     pointA.color === pointB.color
   ) {
-    if (dotA.col - 1 === dotB.col) {
+    if (dotA.col - 1 === dotB.col && dotA.row === dotB.row) {
       return {
         adjacent: true,
         direction: DIRECTION_LEFT
       }
-    } else if (dotA.col + 1 === dotB.col) {
+    } else if (dotA.col + 1 === dotB.col && dotA.row === dotB.row) {
       return {
         adjacent: true,
         direction: DIRECTION_RIGHT
       }
-    } else if (dotA.row - 1 === dotB.row) {
+    } else if (dotA.row - 1 === dotB.row && dotA.col === dotB.col) {
       return {
         adjacent: true,
         direction: DIRECTION_DOWN
       }
-    } else if (dotA.row + 1 === dotB.row) {
+    } else if (dotA.row + 1 === dotB.row && dotA.col === dotB.col) {
       return {
         adjacent: true,
         direction: DIRECTION_UP

@@ -13,7 +13,7 @@ const modalStyle = show => ({
     backgroundColor: 'rgba(68,68,68,0.8)'
   },
   content: {
-    top: '35%',
+    top: '25%',
     bottom: '35%',
     left: '15%',
     right: '15%',
