@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
 import star from './star.svg'
 
@@ -16,15 +16,15 @@ const ScoreBackground = styled.div`
   width: 60px;
   height: 100%;
 
-  border-top-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-top-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 `
 
-export default class EnhancedSetting extends PureComponent {
+export default class EnhancedSetting extends Component {
   handleClick = () => {
     console.log('setting')
   }

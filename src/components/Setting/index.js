@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
 import setting from './setting.svg'
 
@@ -15,17 +15,17 @@ const SettingBackground = styled.div`
   background-color: #d7d8db;
 
   width: 60px;
-  height: 100%;
+  height: 60px;
 
-  border-top-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-top-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 `
 
-export default class EnhancedSetting extends PureComponent {
+export default class EnhancedSetting extends Component {
   handleClick = () => {
     console.log('setting')
   }

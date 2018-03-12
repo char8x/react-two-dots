@@ -21,7 +21,7 @@ const CheckMark = styled.div`
 
 const DotGoal = props => (
   <div>
-    <Dot color={props.color} radius={10} style={{ margin: '15px 15px 5px' }}>
+    <Dot color={props.color} diam={20} style={{ margin: '15px 15px 5px' }}>
       {props.clear !== 0 &&
         props.clear >= props.goal && <CheckMark>L</CheckMark>}
     </Dot>

@@ -24,8 +24,8 @@ export const Dot = styled.div`
   cursor: pointer;
 
   ${props => {
-    return `height: ${props.radius * 2}px;
-    width: ${props.radius * 2}px;`
+    return `height: ${props.diam}px;
+    width: ${props.diam}px;`
   }} overflow: hidden;
   box-shadow: none;
 `
@@ -66,8 +66,8 @@ const AnimateDotBottom = AnimateDotTop.extend`
 `
 
 const DotContainer = styled.div`
-  height: 40px;
-  margin: 15px;
+  height: 20px;
+  margin: 10px;
 `
 
 class EnhancedDot extends Component {
@@ -79,17 +79,18 @@ class EnhancedDot extends Component {
       isActive: false, // click wave effect
       isClear: false, // clear effect
       isPanning: false, // ensure only one dot is drawing line
-      lineLength: 40,
-      lineHeight: 10,
+      lineLength: 10, // same as dot radius
+      lineHeight: 6,
       lineAngle: 0
     }
   }
 
   initState = () => {
     this.setState({
+      isClear: false,
       isPanning: false,
-      lineLength: 40,
-      lineHeight: 10,
+      lineLength: 10,
+      lineHeight: 6,
       lineAngle: 0
     })
   }
@@ -107,13 +108,12 @@ class EnhancedDot extends Component {
     const { dispatch } = this.props
     this.setState({ isClear: true, isPanning: false })
     this.clearDotTimer = setTimeout(() => {
-      this.setState({ isClear: false })
       this.initState()
       dispatch(actions.panningEnd())
-    }, 300) // equal or more than animation-duration (1s)
+    }, 300) // equal or more than animation-duration (300ms)
   }
 
-  hanldeBounce = () => {
+  handleBounce = () => {
     this.setState({ isBounce: true })
     this.bounceTimer = setTimeout(() => {
       this.setState({ isBounce: false })
@@ -267,9 +267,7 @@ class EnhancedDot extends Component {
       this.props.isBounce !== nextProps.isBounce &&
       nextProps.isBounce
     ) {
-      // console.log('receive isBounce')
-      console.log(nextProps.isBounce)
-      this.hanldeBounce()
+      this.handleBounce()
       this.props.dispatch(
         actions.resetDotState(
           {
@@ -319,13 +317,13 @@ class EnhancedDot extends Component {
           >
             <AnimateDotTop
               color={color}
-              radius={20}
+              diam={20}
               isBounce={isBounce}
               isClear={isClear}
             />
           </Pointable>
         </Hammer>
-        <AnimateDotBottom color={color} isActive={isActive} radius={20} />
+        <AnimateDotBottom color={color} isActive={isActive} diam={20} />
 
         {/* TODO: lines could move to Matrix Component */}
         {isPanning &&

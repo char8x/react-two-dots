@@ -6,13 +6,14 @@ import Goal from '../Goal'
 import Setting from '../Setting'
 
 const Background = styled.div`
+  position: absolute;
   background-color: #f0f0f1;
 
   width: 100%;
   height: 60px;
 
-  border-bottom-right-radius: 20px;
-  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
 
   display: flex;
   flex-direction: row;

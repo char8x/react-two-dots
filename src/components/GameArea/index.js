@@ -15,7 +15,12 @@ class GameArea extends Component {
     }
 
     return (
-      <div style={{ height: '100%' }}>
+      <div
+        style={{
+          height: '100%',
+          margin: '60px 0'
+        }}
+      >
         <HorizonProgress progress={progress} color={color} />
         <div
           style={{

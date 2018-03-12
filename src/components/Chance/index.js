@@ -1,15 +1,14 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const ChanceBackground = styled.div`
   background-color: #d7d8db;
 
   width: 60px;
-  height: 100%;
-  margin: 0;
+  height: 60px;
 
-  border-top-right-radius: 20px;
-  border-bottom-left-radius: 20px;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 15px;
 
   display: flex;
   flex-direction: column;
@@ -30,7 +29,7 @@ const Text = styled.span`
   display: block;
 `
 
-class Chance extends PureComponent {
+class Chance extends Component {
   render() {
     const { chance } = this.props
 
