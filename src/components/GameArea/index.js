@@ -18,7 +18,10 @@ class GameArea extends Component {
       <div
         style={{
           height: '100%',
-          margin: '60px 0'
+          margin: '60px 0',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between'
         }}
       >
         <HorizonProgress progress={progress} color={color} />
