@@ -52,7 +52,7 @@ const AnimateDotTop = Dot.extend`
 
 const AnimateDotBottom = AnimateDotTop.extend`
   position: relative;
-  top: -40px;
+  top: -20px;
   z-index: -1;
   opacity: 0;
 
@@ -341,7 +341,7 @@ class EnhancedDot extends Component {
         {connectedLines.map((e, i) => (
           <Line
             key={i.toString()}
-            width={80}
+            width={40}
             height={lineHeight}
             color={e.color}
             deg={e.deg}

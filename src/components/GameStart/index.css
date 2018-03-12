@@ -15,7 +15,10 @@
 }
 
 @keyframes moveToBottom {
-  to {
+  70% {
     transform: translateY(800px);
+  }
+  to {
+    opacity: 0;
   }
 }
