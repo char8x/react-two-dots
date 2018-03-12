@@ -35,15 +35,16 @@ const DotGoal = props => (
 
 const Goal = props => (
   <div className={props.className} style={props.style}>
-    {props.goals.map((e, i) => (
-      <DotGoal
-        key={i.toString()}
-        color={e.color}
-        clear={e.clear}
-        goal={e.goal}
-        showClear={props.showClear}
-      />
-    ))}
+    {props.goals &&
+      props.goals.map((e, i) => (
+        <DotGoal
+          key={i.toString()}
+          color={e.color}
+          clear={e.clear}
+          goal={e.goal}
+          showClear={props.showClear}
+        />
+      ))}
   </div>
 )
 

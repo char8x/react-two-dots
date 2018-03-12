@@ -39,7 +39,7 @@ class Chance extends Component {
           {chance}
         </Text>
         <Text height="10px" fontSize="0.5rem" marginTop="5px">
-          次移动机会
+          {chance && '次移动机会'}
         </Text>
       </ChanceBackground>
     )

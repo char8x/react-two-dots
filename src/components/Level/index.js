@@ -39,7 +39,7 @@ class Chance extends Component {
           {clearDots}
         </Text>
         <Text height="10px" fontSize="0.5rem" marginTop="5px">
-          LV {level}
+          {level && 'LV ' + level}
         </Text>
       </LevelBackground>
     )

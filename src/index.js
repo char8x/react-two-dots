@@ -5,6 +5,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import App from './App'
+import GameMap from './components/GameMap'
 import createStore from './store'
 import history from './utils/history'
 import registerServiceWorker from './registerServiceWorker'
@@ -28,7 +29,7 @@ const store = createStore(history)
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <App />
+      <GameMap />
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
