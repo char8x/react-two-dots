@@ -1,4 +1,5 @@
 import {
+  INIT_GAME,
   SHOW_MATRIX,
   PANNING_START,
   ENTER_DOT,
@@ -10,50 +11,16 @@ import {
   REFRESH_MATRIX
 } from './actions'
 import {
-  originalMatrix,
   isAdjacent,
   lineDeg,
   removeDots,
   rectangleExist,
   addNewDots
 } from '../../utils/data'
-import {
-  DOT_TYPE_DOT,
-  COLOR_BLUE,
-  COLOR_PURPLE,
-  COLOR_RED,
-  COLOR_YELLOW
-} from '../../utils/constants'
+import { DOT_TYPE_DOT } from '../../utils/constants'
 import clone from '../../utils/clone'
 
-const chance = 20
-const level = 1
-const dotGoals = [
-  {
-    color: COLOR_BLUE,
-    clear: 0,
-    goal: 15
-  },
-  {
-    color: COLOR_PURPLE,
-    clear: 0,
-    goal: 15
-  },
-  {
-    color: COLOR_RED,
-    clear: 0,
-    goal: 15
-  },
-  {
-    color: COLOR_YELLOW,
-    clear: 0,
-    goal: 15
-  }
-]
-
-const initState = {
-  matrix: [[]],
-  colLength: 5,
+const resetProp = {
   panningDot: null,
   panDirection: null,
   dotColor: '',
@@ -64,16 +31,24 @@ const initState = {
   },
   connectedDots: [],
   connectedLines: [],
-  bounceStartDots: [], // col start bounce dot
-  chances: chance,
+  bounceStartDots: [] // col start bounce dot
+}
+
+const initState = {
+  ...resetProp,
+  showMatrix: false,
+  level: 0,
+  goals: [],
+  matrix: [[]],
+  colLength: 0,
+  chances: 0,
   clearDots: 0,
-  score: 0,
-  level: level,
-  goals: dotGoals
+  score: 0
 }
 
 export default (state = initState, action) => {
   const {
+    level,
     matrix,
     colLength,
     connectedDots,
@@ -84,13 +59,25 @@ export default (state = initState, action) => {
     chances,
     clearDots,
     score,
-    goals
+    goals,
+    rectangle,
+    dotColor
   } = state
   switch (action.type) {
+    case INIT_GAME:
+      debugger
+      return {
+        ...state,
+        matrix: action.matrix,
+        colLength: action.matrix[0].length,
+        level: action.level,
+        chances: action.chance,
+        goals: action.goals
+      }
     case SHOW_MATRIX:
       return {
         ...state,
-        matrix: originalMatrix
+        showMatrix: true
       }
     case PANNING_START:
       const newConnectedDots = clone(connectedDots)
@@ -188,12 +175,8 @@ export default (state = initState, action) => {
         }
       }
       return {
-        ...initState,
-        matrix,
-        chances,
-        clearDots,
-        goals,
-        score
+        ...state,
+        ...resetProp
       }
     case PANNING_END:
       if (connectedDots.length > 1) {
@@ -209,22 +192,20 @@ export default (state = initState, action) => {
         }
 
         return {
-          ...initState,
+          ...state,
+          ...resetProp,
+          dotColor, // keep for REFRESH_MATRIX
+          rectangle, // keep for REFRESH_MATRIX
           bounceStartDots: startDots,
           matrix: newMatrix,
           chances: chances - 1,
           clearDots: clearDots + removedDotsCount,
-          goals: newGoals,
-          score
+          goals: newGoals
         }
       }
       return {
-        ...initState,
-        matrix,
-        chances,
-        clearDots,
-        goals,
-        score
+        ...state,
+        ...resetProp
       }
     case REFRESH_MATRIX:
       const tempMatrix = clone(matrix)
@@ -234,10 +215,10 @@ export default (state = initState, action) => {
           tempMatrix[d.col][i].isBounce = true
         }
       })
-      addNewDots(tempMatrix, colLength)
+      addNewDots(tempMatrix, colLength, level, rectangle && dotColor)
       return {
         ...state,
-        bounceStartDots: [],
+        ...resetProp,
         matrix: tempMatrix
       }
     case RESET_DOT_STATE:

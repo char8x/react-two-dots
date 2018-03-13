@@ -10,7 +10,7 @@ import {
   DOT_TYPE_DOT,
   COLOR_GREEN
 } from './constants'
-
+import levels from '../models/levels'
 import random from './random-index'
 
 const allColors = [
@@ -179,11 +179,11 @@ export const removeDots = matrix => connectedDots => {
   }
 }
 
-export const addNewDots = (matrix, colLength) => {
+export const addNewDots = (matrix, colLength, level, dotColor) => {
+  const generator = levels[level - 1].gen
   matrix.forEach((col, i) => {
-    // TODO: add new dots
-    const newDots = generator()(colLength - matrix[i].length)
-    matrix[i].push(...newDots)
+    // add new dots
+    matrix[i].concat(generator(colLength - matrix[i].length, dotColor))
   })
 }
 

@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import App from './App'
 import GameMap from './components/GameMap'
 import createStore from './store'
 import history from './utils/history'

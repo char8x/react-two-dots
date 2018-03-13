@@ -1,42 +1,15 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import Loadable from 'react-loadable'
+import { connect } from 'react-redux'
 
-import TopBar from '../TopBar'
 import BottomBar from '../BottomBar'
 import Level from './Level'
-
-import {
-  COLOR_BLUE,
-  COLOR_PURPLE,
-  COLOR_RED,
-  COLOR_YELLOW
-} from '../../utils/constants'
+import TopBar from '../TopBar'
+import Loading from '../Loading'
+import { COLOR_BLUE, COLOR_RED } from '../../utils/constants'
+import actions from '../../store/gamearea/actions'
 import levels from '../../models/levels'
-
-// const levels = Array.from({ length: 10 }).map((e, i) => ({
-//   level: i + 1,
-//   chance: 20,
-//   goals: [
-//     {
-//       color: COLOR_BLUE,
-//       goal: 15
-//     },
-//     {
-//       color: COLOR_PURPLE,
-//       goal: 15
-//     },
-//     {
-//       color: COLOR_RED,
-//       goal: 15
-//     },
-//     {
-//       color: COLOR_YELLOW,
-//       goal: 15
-//     }
-//   ],
-//   score: 0,
-//   active: true
-// }))
 
 const Title = styled.span`
   color: ${props => props.color};
@@ -67,46 +40,68 @@ const AppContainer = styled.div`
   z-index: -10;
 `
 
-export default class GameMap extends Component {
+class GameMap extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      Game: null
+    }
+  }
+
   handleClick = (e, level) => {
     // TODO: dynamic load GameArea
-    console.log(level)
+    this.props.dispatch(actions.initGame(level))
+    this.setState({
+      Game: Loadable({
+        delay: 1000,
+        loader: () => import('../Game'),
+        loading: Loading
+      })
+    })
   }
 
   render() {
-    return (
-      <AppContainer>
-        <TopBar />
-        <Content>
-          <section>
-            <Title color={COLOR_RED}>Two</Title>
-            <Title color={COLOR_BLUE}>Dots</Title>
-          </section>
-          <section
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              flexWrap: 'wrap',
-              marginTop: '50px',
-              width: '300px'
-            }}
-          >
-            {levels.map((level, i) => (
-              <Level
-                key={i.toString()}
-                onClick={e => {
-                  this.handleClick(e, level)
-                }}
-                active={level.active}
-              >
-                {level.level}
-              </Level>
-            ))}
-          </section>
-        </Content>
-        <BottomBar />
-      </AppContainer>
-    )
+    const { Game } = this.state
+    if (Game !== null) {
+      return <Game />
+    } else {
+      return (
+        <AppContainer>
+          <TopBar />
+          <Content>
+            <header>
+              <Title color={COLOR_RED}>Two</Title>
+              <Title color={COLOR_BLUE}>Dots</Title>
+            </header>
+            <section
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                flexWrap: 'wrap',
+                marginTop: '50px',
+                width: '300px'
+              }}
+            >
+              {levels.map((level, i) => (
+                <Level
+                  key={i.toString()}
+                  onClick={e => {
+                    this.handleClick(e, level)
+                  }}
+                  active={level.active}
+                >
+                  {level.level}
+                </Level>
+              ))}
+            </section>
+          </Content>
+          <BottomBar />
+        </AppContainer>
+      )
+    }
   }
 }
+
+export default connect()(GameMap)

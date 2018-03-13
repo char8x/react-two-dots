@@ -7,7 +7,7 @@ import DotMatrix from '../DotMatrix'
 
 class GameArea extends Component {
   render() {
-    const { matrix, color, rectangle } = this.props
+    const { showMatrix, matrix, color, rectangle } = this.props
     let { progress } = this.props
     if (rectangle) {
       // fullfill all progress
@@ -36,7 +36,7 @@ class GameArea extends Component {
           <div>
             <VerticalProgress progress={progress - 6} color={color} />
           </div>
-          <DotMatrix matrix={matrix} />
+          {showMatrix && <DotMatrix matrix={matrix} />}
           <div>
             <VerticalProgress progress={progress - 6} color={color} />
           </div>
@@ -48,6 +48,7 @@ class GameArea extends Component {
 }
 
 export default connect(state => ({
+  showMatrix: state.gameArea.showMatrix,
   matrix: state.gameArea.matrix,
   progress: state.gameArea.connectedLines.length,
   color: state.gameArea.dotColor,

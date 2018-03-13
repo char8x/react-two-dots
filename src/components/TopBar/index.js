@@ -5,7 +5,7 @@ import Chance from '../Chance'
 import Goal from '../Goal'
 import Setting from '../Setting'
 
-const Background = styled.div`
+const Background = styled.nav`
   position: absolute;
   background-color: #f0f0f1;
 

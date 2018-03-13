@@ -1,3 +1,4 @@
+export const INIT_GAME = 'INIT_GAME'
 export const SHOW_MATRIX = 'SHOW_MATRIX'
 export const PANNING_START = 'PANNING_START'
 export const PANNING = 'PANNING'
@@ -7,6 +8,14 @@ export const ENTER_DOT = 'ENTER_DOT'
 export const LEAVE_DOT = 'LEAVE_DOT'
 export const RESET_DOT_STATE = 'RESET_DOT_STATE'
 export const REFRESH_MATRIX = 'REFRESH_MATRIX'
+
+const initGame = ({ level, chance, goals, matrix }) => ({
+  level,
+  chance,
+  goals,
+  matrix,
+  type: INIT_GAME
+})
 
 const showMatrix = () => ({
   type: SHOW_MATRIX
@@ -53,6 +62,7 @@ const refreshMatrix = () => ({
 })
 
 export default {
+  initGame,
   showMatrix,
   panningStart,
   panning,

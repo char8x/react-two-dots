@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-// import DotMatrix from './components/DotMatrix'
-import TopBar from './components/TopBar'
-import BottomBar from './components/BottomBar'
-import GameStart from './components/GameStart'
-import GameSucceed from './components/GameSucceed'
-import GameFail from './components/GameFail'
-import GameArea from './components/GameArea'
-import hex2rgb from './utils/hex2rgb'
+// import DotMatrix from '../DotMatrix'
+import TopBar from '../TopBar'
+import BottomBar from '../BottomBar'
+import GameStart from '../GameStart'
+import GameSucceed from '../GameSucceed'
+import GameFail from '../GameFail'
+import GameArea from '../GameArea'
+import hex2rgb from '../../utils/hex2rgb'
 
 const AppContainer = styled.div`
   width: 100%;

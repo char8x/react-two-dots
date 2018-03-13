@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Score from '../Score'
 import Level from '../Level'
 
-const Background = styled.div`
+const Background = styled.footer`
   position: absolute;
   bottom: 0;
   background-color: #f0f0f1;
