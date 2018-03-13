@@ -7,7 +7,28 @@ import {
   DOT_TYPE_DOT
 } from '../utils/constants'
 
-import { grd, gbd, gpd, gyd, ggd, generator } from '../utils/data'
+import generator from '../utils/generator'
+
+const gbd = generator({
+  colors: [COLOR_BLUE],
+  dotTypes: [DOT_TYPE_DOT]
+})
+const gyd = generator({
+  colors: [COLOR_YELLOW],
+  dotTypes: [DOT_TYPE_DOT]
+})
+const grd = generator({
+  colors: [COLOR_RED],
+  dotTypes: [DOT_TYPE_DOT]
+})
+const gpd = generator({
+  colors: [COLOR_PURPLE],
+  dotTypes: [DOT_TYPE_DOT]
+})
+const ggd = generator({
+  colors: [COLOR_GREEN],
+  dotTypes: [DOT_TYPE_DOT]
+})
 
 /**
  * Generate Dot Goals

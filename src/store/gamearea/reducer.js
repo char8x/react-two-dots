@@ -16,7 +16,7 @@ import {
   removeDots,
   rectangleExist,
   addNewDots
-} from '../../utils/data'
+} from '../../utils/matrix'
 import { DOT_TYPE_DOT } from '../../utils/constants'
 import clone from '../../utils/clone'
 
@@ -65,7 +65,6 @@ export default (state = initState, action) => {
   } = state
   switch (action.type) {
     case INIT_GAME:
-      debugger
       return {
         ...state,
         matrix: action.matrix,
