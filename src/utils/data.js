@@ -7,10 +7,19 @@ import {
   DIRECTION_LEFT,
   DIRECTION_UP,
   DIRECTION_RIGHT,
-  DOT_TYPE_DOT
+  DOT_TYPE_DOT,
+  COLOR_GREEN
 } from './constants'
 
 import random from './random-index'
+
+const allColors = [
+  COLOR_BLUE,
+  COLOR_YELLOW,
+  COLOR_RED,
+  COLOR_PURPLE,
+  COLOR_GREEN
+]
 
 /**
  * Generate new dots
@@ -29,22 +38,59 @@ import random from './random-index'
  * @param {*} colors
  * @param {*} dotTypes
  */
-export const genrateDots = (
-  { colors, dotTypes = [DOT_TYPE_DOT] } = {
-    colors: [COLOR_BLUE, COLOR_YELLOW, COLOR_RED, COLOR_PURPLE],
-    dotTypes: [DOT_TYPE_DOT]
+export const generator = (
+  {
+    dotTypes = [DOT_TYPE_DOT],
+    colors = allColors,
+    callback = defaultGeneratorCallback
+  } = {
+    dotTypes: [DOT_TYPE_DOT],
+    colors: allColors,
+    callback: defaultGeneratorCallback
   }
-) => num => {
-  return Array.from({ length: num }).map((e, i) => {
-    return {
-      type: dotTypes[random(dotTypes.length)],
-      color: colors[random(colors.length)],
-      isActive: false, // for animate effect
-      isClear: false, // for clear effect
-      isBounce: false // for bounce effect
-    }
-  })
+) => (num, allClearColor = '') => {
+  if (allClearColor === '') {
+    return Array.from({ length: num }).map((e, i, a) =>
+      callback(e, i, a, dotTypes, colors)
+    )
+  } else {
+    const newColors = colors.filter(c => c !== allClearColor)
+    return Array.from({ length: num }).map((e, i, a) =>
+      callback(e, i, a, dotTypes, newColors)
+    )
+  }
 }
+
+function defaultGeneratorCallback(e, i, a, dotTypes, colors) {
+  return {
+    type: dotTypes.length > 1 ? dotTypes[random(dotTypes.length)] : dotTypes[0],
+    color: colors.length > 1 ? colors[random(colors.length)] : colors[0],
+    isActive: false, // for animate effect
+    isClear: false, // for clear effect
+    isBounce: false // for bounce effect
+  }
+}
+
+export const gbd = generator({
+  colors: [COLOR_BLUE],
+  dotTypes: [DOT_TYPE_DOT]
+})
+export const gyd = generator({
+  colors: [COLOR_YELLOW],
+  dotTypes: [DOT_TYPE_DOT]
+})
+export const grd = generator({
+  colors: [COLOR_RED],
+  dotTypes: [DOT_TYPE_DOT]
+})
+export const gpd = generator({
+  colors: [COLOR_PURPLE],
+  dotTypes: [DOT_TYPE_DOT]
+})
+export const ggd = generator({
+  colors: [COLOR_GREEN],
+  dotTypes: [DOT_TYPE_DOT]
+})
 
 /**
  * Check if exists rectangle
@@ -136,15 +182,15 @@ export const removeDots = matrix => connectedDots => {
 export const addNewDots = (matrix, colLength) => {
   matrix.forEach((col, i) => {
     // TODO: add new dots
-    const newDots = genrateDots()(colLength - matrix[i].length)
+    const newDots = generator()(colLength - matrix[i].length)
     matrix[i].push(...newDots)
   })
 }
 
-export const blueCol = genrateDots({ colors: [COLOR_BLUE] })(5)
-export const yellowCol = genrateDots({ colors: [COLOR_YELLOW] })(5)
-export const redCol = genrateDots({ colors: [COLOR_RED] })(5)
-export const purpleCol = genrateDots({ colors: [COLOR_PURPLE] })(5)
+export const blueCol = generator({ colors: [COLOR_BLUE] })(5)
+export const yellowCol = generator({ colors: [COLOR_YELLOW] })(5)
+export const redCol = generator({ colors: [COLOR_RED] })(5)
+export const purpleCol = generator({ colors: [COLOR_PURPLE] })(5)
 
 const colA = [
   {

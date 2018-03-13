@@ -13,6 +13,7 @@
     "react": "^16.2.0",
     "react-countup": "^3.0.3",
     "react-dom": "^16.2.0",
+    "react-loadable": "^5.3.1",
     "react-modal": "^3.3.1",
     "react-pointable": "^1.1.1",
     "react-redux": "^5.0.7",

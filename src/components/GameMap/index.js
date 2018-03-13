@@ -11,31 +11,32 @@ import {
   COLOR_RED,
   COLOR_YELLOW
 } from '../../utils/constants'
+import levels from '../../models/levels'
 
-const levels = Array.from({ length: 10 }).map((e, i) => ({
-  level: i + 1,
-  chance: 20,
-  goals: [
-    {
-      color: COLOR_BLUE,
-      goal: 15
-    },
-    {
-      color: COLOR_PURPLE,
-      goal: 15
-    },
-    {
-      color: COLOR_RED,
-      goal: 15
-    },
-    {
-      color: COLOR_YELLOW,
-      goal: 15
-    }
-  ],
-  score: 0,
-  active: true
-}))
+// const levels = Array.from({ length: 10 }).map((e, i) => ({
+//   level: i + 1,
+//   chance: 20,
+//   goals: [
+//     {
+//       color: COLOR_BLUE,
+//       goal: 15
+//     },
+//     {
+//       color: COLOR_PURPLE,
+//       goal: 15
+//     },
+//     {
+//       color: COLOR_RED,
+//       goal: 15
+//     },
+//     {
+//       color: COLOR_YELLOW,
+//       goal: 15
+//     }
+//   ],
+//   score: 0,
+//   active: true
+// }))
 
 const Title = styled.span`
   color: ${props => props.color};
