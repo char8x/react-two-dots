@@ -180,95 +180,12 @@ export const removeDots = matrix => connectedDots => {
 }
 
 export const addNewDots = (matrix, colLength, level, dotColor) => {
-  const generator = levels[level - 1].gen
+  const gen = levels[level - 1].gen
   matrix.forEach((col, i) => {
     // add new dots
-    matrix[i].concat(generator(colLength - matrix[i].length, dotColor))
+    matrix[i].concat(gen(colLength - matrix[i].length, dotColor))
   })
 }
-
-export const blueCol = generator({ colors: [COLOR_BLUE] })(5)
-export const yellowCol = generator({ colors: [COLOR_YELLOW] })(5)
-export const redCol = generator({ colors: [COLOR_RED] })(5)
-export const purpleCol = generator({ colors: [COLOR_PURPLE] })(5)
-
-const colA = [
-  {
-    type: DOT_TYPE_DOT,
-    color: COLOR_YELLOW,
-    isActive: false, // for animate effect
-    isClear: false, // for clear effect
-    isBounce: false // for bounce effect
-  },
-  {
-    type: DOT_TYPE_DOT,
-    color: COLOR_YELLOW,
-    isActive: false, // for animate effect
-    isClear: false, // for clear effect
-    isBounce: false // for bounce effect
-  },
-  {
-    type: DOT_TYPE_DOT,
-    color: COLOR_YELLOW,
-    isActive: false, // for animate effect
-    isClear: false, // for clear effect
-    isBounce: false // for bounce effect
-  },
-  {
-    type: DOT_TYPE_DOT,
-    color: COLOR_YELLOW,
-    isActive: false, // for animate effect
-    isClear: false, // for clear effect
-    isBounce: false // for bounce effect
-  },
-  {
-    type: DOT_TYPE_DOT,
-    color: COLOR_BLUE,
-    isActive: false, // for animate effect
-    isClear: false, // for clear effect
-    isBounce: false // for bounce effect
-  }
-]
-const colB = [
-  {
-    type: DOT_TYPE_DOT,
-    color: COLOR_RED,
-    isActive: false, // for animate effect
-    isClear: false, // for clear effect
-    isBounce: false // for bounce effect
-  },
-  {
-    type: DOT_TYPE_DOT,
-    color: COLOR_RED,
-    isActive: false, // for animate effect
-    isClear: false, // for clear effect
-    isBounce: false // for bounce effect
-  },
-  {
-    type: DOT_TYPE_DOT,
-    color: COLOR_RED,
-    isActive: false, // for animate effect
-    isClear: false, // for clear effect
-    isBounce: false // for bounce effect
-  },
-  {
-    type: DOT_TYPE_DOT,
-    color: COLOR_RED,
-    isActive: false, // for animate effect
-    isClear: false, // for clear effect
-    isBounce: false // for bounce effect
-  },
-  {
-    type: DOT_TYPE_DOT,
-    color: COLOR_PURPLE,
-    isActive: false, // for animate effect
-    isClear: false, // for clear effect
-    isBounce: false // for bounce effect
-  }
-]
-
-export const originalMatrix = [blueCol, colA, colB, redCol, purpleCol]
-export const matrix2 = [blueCol, blueCol, blueCol, blueCol, blueCol]
 
 /**
  * if is same color and same type

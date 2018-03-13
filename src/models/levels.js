@@ -15,8 +15,8 @@ import { grd, gbd, gpd, gyd, ggd, generator } from '../utils/data'
  * @param {*} num
  * @param {*} colors
  */
-const gdg = (goal, num, colors) =>
-  generator({
+const gdg = (goal, num, colors) => {
+  return generator({
     colors,
     dotTypes: [DOT_TYPE_DOT],
     callback: (e, i, a, dotTypes, colors) => {
@@ -28,6 +28,7 @@ const gdg = (goal, num, colors) =>
       }
     }
   })(num)
+}
 
 /**
  *  Generate Matrix
