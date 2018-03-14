@@ -63,6 +63,7 @@ let currentLevel = null
 // levels data
 const datas = [
   {
+    // level 1
     data: () => {
       currentLevel = {
         chance: 20,
@@ -84,6 +85,7 @@ const datas = [
     }
   },
   {
+    // level 2
     data: () => {
       currentLevel = {
         chance: 30,
@@ -104,6 +106,137 @@ const datas = [
       }
       return currentLevel
     }
+  },
+  {
+    // level 3
+    data: () => {
+      currentLevel = {
+        chance: 20,
+        goals: gdg(50, 3, [COLOR_RED, COLOR_BLUE, COLOR_YELLOW]),
+        matrix: (() => {
+          return [
+            gm([grd(1), gbd(1), grd(1), gbd(1), gyd(1), grd(1)]),
+            gm([gyd(1), grd(1), gbd(1), gyd(1), grd(1), gyd(1)]),
+            gm([grd(1), gbd(1), grd(2), gyd(1), gbd(1)]),
+            gm([gbd(1), gyd(1), grd(2), gbd(1), grd(1)]),
+            gm([gyd(1), grd(1), gyd(1), gbd(1), grd(1), gbd(1)]),
+            gm([grd(1), gyd(1), gbd(1), grd(1), gbd(1), grd(1)])
+          ]
+        })(),
+        gen: generator({
+          colors: [COLOR_RED, COLOR_BLUE, COLOR_YELLOW],
+          dotTypes: [DOT_TYPE_DOT]
+        })
+      }
+      return currentLevel
+    }
+  },
+  {
+    // level 4
+    data: () => {
+      currentLevel = {
+        chance: 35,
+        goals: gdg(15, 4, [COLOR_PURPLE, COLOR_RED, COLOR_GREEN, COLOR_YELLOW]),
+        matrix: (() => {
+          return [
+            gm([gpd(1), grd(1), ggd(2), gpd(2)]),
+            gm([ggd(2), gyd(2), ggd(1), gyd(1)]),
+            gm([ggd(1), gpd(1), grd(1), gyd(2), ggd(1)]),
+            gm([ggd(1), gyd(1), grd(1), ggd(1), gpd(2)])
+          ]
+        })(),
+        gen: generator({
+          colors: [COLOR_PURPLE, COLOR_RED, COLOR_GREEN, COLOR_YELLOW],
+          dotTypes: [DOT_TYPE_DOT]
+        })
+      }
+      return currentLevel
+    }
+  },
+  {
+    // TODO: level 5
+    data: () => {
+      currentLevel = {
+        chance: 26,
+        goals: gdg(20, 4, [
+          COLOR_PURPLE,
+          COLOR_BLUE,
+          COLOR_GREEN,
+          COLOR_YELLOW
+        ]),
+        matrix: (() => {
+          return [
+            gm([gpd(1), grd(1), ggd(2), gpd(2)]),
+            gm([ggd(2), gyd(2), ggd(1), gyd(1)]),
+            gm([ggd(1), gpd(1), grd(1), gyd(2), ggd(1)]),
+            gm([ggd(1), gyd(1), grd(1), ggd(1), gpd(2)])
+          ]
+        })(),
+        gen: generator({
+          colors: [COLOR_PURPLE, COLOR_BLUE, COLOR_GREEN, COLOR_YELLOW],
+          dotTypes: [DOT_TYPE_DOT]
+        })
+      }
+      return currentLevel
+    }
+  },
+  {
+    // level 6
+    data: () => {
+      currentLevel = {
+        chance: 47,
+        goals: gdg(20, 2, [COLOR_RED, COLOR_YELLOW]),
+        matrix: (() => {
+          return [
+            gm([gpd(1), grd(1), gpd(2), ggd(1)]),
+            gm([gbd(1), grd(1), gyd(2), ggd(1)]),
+            gm([gbd(1), gyd(2), ggd(1), gyd(1)]),
+            gm([grd(2), ggd(2), gpd(1)]),
+            gm([ggd(2), gbd(2), gpd(1)])
+          ]
+        })(),
+        gen: generator({
+          colors: [
+            COLOR_RED,
+            COLOR_YELLOW,
+            COLOR_PURPLE,
+            COLOR_BLUE,
+            COLOR_GREEN
+          ],
+          dotTypes: [DOT_TYPE_DOT]
+        })
+      }
+      return currentLevel
+    }
+  },
+  {
+    // level 7
+    data: () => {
+      currentLevel = {
+        chance: 47,
+        goals: gdg(20, 2, [COLOR_RED, COLOR_YELLOW]),
+        matrix: (() => {
+          return [
+            gm([gpd(1), grd(1), gpd(2), ggd(1)]),
+            gm([gbd(1), grd(1), gyd(2), ggd(1)]),
+            gm([gbd(1), gyd(2), ggd(1), gyd(1)]),
+            gm([grd(2), ggd(2), gpd(1)]),
+            gm([ggd(2), gbd(2), gpd(1)])
+          ]
+        })(),
+        gen: generator({
+          colors: [
+            COLOR_RED,
+            COLOR_YELLOW,
+            COLOR_PURPLE,
+            COLOR_BLUE,
+            COLOR_GREEN
+          ],
+          dotTypes: [DOT_TYPE_DOT]
+        })
+      }
+      return currentLevel
+    }
   }
 ]
 
@@ -111,7 +244,7 @@ const levels = datas.map((e, i) =>
   Object.assign(e, {
     level: i + 1,
     score: 0,
-    active: false
+    active: true
   })
 )
 

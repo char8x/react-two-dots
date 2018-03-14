@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
+import Text from '../Text'
+
 const ChanceBackground = styled.div`
   background-color: #d7d8db;
 
@@ -16,31 +18,16 @@ const ChanceBackground = styled.div`
   align-items: center;
 `
 
-const Text = styled.span`
-  color: #7d848f;
-  font-size: ${props => props.fontSize};
-
-  width: 50px;
-  height: ${props => props.height};
-  margin-top: ${props => props.marginTop};
-
-  text-align: center;
-
-  display: block;
-`
-
 class Chance extends Component {
   render() {
     const { chance } = this.props
 
     return (
       <ChanceBackground>
-        <Text height="30px" fontSize="2rem">
+        <Text fontSize="2rem" lineHeight="2rem">
           {chance}
         </Text>
-        <Text height="10px" fontSize="0.5rem" marginTop="5px">
-          {chance && '次移动机会'}
-        </Text>
+        <Text fontSize="0.4rem">{chance && '次移动机会'}</Text>
       </ChanceBackground>
     )
   }

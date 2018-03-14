@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
+import Text from '../Text'
+
 const LevelBackground = styled.div`
   background-color: #d7d8db;
 
@@ -16,31 +18,16 @@ const LevelBackground = styled.div`
   align-items: center;
 `
 
-const Text = styled.span`
-  color: #7d848f;
-  font-size: ${props => props.fontSize};
-
-  width: 50px;
-  height: ${props => props.height};
-  margin-top: ${props => props.marginTop};
-
-  text-align: center;
-
-  display: block;
-`
-
 class Chance extends Component {
   render() {
     const { clearDots, level } = this.props
 
     return (
       <LevelBackground>
-        <Text height="30px" fontSize="2rem">
+        <Text fontSize="2rem" lineHeight="2rem">
           {clearDots}
         </Text>
-        <Text height="10px" fontSize="0.5rem" marginTop="5px">
-          {level && 'LV ' + level}
-        </Text>
+        <Text fontSize="0.5rem">{level && 'LV ' + level}</Text>
       </LevelBackground>
     )
   }
