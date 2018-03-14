@@ -32,6 +32,7 @@ const ggd = generator({
 
 /**
  * Generate Dot Goals
+ *
  * @param {*} goal
  * @param {*} num
  * @param {*} colors
@@ -52,48 +53,61 @@ const gdg = (goal, num, colors) => {
 }
 
 /**
- *  Generate Matrix
+ *  Generate Matrix Column
+ *
  * @param {*} array
  */
 const gm = (array = []) => array.reduce((p, c) => p.concat(c), [])
 
-const data = [
+let currentLevel = null
+// levels data
+const datas = [
   {
-    chance: 20,
-    goals: gdg(15, 3, [COLOR_BLUE, COLOR_RED, COLOR_YELLOW]),
-    matrix: (() => {
-      return [
-        gm([gbd(3), grd(1)]),
-        gm([gyd(3), grd(1)]),
-        gm([gbd(3), grd(1)]),
-        gm([gyd(3), grd(1)])
-      ]
-    })(),
-    gen: generator({
-      colors: [COLOR_BLUE, COLOR_RED, COLOR_YELLOW],
-      dotTypes: [DOT_TYPE_DOT]
-    })
+    data: () => {
+      currentLevel = {
+        chance: 20,
+        goals: gdg(15, 3, [COLOR_BLUE, COLOR_RED, COLOR_YELLOW]),
+        matrix: (() => {
+          return [
+            gm([gbd(3), grd(1)]),
+            gm([gyd(3), grd(1)]),
+            gm([gbd(3), grd(1)]),
+            gm([gyd(3), grd(1)])
+          ]
+        })(),
+        gen: generator({
+          colors: [COLOR_BLUE, COLOR_RED, COLOR_YELLOW],
+          dotTypes: [DOT_TYPE_DOT]
+        })
+      }
+      return currentLevel
+    }
   },
   {
-    chance: 30,
-    goals: gdg(15, 4, [COLOR_GREEN, COLOR_YELLOW, COLOR_RED, COLOR_BLUE]),
-    matrix: (() => {
-      return [
-        gm([gbd(1), gyd(1), grd(3)]),
-        gm([gbd(1), gyd(3), grd(1)]),
-        gm([gbd(1), ggd(4)]),
-        gm([gbd(1), gyd(3), grd(1)]),
-        gm([gbd(1), gyd(1), grd(3)])
-      ]
-    })(),
-    gen: generator({
-      colors: [COLOR_GREEN, COLOR_YELLOW, COLOR_RED, COLOR_BLUE],
-      dotTypes: [DOT_TYPE_DOT]
-    })
+    data: () => {
+      currentLevel = {
+        chance: 30,
+        goals: gdg(15, 4, [COLOR_GREEN, COLOR_YELLOW, COLOR_RED, COLOR_BLUE]),
+        matrix: (() => {
+          return [
+            gm([gbd(1), gyd(1), grd(3)]),
+            gm([gbd(1), gyd(3), grd(1)]),
+            gm([gbd(1), ggd(4)]),
+            gm([gbd(1), gyd(3), grd(1)]),
+            gm([gbd(1), gyd(1), grd(3)])
+          ]
+        })(),
+        gen: generator({
+          colors: [COLOR_GREEN, COLOR_YELLOW, COLOR_RED, COLOR_BLUE],
+          dotTypes: [DOT_TYPE_DOT]
+        })
+      }
+      return currentLevel
+    }
   }
 ]
 
-const levels = data.map((e, i) =>
+const levels = datas.map((e, i) =>
   Object.assign(e, {
     level: i + 1,
     score: 0,
@@ -104,3 +118,4 @@ const levels = data.map((e, i) =>
 levels[0].active = true
 
 export default levels
+export { currentLevel }

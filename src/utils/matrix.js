@@ -5,7 +5,7 @@ import {
   DIRECTION_RIGHT,
   DOT_TYPE_DOT
 } from './constants'
-import levels from '../models/levels'
+import { currentLevel } from '../models/levels'
 
 /**
  * Check if exists rectangle
@@ -95,7 +95,7 @@ export const removeDots = matrix => connectedDots => {
 }
 
 export const addNewDots = (matrix, colLength, level, dotColor) => {
-  const gen = levels[level - 1].gen
+  const gen = currentLevel.gen
 
   matrix.forEach((col, i) => {
     // add new dots

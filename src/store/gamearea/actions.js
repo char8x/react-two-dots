@@ -9,7 +9,7 @@ export const LEAVE_DOT = 'LEAVE_DOT'
 export const RESET_DOT_STATE = 'RESET_DOT_STATE'
 export const REFRESH_MATRIX = 'REFRESH_MATRIX'
 
-const initGame = ({ level, chance, goals, matrix }) => ({
+const initGame = (level, { chance, goals, matrix }) => ({
   level,
   chance,
   goals,

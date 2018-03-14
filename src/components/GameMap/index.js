@@ -49,12 +49,11 @@ class GameMap extends Component {
     }
   }
 
-  handleClick = (e, level) => {
-    // TODO: dynamic load GameArea
-    this.props.dispatch(actions.initGame(level))
+  handleClick = (e, l) => {
+    // dynamic load GameArea
+    this.props.dispatch(actions.initGame(l.level, l.data()))
     this.setState({
       Game: Loadable({
-        delay: 1000,
         loader: () => import('../Game'),
         loading: Loading
       })
@@ -84,15 +83,15 @@ class GameMap extends Component {
                 width: '300px'
               }}
             >
-              {levels.map((level, i) => (
+              {levels.map((l, i) => (
                 <Level
                   key={i.toString()}
                   onClick={e => {
-                    this.handleClick(e, level)
+                    this.handleClick(e, l)
                   }}
-                  active={level.active}
+                  active={l.active}
                 >
-                  {level.level}
+                  {l.level}
                 </Level>
               ))}
             </section>
