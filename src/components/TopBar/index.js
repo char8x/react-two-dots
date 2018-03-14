@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Chance from '../Chance'
+import Chance from './Chance'
 import Goal from '../Goal'
-import Setting from '../Setting'
+import Setting from './Setting'
 
 const Background = styled.nav`
   position: absolute;

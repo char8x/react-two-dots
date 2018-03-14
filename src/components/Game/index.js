@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-// import DotMatrix from '../DotMatrix'
 import TopBar from '../TopBar'
 import BottomBar from '../BottomBar'
 import GameStart from '../GameStart'

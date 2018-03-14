@@ -1,12 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import {
-  COLOR_BLUE,
-  COLOR_PURPLE,
-  COLOR_RED,
-  COLOR_YELLOW
-} from '../../utils/constants'
+import { COLOR_BLUE, COLOR_RED } from '../../utils/constants'
 
 const StyledLevel = styled.div`
   width: 40px;

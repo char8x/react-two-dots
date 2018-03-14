@@ -2,8 +2,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { VerticalProgress, HorizonProgress } from '../ProgressBar'
-import DotMatrix from '../DotMatrix'
+import { VerticalProgress, HorizonProgress } from './ProgressBar'
+import DotMatrix from './DotMatrix'
 
 class GameArea extends Component {
   render() {

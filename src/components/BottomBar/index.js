@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Score from '../Score'
-import Level from '../Level'
+import Score from './Score'
+import Level from './Level'
 
 const Background = styled.footer`
   position: absolute;

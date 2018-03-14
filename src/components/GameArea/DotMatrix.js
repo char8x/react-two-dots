@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import Col from '../DotColumn'
+import Col from './DotColumn'
 
 const DotMatrix = styled.div`
   display: flex;

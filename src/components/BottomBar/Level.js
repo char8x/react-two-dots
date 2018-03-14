@@ -9,8 +9,8 @@ const LevelBackground = styled.div`
   width: 60px;
   height: 100%;
 
-  border-top-right-radius: 15px;
-  border-bottom-left-radius: 15px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
 
   display: flex;
   flex-direction: column;

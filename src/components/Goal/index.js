@@ -51,7 +51,7 @@ const Goal = props => (
 const GoalContainer = styled(Goal)`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
 `
 
 export default GoalContainer

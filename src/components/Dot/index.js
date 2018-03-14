@@ -16,7 +16,7 @@ import hammerDirection from '../../utils/hammerjs-direction'
 import { DIRECTION_NONE } from '../../utils/constants'
 import _debug from '../../utils/debug'
 
-const eventDebugger = _debug('rtd:event')
+// const eventDebugger = _debug('rtd:event')
 
 export const Dot = styled.div`
   background-color: ${props => props.color};
@@ -186,7 +186,7 @@ class EnhancedDot extends Component {
   }
 
   handlePanCancel = () => {
-    eventDebugger('handlePanCancel')
+    // eventDebugger('handlePanCancel')
     const { connectedLines, dispatch } = this.props
     dispatch(actions.beforePanningEnd())
     if (connectedLines.length === 0) {
