@@ -1,17 +1,19 @@
-import styled from 'styled-components'
+import React from 'react'
 
-const Line = styled.div`
-  position: absolute;
-  top: ${props => props.top}px;
-  left: ${props => props.left}px;
-
-  width: ${props => props.width}px;
-  height: ${props => props.height}px;
-  z-index: -2;
-
-  background-color: ${props => props.color};
-  transform: rotate(${props => props.deg}deg);
-  transform-origin: center left;
-`
+const Line = ({ top, left, width, height, color, deg }) => (
+  <div
+    style={{
+      top,
+      left,
+      width,
+      height,
+      backgroundColor: color,
+      transform: 'rotate(' + deg + 'deg)',
+      position: 'absolute',
+      zIndex: -2,
+      transformOrigin: 'center left'
+    }}
+  />
+)
 
 export default Line
