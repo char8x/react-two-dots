@@ -30,10 +30,6 @@ export default class EnhancedSetting extends Component {
   }
 
   render() {
-    return (
-      <ScoreBackground>
-        <Star />
-      </ScoreBackground>
-    )
+    return <ScoreBackground>{/* <Star /> */}</ScoreBackground>
   }
 }

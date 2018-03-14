@@ -33,7 +33,7 @@ export default class EnhancedSetting extends Component {
   render() {
     return (
       <SettingBackground>
-        <Setting onClick={this.handleClick} />
+        {/* <Setting onClick={this.handleClick} /> */}
       </SettingBackground>
     )
   }
