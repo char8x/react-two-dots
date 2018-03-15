@@ -59,7 +59,6 @@ const gdg = (goal, num, colors) => {
  */
 const gm = (array = []) => array.reduce((p, c) => p.concat(c), [])
 
-const maxLevel = 7
 let currentLevel = null
 // levels data
 const datas = [
@@ -238,8 +237,38 @@ const datas = [
       }
       return currentLevel
     }
+  },
+  {
+    // level 8
+    data: () => {
+      currentLevel = {
+        chance: 47,
+        goals: gdg(2, 1, [COLOR_RED]),
+        matrix: (() => {
+          return [
+            gm([gpd(1), grd(1), gpd(2)]),
+            gm([gbd(1), grd(1), gyd(2)]),
+            gm([grd(2), ggd(2)]),
+            gm([ggd(2), gbd(2)])
+          ]
+        })(),
+        gen: generator({
+          colors: [
+            COLOR_RED,
+            COLOR_YELLOW,
+            COLOR_PURPLE,
+            COLOR_BLUE,
+            COLOR_GREEN
+          ],
+          dotTypes: [DOT_TYPE_DOT]
+        })
+      }
+      return currentLevel
+    }
   }
 ]
+
+const maxLevel = datas.length
 
 const levels = datas.map((e, i) =>
   Object.assign(e, {

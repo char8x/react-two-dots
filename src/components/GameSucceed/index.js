@@ -5,7 +5,9 @@ import { connect } from 'react-redux'
 import CountUp from 'react-countup'
 
 import './index.css'
-import actions from '../../store/gamearea/actions'
+import gameAreaActions from '../../store/gamearea/actions'
+import gameInfoActions from '../../store/gameinfo/actions'
+
 import restart from './restart.svg'
 
 ReactModal.setAppElement('#root')
@@ -70,41 +72,46 @@ class GameSucceed extends Component {
     super()
 
     this.state = {
-      show: true
+      show: true // control style
     }
   }
 
+  // Continue game
   handleContinue = () => {
-    const { currentLevel } = this.props
+    const { currentLevel, levels } = this.props
+    const nextlevel = currentLevel.level + 1
     this.setState({ show: false })
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
+      this.props.dispatch(gameInfoActions.globalInit(nextlevel))
       this.props.dispatch(
-        actions.initGame(currentLevel.level + 1, currentLevel)
+        gameAreaActions.initGame(nextlevel, levels[nextlevel - 1].data())
       )
       this.setState({ show: true })
     }, 450)
   }
 
+  // Return game map
   handleReturn = () => {
-    const { currentLevel } = this.props
     this.setState({ show: false })
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.dispatch(
-        actions.initGame(currentLevel.level + 1, currentLevel)
-      )
+      // this.props.dispatch(
+      //   actions.initGame(currentLevel.level + 1, currentLevel)
+      // )
       this.setState({ show: true })
     }, 450)
   }
 
-  // restart game
+  // Restart game
   handleRestart = () => {
     const { currentLevel } = this.props
     this.setState({ show: false })
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.dispatch(actions.initGame(currentLevel.level, currentLevel))
+      this.props.dispatch(
+        gameAreaActions.initGame(currentLevel.level, currentLevel)
+      )
       this.setState({ show: true })
     }, 450)
   }
@@ -183,10 +190,12 @@ class GameSucceed extends Component {
           </div>
           <Button
             onClick={
-              currentLevel < maxLevel ? this.handleContinue : this.handleReturn
+              currentLevel.level < maxLevel
+                ? this.handleContinue
+                : this.handleReturn
             }
           >
-            {currentLevel < maxLevel ? '继续' : '返回'}
+            {currentLevel.level < maxLevel ? '继续' : '返回'}
           </Button>
         </div>
       </ReactModal>
@@ -197,5 +206,6 @@ class GameSucceed extends Component {
 export default connect(state => ({
   showSuccess: state.gameArea.showSuccess,
   currentLevel: state.gameInfo.currentLevel,
-  maxLevel: state.gameInfo.maxLevel
+  maxLevel: state.gameInfo.maxLevel,
+  levels: state.gameInfo.levels
 }))(GameSucceed)
