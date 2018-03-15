@@ -5,7 +5,7 @@ import Score from './Score'
 import Level from './Level'
 
 const Background = styled.footer`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   background-color: #f0f0f1;
 

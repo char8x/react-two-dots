@@ -6,7 +6,7 @@ import Goal from '../Goal'
 import Setting from './Setting'
 
 const Background = styled.nav`
-  position: absolute;
+  position: fixed;
   background-color: #f0f0f1;
 
   width: 100%;

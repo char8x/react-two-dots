@@ -127,6 +127,7 @@ class EnhancedDot extends Component {
       // calculate line start position
       const dotPosition = offset(e.target)
       const dotShape = shape(e.target)
+      // 60 means top bar height
       dispatch(
         actions.panningStart(
           {
@@ -135,7 +136,11 @@ class EnhancedDot extends Component {
           },
           {
             x: dotPosition.left + dotShape.width / 2,
-            y: dotPosition.top + dotShape.height / 2 - this.state.lineHeight / 2
+            y:
+              dotPosition.top +
+              dotShape.height / 2 -
+              this.state.lineHeight / 2 -
+              60
           }
         )
       )
@@ -153,7 +158,7 @@ class EnhancedDot extends Component {
     // calculate length and rotate
     let pointer = {
       x: e.center.x,
-      y: e.center.y
+      y: e.center.y - 60
     }
     this.setState({
       lineLength: distance(
@@ -176,7 +181,6 @@ class EnhancedDot extends Component {
 
   handlePanEnd = () => {
     const { connectedLines, dispatch } = this.props
-
     // remove dots
     dispatch(actions.beforePanningEnd())
     // if no dots connected, clear global state
