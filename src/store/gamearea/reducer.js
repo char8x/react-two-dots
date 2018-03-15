@@ -21,6 +21,7 @@ import {
 } from '../../utils/matrix'
 import { DOT_TYPE_DOT } from '../../utils/constants'
 import clone from '../../utils/clone'
+import initLevels from '../../models/levels'
 
 const resetProp = {
   panningDot: null,
@@ -70,13 +71,14 @@ export default (state = initState, action) => {
   } = state
   switch (action.type) {
     case INIT_GAME:
+      const data = initLevels[action.level - 1].data()
       return {
         ...state,
-        matrix: action.matrix,
-        colLength: action.matrix[0].length,
+        matrix: data.matrix,
+        colLength: data.matrix[0].length,
         level: action.level,
-        chances: action.chance,
-        goals: action.goals,
+        chances: data.chance,
+        goals: data.goals,
         clearDots: 0,
         score: 0,
         showMatrix: false,
@@ -119,7 +121,7 @@ export default (state = initState, action) => {
           const clonedConnectedLines = clone(connectedLines)
           clonedConnectedDots.pop()
           const lastLine = clonedConnectedLines.pop()
-
+          if (lastLine == null) return state
           return {
             ...state,
             rectangle: false,
@@ -249,9 +251,9 @@ export default (state = initState, action) => {
           tempMatrix[d.col][i].isBounce = true
         }
       })
-      addNewDots(tempMatrix, colLength, level, rectangle && dotColor)
+      addNewDots(tempMatrix, colLength, rectangle && dotColor)
       // fulfill goals
-      if (goals.every(g => g.clear === g.goal)) {
+      if (goals.every(g => g.clear >= g.goal)) {
         // Game succeed
         return {
           ...state,

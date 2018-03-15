@@ -94,7 +94,7 @@ export const removeDots = matrix => connectedDots => {
   }
 }
 
-export const addNewDots = (matrix, colLength, level, dotColor) => {
+export const addNewDots = (matrix, colLength, dotColor) => {
   const gen = currentLevel.gen
 
   matrix.forEach((col, i) => {

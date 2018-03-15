@@ -10,11 +10,8 @@ export const RESET_DOT_STATE = 'RESET_DOT_STATE'
 export const REFRESH_MATRIX = 'REFRESH_MATRIX'
 export const RESTART_GAME = 'RESTART_GAME'
 
-const initGame = (level, { chance, goals, matrix }) => ({
+const initGame = level => ({
   level,
-  chance,
-  goals,
-  matrix,
   type: INIT_GAME
 })
 

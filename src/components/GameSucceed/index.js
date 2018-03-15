@@ -78,15 +78,13 @@ class GameSucceed extends Component {
 
   // Continue game
   handleContinue = () => {
-    const { currentLevel, levels } = this.props
+    const { currentLevel } = this.props
     const nextlevel = currentLevel.level + 1
     this.setState({ show: false })
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
       this.props.dispatch(gameInfoActions.activeLevel(nextlevel))
-      this.props.dispatch(
-        gameAreaActions.initGame(nextlevel, levels[nextlevel - 1].data())
-      )
+      this.props.dispatch(gameAreaActions.initGame(nextlevel))
       this.setState({ show: true })
     }, 450)
   }
@@ -114,6 +112,10 @@ class GameSucceed extends Component {
       )
       this.setState({ show: true })
     }, 450)
+  }
+
+  componentDidMount() {
+    this.props.dispatch(gameInfoActions.saveResult(this.props.score))
   }
 
   componentWillUnmount() {
@@ -205,6 +207,5 @@ class GameSucceed extends Component {
 export default connect(state => ({
   showSuccess: state.gameArea.showSuccess,
   currentLevel: state.gameInfo.currentLevel,
-  maxLevel: state.gameInfo.maxLevel,
-  levels: state.gameInfo.levels
+  maxLevel: state.gameInfo.maxLevel
 }))(GameSucceed)

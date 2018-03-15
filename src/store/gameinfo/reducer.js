@@ -23,7 +23,7 @@ export default (state = initState, action) => {
         ...state,
         currentLevel: Object.assign(
           levels[action.level - 1],
-          levels[action.level - 1].data()
+          initLevels[action.level - 1].data()
         )
       }
     case ACTIVE_LEVEL:
@@ -34,7 +34,7 @@ export default (state = initState, action) => {
         levels: cloneLevels,
         currentLevel: Object.assign(
           cloneLevels[action.level - 1],
-          cloneLevels[action.level - 1].data()
+          initLevels[action.level - 1].data()
         )
       }
     case REDUCE_CHANCE:

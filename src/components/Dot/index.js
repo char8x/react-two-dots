@@ -127,7 +127,7 @@ class EnhancedDot extends Component {
       // calculate line start position
       const dotPosition = offset(e.target)
       const dotShape = shape(e.target)
-      // 60 means top bar height
+      // 60 means topBar height
       dispatch(
         actions.panningStart(
           {
@@ -218,7 +218,11 @@ class EnhancedDot extends Component {
           { col, row },
           {
             x: dotPosition.left + dotShape.width / 2,
-            y: dotPosition.top + dotShape.height / 2 - this.state.lineHeight / 2
+            y:
+              dotPosition.top +
+              dotShape.height / 2 -
+              this.state.lineHeight / 2 -
+              60
           }
         )
       )

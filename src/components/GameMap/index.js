@@ -52,7 +52,7 @@ class GameMap extends Component {
   handleClick = (e, l) => {
     // dynamic load GameArea
     this.props.dispatch(gameInfoActions.globalInit(l.level))
-    this.props.dispatch(gameAreaActions.initGame(l.level, l.data()))
+    this.props.dispatch(gameAreaActions.initGame(l.level))
     this.setState({
       Game: Loadable({
         loader: () => import('../Game'),
