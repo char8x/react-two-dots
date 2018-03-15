@@ -250,7 +250,9 @@ export default (state = initState, action) => {
         }
       })
       addNewDots(tempMatrix, colLength, level, rectangle && dotColor)
+      // fulfill goals
       if (goals.every(g => g.clear === g.goal)) {
+        // Game succeed
         return {
           ...state,
           ...resetProp,
@@ -258,6 +260,17 @@ export default (state = initState, action) => {
           showSuccess: true
         }
       }
+
+      // out of chances
+      if (chances === 0) {
+        return {
+          ...state,
+          ...resetProp,
+          matrix: tempMatrix,
+          showFailure: true
+        }
+      }
+
       return {
         ...state,
         ...resetProp,

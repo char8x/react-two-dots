@@ -31,7 +31,8 @@ export const HorizonProgress = ({ color, progress, ...props }) => {
       style={{
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        height: '20px'
       }}
     >
       <ProgressLine color={color} progress={progress} direction="horizon" />
@@ -47,6 +48,7 @@ export const VerticalProgress = ({ color, progress, ...props }) => {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'space-between',
         height: '100%'
       }}
     >

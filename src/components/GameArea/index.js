@@ -7,21 +7,23 @@ import DotMatrix from './DotMatrix'
 
 class GameArea extends Component {
   render() {
-    const { showMatrix, matrix, color, rectangle } = this.props
-    let { progress } = this.props
-    if (rectangle) {
-      // fullfill all progress
-      progress = 12
-    }
+    // const { showMatrix, matrix, color, rectangle } = this.props
+    // let { progress } = this.props
+    // if (rectangle) {
+    //   // fullfill all progress
+    //   progress = 12
+    // }
+
+    // TODO: line issue
+    const { showMatrix, matrix, rectangle } = this.props
+    let progress = 12
+    let color = '#000'
 
     return (
       <div
         style={{
           height: '100%',
-          margin: '60px 0',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between'
+          margin: '60px 0'
         }}
       >
         <HorizonProgress progress={progress} color={color} />

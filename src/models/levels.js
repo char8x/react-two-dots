@@ -210,10 +210,10 @@ const datas = [
     }
   },
   {
-    // level 7
+    // TODO: level 7
     data: () => {
       currentLevel = {
-        chance: 47,
+        chance: 1,
         goals: gdg(2, 1, [COLOR_RED]),
         matrix: (() => {
           return [
@@ -274,7 +274,7 @@ const levels = datas.map((e, i) =>
   Object.assign(e, {
     level: i + 1,
     score: 0,
-    active: true
+    active: false
   })
 )
 

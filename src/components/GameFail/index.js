@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import ReactModal from 'react-modal'
 import { connect } from 'react-redux'
-import CountUp from 'react-countup'
 
 import './index.css'
 import actions from '../../store/gamearea/actions'
@@ -25,7 +24,7 @@ const modalStyle = show => ({
     paddingTop: '10px',
 
     width: '300px',
-    height: '400px',
+    height: '300px',
 
     textAlign: 'center',
     overflow: 'hidden',
@@ -84,13 +83,27 @@ class GameSucceed extends Component {
     }
   }
 
-  handleModalClose = () => {
+  // Return game map
+  handleReturn = () => {
     this.setState({ show: false })
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.dispatch(actions.showMatrix())
+      // this.props.dispatch(
+      //   actions.initGame(currentLevel.level + 1, currentLevel)
+      // )
       this.setState({ show: true })
-    }, 500)
+    }, 450)
+  }
+
+  // Restart game
+  handleRestart = () => {
+    const { currentLevel } = this.props
+    this.setState({ show: false })
+    this.closeTimer = setTimeout(() => {
+      // request GameArea component load
+      this.props.dispatch(actions.initGame(currentLevel.level, currentLevel))
+      this.setState({ show: true })
+    }, 450)
   }
 
   componentWillUnmount() {
@@ -103,14 +116,13 @@ class GameSucceed extends Component {
       <ReactModal
         isOpen={showFailure}
         shouldCloseOnOverlayClick={false}
-        onRequestClose={this.handleModalClose}
         style={modalStyle(this.state.show)}
       >
         <Title>第 {level} 关挑战失败</Title>
         <div
           style={{
             backgroundColor: '#EBEBEB',
-            height: '65%',
+            height: '150px',
             width: '100%',
             padding: '10px 0',
             textAlign: 'center',
@@ -141,9 +153,9 @@ class GameSucceed extends Component {
               paddingTop: '10px'
             }}
           >
-            <Map />
+            <Map onClick={this.handleReturn} />
           </div>
-          <Button onClick={this.handleModalClose}>再玩一次</Button>
+          <Button onClick={this.handleRestart}>再玩一次</Button>
         </div>
       </ReactModal>
     )
@@ -151,5 +163,6 @@ class GameSucceed extends Component {
 }
 
 export default connect(state => ({
+  currentLevel: state.gameInfo.currentLevel,
   showFailure: state.gameArea.showFailure
 }))(GameSucceed)

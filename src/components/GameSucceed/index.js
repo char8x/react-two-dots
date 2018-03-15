@@ -83,7 +83,7 @@ class GameSucceed extends Component {
     this.setState({ show: false })
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.dispatch(gameInfoActions.globalInit(nextlevel))
+      this.props.dispatch(gameInfoActions.activeLevel(nextlevel))
       this.props.dispatch(
         gameAreaActions.initGame(nextlevel, levels[nextlevel - 1].data())
       )
@@ -126,7 +126,6 @@ class GameSucceed extends Component {
       <ReactModal
         isOpen={showSuccess}
         shouldCloseOnOverlayClick={false}
-        // onRequestClose={this.handleModalClose}
         style={modalStyle(this.state.show)}
       >
         <Title>成功</Title>
