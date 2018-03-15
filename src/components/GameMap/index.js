@@ -9,7 +9,6 @@ import TopBar from '../TopBar'
 import Loading from '../Loading'
 import { COLOR_BLUE, COLOR_RED } from '../../utils/constants'
 import actions from '../../store/gamearea/actions'
-import levels from '../../models/levels'
 
 const Title = styled.span`
   color: ${props => props.color};
@@ -61,6 +60,7 @@ class GameMap extends Component {
   }
 
   render() {
+    const { levels } = this.props
     const { Game } = this.state
     if (Game !== null) {
       return <Game />
@@ -103,4 +103,6 @@ class GameMap extends Component {
   }
 }
 
-export default connect()(GameMap)
+export default connect(state => ({
+  levels: state.gameInfo.levels
+}))(GameMap)

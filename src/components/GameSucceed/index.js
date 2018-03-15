@@ -14,7 +14,7 @@ const modalStyle = show => ({
     backgroundColor: 'rgba(68,68,68,0.8)'
   },
   content: {
-    top: '15vh',
+    top: '13vh',
     left: '6vh',
     backgroundColor: '#3C4D5C',
 
@@ -24,7 +24,7 @@ const modalStyle = show => ({
     paddingTop: '10px',
 
     width: '300px',
-    height: '400px',
+    height: '360px',
 
     textAlign: 'center',
     overflow: 'hidden',
@@ -84,6 +84,8 @@ class GameSucceed extends Component {
     }, 500)
   }
 
+  handleRestart = () => {}
+
   componentWillUnmount() {
     clearTimeout(this.closeTimer)
   }
@@ -140,7 +142,7 @@ class GameSucceed extends Component {
           style={{
             width: '100%',
             height: '60px',
-            padding: '20px 0',
+            padding: '10px 0',
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-around'
@@ -154,7 +156,7 @@ class GameSucceed extends Component {
               paddingTop: '10px'
             }}
           >
-            <Restart />
+            <Restart onClick={this.handleRestart} />
           </div>
           <Button onClick={this.handleModalClose}>继续</Button>
         </div>

@@ -8,7 +8,8 @@ import {
   PANNING_END,
   PANNING,
   RESET_DOT_STATE,
-  REFRESH_MATRIX
+  REFRESH_MATRIX,
+  RESTART_GAME
 } from './actions'
 import {
   isAdjacent,
@@ -237,6 +238,8 @@ export default (state = initState, action) => {
         ...state,
         matrix: newMatrix
       }
+    case RESTART_GAME:
+      return {}
     default:
       return state
   }
