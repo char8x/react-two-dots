@@ -14,7 +14,7 @@ import { isAdjacent, isOppositeDirection } from '../../utils/matrix'
 import actions from '../../store/gamearea/actions'
 import hammerDirection from '../../utils/hammerjs-direction'
 import { DIRECTION_NONE } from '../../utils/constants'
-import _debug from '../../utils/debug'
+// import _debug from '../../utils/debug'
 
 // const eventDebugger = _debug('rtd:event')
 

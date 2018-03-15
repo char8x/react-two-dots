@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import star from './star.svg'
+// import star from './star.svg'
 
-const Star = styled.img.attrs({
-  src: star,
-  alt: 'star'
-})`
-  width: 30px;
-  height: 30px;
-`
+// const Star = styled.img.attrs({
+//   src: star,
+//   alt: 'star'
+// })`
+//   width: 30px;
+//   height: 30px;
+// `
 
 const ScoreBackground = styled.div`
   background-color: #d7d8db;

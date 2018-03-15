@@ -54,7 +54,6 @@ const initState = {
 
 export default (state = initState, action) => {
   const {
-    level,
     matrix,
     colLength,
     connectedDots,
@@ -64,7 +63,6 @@ export default (state = initState, action) => {
     bounceStartDots,
     chances,
     clearDots,
-    score,
     goals,
     rectangle,
     dotColor

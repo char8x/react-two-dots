@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import setting from './setting.svg'
+// import setting from './setting.svg'
 
-const Setting = styled.input.attrs({
-  type: 'image',
-  src: setting,
-  alt: 'setting'
-})`
-  width: 30px;
-  height: 30px;
-`
+// const Setting = styled.input.attrs({
+//   type: 'image',
+//   src: setting,
+//   alt: 'setting'
+// })`
+//   width: 30px;
+//   height: 30px;
+// `
 
 const SettingBackground = styled.div`
   background-color: #d7d8db;

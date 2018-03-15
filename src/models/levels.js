@@ -274,7 +274,7 @@ const levels = datas.map((e, i) =>
   Object.assign(e, {
     level: i + 1,
     score: 0,
-    active: false
+    active: true
   })
 )
 
