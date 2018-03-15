@@ -70,28 +70,43 @@ class GameSucceed extends Component {
     super()
 
     this.state = {
-      show: true,
-      open: true
+      show: true
     }
   }
 
-  handleModalClose = () => {
+  handleContinue = () => {
+    const { currentLevel } = this.props
     this.setState({ show: false })
     this.closeTimer = setTimeout(() => {
-      this.setState({ open: false })
       // request GameArea component load
-      this.props.dispatch(actions.showMatrix())
-    }, 500)
+      this.props.dispatch(
+        actions.initGame(currentLevel.level + 1, currentLevel)
+      )
+      this.setState({ show: true })
+    }, 450)
   }
 
+  handleReturn = () => {
+    const { currentLevel } = this.props
+    this.setState({ show: false })
+    this.closeTimer = setTimeout(() => {
+      // request GameArea component load
+      this.props.dispatch(
+        actions.initGame(currentLevel.level + 1, currentLevel)
+      )
+      this.setState({ show: true })
+    }, 450)
+  }
+
+  // restart game
   handleRestart = () => {
     const { currentLevel } = this.props
     this.setState({ show: false })
     this.closeTimer = setTimeout(() => {
-      this.setState({ open: false })
       // request GameArea component load
       this.props.dispatch(actions.initGame(currentLevel.level, currentLevel))
-    }, 500)
+      this.setState({ show: true })
+    }, 450)
   }
 
   componentWillUnmount() {
@@ -99,12 +114,12 @@ class GameSucceed extends Component {
   }
 
   render() {
-    const { level, score } = this.props
+    const { level, score, currentLevel, maxLevel, showSuccess } = this.props
     return (
       <ReactModal
-        isOpen={this.state.open}
+        isOpen={showSuccess}
         shouldCloseOnOverlayClick={false}
-        onRequestClose={this.handleModalClose}
+        // onRequestClose={this.handleModalClose}
         style={modalStyle(this.state.show)}
       >
         <Title>成功</Title>
@@ -166,7 +181,13 @@ class GameSucceed extends Component {
           >
             <Restart onClick={this.handleRestart} />
           </div>
-          <Button onClick={this.handleModalClose}>继续</Button>
+          <Button
+            onClick={
+              currentLevel < maxLevel ? this.handleContinue : this.handleReturn
+            }
+          >
+            {currentLevel < maxLevel ? '继续' : '返回'}
+          </Button>
         </div>
       </ReactModal>
     )
@@ -174,5 +195,7 @@ class GameSucceed extends Component {
 }
 
 export default connect(state => ({
-  currentLevel: state.gameInfo.currentLevel
+  showSuccess: state.gameArea.showSuccess,
+  currentLevel: state.gameInfo.currentLevel,
+  maxLevel: state.gameInfo.maxLevel
 }))(GameSucceed)

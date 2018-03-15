@@ -59,6 +59,7 @@ const gdg = (goal, num, colors) => {
  */
 const gm = (array = []) => array.reduce((p, c) => p.concat(c), [])
 
+const maxLevel = 7
 let currentLevel = null
 // levels data
 const datas = [
@@ -251,4 +252,4 @@ const levels = datas.map((e, i) =>
 levels[0].active = true
 
 export default levels
-export { currentLevel }
+export { currentLevel, maxLevel }

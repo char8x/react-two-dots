@@ -35,9 +35,7 @@ class App extends Component {
       clearDots,
       score,
       color,
-      rectangle,
-      showSuccess,
-      showFailure
+      rectangle
     } = this.props
 
     return (
@@ -46,8 +44,8 @@ class App extends Component {
         <TopBar chance={chances} goals={goals} />
         <GameArea />
         <BottomBar level={level} clearDots={clearDots} score={score} />
-        {showSuccess && <GameSucceed level={level} score={2400} />}
-        {showFailure && <GameFail level={level} />}
+        <GameSucceed level={level} score={2400} />
+        <GameFail level={level} />
       </AppContainer>
     )
   }

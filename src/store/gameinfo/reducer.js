@@ -5,10 +5,11 @@ import {
   ACTIVE_LEVEL
 } from './actions'
 
-import initLevels from '../../models/levels'
+import initLevels, { maxLevel } from '../../models/levels'
 import clone from '../../utils/clone'
 
 const initState = {
+  maxLevel,
   currentLevel: null,
   levels: initLevels,
   chance: 5

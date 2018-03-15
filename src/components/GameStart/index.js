@@ -60,18 +60,17 @@ class GameStart extends Component {
     super()
 
     this.state = {
-      show: true,
-      open: true
+      show: true
     }
   }
 
   handleModalClose = () => {
     this.setState({ show: false })
     this.closeTimer = setTimeout(() => {
-      this.setState({ open: false })
       // request GameArea component load
       this.props.dispatch(actions.showMatrix())
-    }, 500)
+      this.setState({ show: true })
+    }, 450)
   }
 
   componentWillUnmount() {
@@ -79,10 +78,10 @@ class GameStart extends Component {
   }
 
   render() {
-    const { level, goals, chance } = this.props
+    const { level, goals, chance, showStart } = this.props
     return (
       <ReactModal
-        isOpen={this.state.open}
+        isOpen={showStart}
         shouldCloseOnOverlayClick={true}
         onRequestClose={this.handleModalClose}
         style={modalStyle(this.state.show)}
@@ -107,4 +106,6 @@ class GameStart extends Component {
   }
 }
 
-export default connect()(GameStart)
+export default connect(state => ({
+  showStart: state.gameArea.showStart
+}))(GameStart)

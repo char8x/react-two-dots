@@ -46,6 +46,7 @@ const initState = {
   chances: 0,
   clearDots: 0,
   score: 0,
+  showStart: true,
   showSuccess: false,
   showFailure: false
 }
@@ -75,11 +76,18 @@ export default (state = initState, action) => {
         colLength: action.matrix[0].length,
         level: action.level,
         chances: action.chance,
-        goals: action.goals
+        goals: action.goals,
+        clearDots: 0,
+        score: 0,
+        showMatrix: false,
+        showStart: true,
+        showSuccess: false,
+        showFailure: false
       }
     case SHOW_MATRIX:
       return {
         ...state,
+        showStart: false,
         showMatrix: true
       }
     case PANNING_START:

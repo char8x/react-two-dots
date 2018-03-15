@@ -80,17 +80,16 @@ class GameSucceed extends Component {
     super()
 
     this.state = {
-      show: true,
-      open: true
+      show: true
     }
   }
 
   handleModalClose = () => {
     this.setState({ show: false })
     this.closeTimer = setTimeout(() => {
-      this.setState({ open: false })
       // request GameArea component load
       this.props.dispatch(actions.showMatrix())
+      this.setState({ show: true })
     }, 500)
   }
 
@@ -99,10 +98,10 @@ class GameSucceed extends Component {
   }
 
   render() {
-    const { level, score } = this.props
+    const { level, score, showFailure } = this.props
     return (
       <ReactModal
-        isOpen={this.state.open}
+        isOpen={showFailure}
         shouldCloseOnOverlayClick={false}
         onRequestClose={this.handleModalClose}
         style={modalStyle(this.state.show)}
@@ -151,4 +150,6 @@ class GameSucceed extends Component {
   }
 }
 
-export default connect()(GameSucceed)
+export default connect(state => ({
+  showFailure: state.gameArea.showFailure
+}))(GameSucceed)
