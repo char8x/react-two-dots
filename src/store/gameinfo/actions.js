@@ -1,11 +1,11 @@
-export const INIT_GAME = 'INIT_GAME'
+export const GLOBAL_INIT = 'GLOBAL_INIT'
 export const REDUCE_CHANCE = 'REDUCE_CHANCE'
 export const SAVE_RESULT = 'SAVE_RESULT'
 export const ACTIVE_LEVEL = 'ACTIVE_LEVEL'
 
-const initGame = level => ({
+const globalInit = level => ({
   level,
-  type: INIT_GAME
+  type: GLOBAL_INIT
 })
 
 const reduceChance = () => ({
@@ -23,7 +23,7 @@ const activeLevel = level => ({
 })
 
 export default {
-  initGame,
+  globalInit,
   reduceChance,
   saveResult,
   activeLevel

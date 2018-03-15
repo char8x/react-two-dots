@@ -84,7 +84,15 @@ class GameSucceed extends Component {
     }, 500)
   }
 
-  handleRestart = () => {}
+  handleRestart = () => {
+    const { currentLevel } = this.props
+    this.setState({ show: false })
+    this.closeTimer = setTimeout(() => {
+      this.setState({ open: false })
+      // request GameArea component load
+      this.props.dispatch(actions.initGame(currentLevel.level, currentLevel))
+    }, 500)
+  }
 
   componentWillUnmount() {
     clearTimeout(this.closeTimer)
@@ -165,4 +173,6 @@ class GameSucceed extends Component {
   }
 }
 
-export default connect()(GameSucceed)
+export default connect(state => ({
+  currentLevel: state.gameInfo.currentLevel
+}))(GameSucceed)

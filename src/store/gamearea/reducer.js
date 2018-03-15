@@ -13,6 +13,7 @@ import {
 } from './actions'
 import {
   isAdjacent,
+  isSameDot,
   lineDeg,
   removeDots,
   rectangleExist,
@@ -99,47 +100,70 @@ export default (state = initState, action) => {
       // if dot is slibing dot with panningDot
       const { adjacent, direction } = isAdjacent(matrix)(panningDot, action.dot)
       const color = matrix[panningDot.col][panningDot.row].color
-      if (adjacent) {
-        const newConnectedDots = clone(connectedDots)
-        const newConnectedLines = clone(connectedLines)
-        newConnectedDots.push(action.dot)
-        newConnectedLines.push({
-          direction,
-          deg: lineDeg[direction],
-          color: color,
-          ...linePosition
-        })
 
-        if (rectangleExist(newConnectedDots)) {
-          const newMatrix = clone(matrix)
-          newMatrix.forEach((col, i) => {
-            col.forEach(d => {
-              if (d.color === color && d.type === DOT_TYPE_DOT) {
-                d.isActive = true
-              }
-            })
-          })
+      if (adjacent) {
+        if (
+          connectedDots.length >= 2 &&
+          isSameDot(connectedDots[connectedDots.length - 2], action.dot)
+        ) {
+          // the dot already connected
+          const clonedConnectedDots = clone(connectedDots)
+          const clonedConnectedLines = clone(connectedLines)
+          clonedConnectedDots.pop()
+          const lastLine = clonedConnectedLines.pop()
+
           return {
             ...state,
-            rectangle: true,
+            rectangle: false,
+            connectedDots: clonedConnectedDots,
+            connectedLines: clonedConnectedLines,
+            panningDot: clonedConnectedDots[clonedConnectedDots.length - 1],
+            linePosition: { x: lastLine.x, y: lastLine.y }
+          }
+        } else {
+          // add new dot
+          const newConnectedDots = clone(connectedDots)
+          const newConnectedLines = clone(connectedLines)
+          newConnectedDots.push(action.dot)
+          newConnectedLines.push({
+            direction,
+            deg: lineDeg[direction],
+            color: color,
+            ...linePosition
+          })
+
+          if (rectangleExist(newConnectedDots)) {
+            const newMatrix = clone(matrix)
+            newMatrix.forEach((col, i) => {
+              col.forEach(d => {
+                if (d.color === color && d.type === DOT_TYPE_DOT) {
+                  d.isActive = true
+                }
+              })
+            })
+            return {
+              ...state,
+              rectangle: true,
+              dotColor: color,
+              matrix: newMatrix,
+              connectedDots: newConnectedDots,
+              connectedLines: newConnectedLines,
+              panningDot: action.dot,
+              linePosition: action.position
+            }
+          }
+          return {
+            ...state,
+            rectangle: false,
             dotColor: color,
-            matrix: newMatrix,
             connectedDots: newConnectedDots,
             connectedLines: newConnectedLines,
             panningDot: action.dot,
             linePosition: action.position
           }
         }
-        return {
-          ...state,
-          rectangle: false,
-          dotColor: color,
-          connectedDots: newConnectedDots,
-          connectedLines: newConnectedLines,
-          panningDot: action.dot,
-          linePosition: action.position
-        }
       }
+
       return state
     case LEAVE_DOT:
       const clonedConnectedDots = clone(connectedDots)

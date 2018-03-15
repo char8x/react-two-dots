@@ -8,7 +8,8 @@ import Level from './Level'
 import TopBar from '../TopBar'
 import Loading from '../Loading'
 import { COLOR_BLUE, COLOR_RED } from '../../utils/constants'
-import actions from '../../store/gamearea/actions'
+import gameAreaActions from '../../store/gamearea/actions'
+import gameInfoActions from '../../store/gameinfo/actions'
 
 const Title = styled.span`
   color: ${props => props.color};
@@ -50,7 +51,8 @@ class GameMap extends Component {
 
   handleClick = (e, l) => {
     // dynamic load GameArea
-    this.props.dispatch(actions.initGame(l.level, l.data()))
+    this.props.dispatch(gameInfoActions.globalInit(l.level))
+    this.props.dispatch(gameAreaActions.initGame(l.level, l.data()))
     this.setState({
       Game: Loadable({
         loader: () => import('../Game'),

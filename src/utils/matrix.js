@@ -162,6 +162,10 @@ export const isOppositeDirection = (directA, directB) => {
   }
 }
 
+export const isSameDot = (dotA, dotB) => {
+  return dotA.col === dotB.col && dotA.row === dotB.row
+}
+
 export const lineDeg = {
   DIRECTION_UP: 270,
   DIRECTION_LEFT: 180,

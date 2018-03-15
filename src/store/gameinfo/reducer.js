@@ -1,18 +1,23 @@
-import { INIT_GAME, SAVE_RESULT, REDUCE_CHANCE, ACTIVE_LEVEL } from './actions'
+import {
+  GLOBAL_INIT,
+  SAVE_RESULT,
+  REDUCE_CHANCE,
+  ACTIVE_LEVEL
+} from './actions'
 
-import levels from '../../models/levels'
+import initLevels from '../../models/levels'
 import clone from '../../utils/clone'
 
 const initState = {
-  levels,
-  currentLevel: {},
+  currentLevel: null,
+  levels: initLevels,
   chance: 5
 }
 
 export default (state = initState, action) => {
   const { levels, currentLevel, chance } = state
   switch (action.type) {
-    case INIT_GAME:
+    case GLOBAL_INIT:
       return {
         ...state,
         currentLevel: Object.assign(
