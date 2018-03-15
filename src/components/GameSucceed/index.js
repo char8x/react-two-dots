@@ -14,10 +14,8 @@ const modalStyle = show => ({
     backgroundColor: 'rgba(68,68,68,0.8)'
   },
   content: {
-    top: '15%',
-    bottom: '35%',
-    left: '15%',
-    right: '15%',
+    top: '15vh',
+    left: '6vh',
     backgroundColor: '#3C4D5C',
 
     borderWidth: 0,
@@ -25,8 +23,8 @@ const modalStyle = show => ({
     padding: 0,
     paddingTop: '10px',
 
-    height: '50%',
-    width: '70%',
+    width: '300px',
+    height: '400px',
 
     textAlign: 'center',
     overflow: 'hidden',
@@ -95,7 +93,7 @@ class GameSucceed extends Component {
     return (
       <ReactModal
         isOpen={this.state.open}
-        shouldCloseOnOverlayClick={true}
+        shouldCloseOnOverlayClick={false}
         onRequestClose={this.handleModalClose}
         style={modalStyle(this.state.show)}
       >

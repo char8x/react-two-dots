@@ -14,9 +14,7 @@ const modalStyle = show => ({
   },
   content: {
     top: '25%',
-    bottom: '35%',
     left: '15%',
-    right: '15%',
     backgroundColor: '#3C4D5C',
 
     borderWidth: 0,

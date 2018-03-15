@@ -214,7 +214,7 @@ const datas = [
     data: () => {
       currentLevel = {
         chance: 47,
-        goals: gdg(20, 2, [COLOR_RED, COLOR_YELLOW]),
+        goals: gdg(2, 1, [COLOR_RED]),
         matrix: (() => {
           return [
             gm([gpd(1), grd(1), gpd(2), ggd(1)]),

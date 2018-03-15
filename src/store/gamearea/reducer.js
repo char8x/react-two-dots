@@ -43,7 +43,9 @@ const initState = {
   colLength: 0,
   chances: 0,
   clearDots: 0,
-  score: 0
+  score: 0,
+  showSuccess: false,
+  showFailure: false
 }
 
 export default (state = initState, action) => {
@@ -215,6 +217,14 @@ export default (state = initState, action) => {
         }
       })
       addNewDots(tempMatrix, colLength, level, rectangle && dotColor)
+      if (goals.every(g => g.clear === g.goal)) {
+        return {
+          ...state,
+          ...resetProp,
+          matrix: tempMatrix,
+          showSuccess: true
+        }
+      }
       return {
         ...state,
         ...resetProp,

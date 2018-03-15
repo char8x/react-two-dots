@@ -35,7 +35,9 @@ class App extends Component {
       clearDots,
       score,
       color,
-      rectangle
+      rectangle,
+      showSuccess,
+      showFailure
     } = this.props
 
     return (
@@ -44,8 +46,8 @@ class App extends Component {
         <TopBar chance={chances} goals={goals} />
         <GameArea />
         <BottomBar level={level} clearDots={clearDots} score={score} />
-        {/* <GameSucceed level={level} score={2400} /> */}
-        {/* <GameFail level={level} /> */}
+        {showSuccess && <GameSucceed level={level} score={2400} />}
+        {showFailure && <GameFail level={level} />}
       </AppContainer>
     )
   }
@@ -58,5 +60,7 @@ export default connect(state => ({
   score: state.gameArea.score,
   clearDots: state.gameArea.clearDots,
   color: state.gameArea.dotColor,
-  rectangle: state.gameArea.rectangle
+  rectangle: state.gameArea.rectangle,
+  showSuccess: state.gameArea.showSuccess,
+  showFailure: state.gameArea.showFailure
 }))(App)
