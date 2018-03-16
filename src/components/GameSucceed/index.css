@@ -12,6 +12,7 @@
 .moveToRight {
   animation-name: moveToRight;
   animation-duration: 0.5s;
+  animation-fill-mode: forwards;
 }
 
 @keyframes moveToRight {

@@ -70,7 +70,7 @@ class GameStart extends Component {
       // request GameArea component load
       this.props.dispatch(actions.showMatrix())
       this.setState({ show: true })
-    }, 450)
+    }, 350)
   }
 
   componentWillUnmount() {

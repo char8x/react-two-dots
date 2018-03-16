@@ -11,14 +11,12 @@
 
 .moveToBottom {
   animation-name: moveToBottom;
-  animation-duration: 0.5s;
+  animation-duration: 0.35s;
+  animation-fill-mode: forwards;
 }
 
 @keyframes moveToBottom {
-  70% {
-    transform: translateY(800px);
-  }
   to {
-    opacity: 0;
+    transform: translateY(800px);
   }
 }
