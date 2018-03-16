@@ -260,6 +260,7 @@ export default (state = initState, action) => {
           ...state,
           ...resetProp,
           matrix: tempMatrix,
+          score: clearDots + chances * 100,
           showSuccess: true
         }
       }

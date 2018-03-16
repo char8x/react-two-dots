@@ -41,7 +41,7 @@ class App extends Component {
     return (
       <AppContainer color={color} rectangle={rectangle}>
         <GameStart chance={chances} goals={goals} level={level} />
-        <GameSucceed level={level} score={2400} />
+        <GameSucceed level={level} score={score} />
         <GameFail level={level} />
         <TopBar chance={chances} goals={goals} />
         <GameArea />

@@ -13,7 +13,10 @@ import restart from './restart.svg'
 ReactModal.setAppElement('#root')
 const modalStyle = show => ({
   overlay: {
-    backgroundColor: 'rgba(68,68,68,0.8)'
+    backgroundColor: 'rgba(68,68,68,0.8)',
+    animationName: show ? '' : 'disappear',
+    animationDuration: '0.5s',
+    animationFillMode: 'forwards'
   },
   content: {
     top: '13vh',
@@ -32,7 +35,8 @@ const modalStyle = show => ({
     overflow: 'hidden',
 
     animationName: show ? 'moveFromRight' : 'moveToRight',
-    animationDuration: '0.5s'
+    animationDuration: '0.5s',
+    animationFillMode: 'forwards'
   }
 })
 
@@ -163,7 +167,7 @@ class GameSucceed extends Component {
               }}
               start={0}
               end={score}
-              duration={4}
+              duration={3}
             />
             <hr />
             <span style={{ fontSize: '1.5rem' }}>关卡 {level}</span>

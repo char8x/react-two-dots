@@ -20,3 +20,14 @@
     transform: translateX(800px);
   }
 }
+
+.disappear {
+  animation-name: disappear;
+  animation-duration: 0.1s;
+}
+
+@keyframes disappear {
+  to {
+    opacity: 0;
+  }
+}

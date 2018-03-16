@@ -4,8 +4,7 @@ import {
   COLOR_RED,
   COLOR_YELLOW,
   COLOR_GREEN,
-  DOT_TYPE_DOT,
-  COLOR_TRANS
+  DOT_TYPE_DOT
 } from '../utils/constants'
 
 import generator from '../utils/generator'
@@ -28,10 +27,6 @@ const gpd = generator({
 })
 const ggd = generator({
   colors: [COLOR_GREEN],
-  dotTypes: [DOT_TYPE_DOT]
-})
-const gtd = generator({
-  colors: [COLOR_TRANS],
   dotTypes: [DOT_TYPE_DOT]
 })
 

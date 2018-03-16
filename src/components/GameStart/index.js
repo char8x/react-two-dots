@@ -10,7 +10,10 @@ import actions from '../../store/gamearea/actions'
 ReactModal.setAppElement('#root')
 const modalStyle = show => ({
   overlay: {
-    backgroundColor: 'rgba(68,68,68,0.8)'
+    backgroundColor: 'rgba(68,68,68,0.8)',
+    animationName: show ? '' : 'disappear',
+    animationDuration: '0.5s',
+    animationFillMode: 'forwards'
   },
   content: {
     top: '25%',
@@ -29,7 +32,8 @@ const modalStyle = show => ({
     overflow: 'hidden',
 
     animationName: show ? 'moveFromTop' : 'moveToBottom',
-    animationDuration: '0.5s'
+    animationDuration: '0.5s',
+    animationFillMode: 'forwards'
   }
 })
 
