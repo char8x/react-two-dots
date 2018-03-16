@@ -10,7 +10,7 @@ const DotMatrix = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 0;
+  width: ${props => props.width * 60 + 'px;'};
 `
 
 class Matrix extends Component {
@@ -35,9 +35,9 @@ class Matrix extends Component {
   }
 
   render() {
-    const { matrix } = this.props
+    const { matrix, matrixWidth } = this.props
     return (
-      <DotMatrix>
+      <DotMatrix width={matrixWidth}>
         {matrix.map((e, i) => (
           <Col
             list={e}
@@ -52,4 +52,6 @@ class Matrix extends Component {
   }
 }
 
-export default connect()(Matrix)
+export default connect(state => ({
+  matrixWidth: state.gameArea.matrixWidth
+}))(Matrix)
