@@ -243,13 +243,14 @@ export default (state = initState, action) => {
       }
     case REFRESH_MATRIX:
       const tempMatrix = clone(matrix)
+      addNewDots(tempMatrix, colLength, rectangle && dotColor)
       // update bounce effect
       bounceStartDots.forEach(d => {
         for (let i = d.row; i < tempMatrix[d.col].length && i >= 0; i++) {
           tempMatrix[d.col][i].isBounce = true
         }
       })
-      addNewDots(tempMatrix, colLength, rectangle && dotColor)
+
       // fulfill goals
       if (goals.every(g => g.clear >= g.goal)) {
         // Game succeed
@@ -274,6 +275,7 @@ export default (state = initState, action) => {
       return {
         ...state,
         ...resetProp,
+        bounceStartDots,
         matrix: tempMatrix
       }
     case RESET_DOT_STATE:

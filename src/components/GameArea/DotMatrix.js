@@ -23,15 +23,15 @@ class Matrix extends Component {
   }
 
   linePanningEnd = () => {
-    if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer)
-    this.panningEndTimer = requestAnimationFrame(() => {
+    if (this.panningEndTimer) clearTimeout(this.panningEndTimer)
+    this.panningEndTimer = setTimeout(() => {
       this.props.dispatch(actions.panningEnd())
-    })
+    }, 0)
   }
 
   componentWillUnmount() {
     if (this.refreshTimer) cancelAnimationFrame(this.refreshTimer)
-    if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer)
+    if (this.panningEndTimer) clearTimeout(this.panningEndTimer)
   }
 
   render() {
