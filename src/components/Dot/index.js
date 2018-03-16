@@ -292,8 +292,8 @@ class EnhancedDot extends Component {
     clearTimeout(this.activeTimer)
     clearTimeout(this.clearDotTimer)
     clearTimeout(this.bounceTimer)
-    // WARN: may be called multiple times,bad performance
-    this.props.dispatch(actions.refreshMatrix())
+    // call matrix refresh
+    this.props.refreshMatrix()
   }
 
   render() {

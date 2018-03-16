@@ -13,13 +13,21 @@ const DotCol = styled.div`
 
 export default class Col extends Component {
   render() {
-    const { list, col } = this.props
+    const { list, col, refreshMatrix } = this.props
     return (
       <DotCol>
         {list.map((e, i) => {
           switch (e.type) {
             case DOT_TYPE_DOT:
-              return <Dot {...e} key={i} col={col} row={i} />
+              return (
+                <Dot
+                  {...e}
+                  key={i}
+                  col={col}
+                  row={i}
+                  refreshMatrix={refreshMatrix}
+                />
+              )
             default:
               return ''
           }
