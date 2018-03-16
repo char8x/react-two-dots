@@ -96,7 +96,6 @@ export const removeDots = matrix => connectedDots => {
 
 export const addNewDots = (matrix, colLength, dotColor) => {
   const gen = currentLevel.gen
-
   matrix.forEach((col, i) => {
     // add new dots
     matrix[i] = matrix[i].concat(gen(colLength - matrix[i].length, dotColor))

@@ -56,7 +56,6 @@ export const zoomOut = keyframes`
 
   50% {
     opacity: 0;
-    -webkit-transform: scale3d(0.3, 0.3, 0.3);
     transform: scale3d(0.3, 0.3, 0.3);
   }
 

@@ -19,7 +19,7 @@ export const shape = element => {
 }
 
 /**
- * Inspire by https://codepen.io/daveboling/pen/jWOorz
+ * Inspired by https://codepen.io/daveboling/pen/jWOorz
  */
 export const distance = (x, y, x0, y0) =>
   Math.sqrt((x -= x0) * x + (y -= y0) * y)

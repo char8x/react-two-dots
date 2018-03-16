@@ -36,7 +36,7 @@ const AnimateDotTop = Dot.extend`
       ? `animation-name: ${bounce};
   transform-origin: center bottom;
   animation-duration: 1s;
-  animation-fill-mode: both;
+  animation-fill-mode: forwards;
   `
       : ''};
 
@@ -45,7 +45,7 @@ const AnimateDotTop = Dot.extend`
       ? `animation-name: ${zoomOut};
       transform-origin: center;
       animation-duration: 0.5s;
-      animation-fill-mode: both;
+      animation-fill-mode: forwards;
       opacity: 1;`
       : ''};
 `
@@ -60,7 +60,7 @@ const AnimateDotBottom = AnimateDotTop.extend`
     props.isActive
       ? `animation-name: ${vanish};
          animation-duration: 0.65s;
-         animation-fill-mode: both;
+         animation-fill-mode: forwards;
          opacity: 1;`
       : ''};
 `
@@ -277,7 +277,6 @@ class EnhancedDot extends Component {
     clearTimeout(this.activeTimer)
     clearTimeout(this.clearDotTimer)
     clearTimeout(this.bounceTimer)
-    // call matrix refresh
     this.props.refreshMatrix()
   }
 
@@ -302,6 +301,13 @@ class EnhancedDot extends Component {
           onPan={this.handlePanMove}
           onPanEnd={this.handlePanEnd}
           onPanCancel={this.handlePanCancel}
+          // options={{
+          //   recognizers: {
+          //     pan: {
+          //       threshold: 5
+          //     }
+          //   }
+          // }}
         >
           <Pointable
             onPointerEnter={this.handleEnterDot}

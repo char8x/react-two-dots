@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 import { DOT_TYPE_DOT } from '../../utils/constants'
 import Dot from '../Dot'
@@ -9,13 +10,14 @@ const DotCol = styled.div`
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-start;
+  height: ${props => props.height * 40 + 'px;'};
 `
 
-export default class Col extends Component {
+class Col extends Component {
   render() {
-    const { list, col, refreshMatrix, linePanningEnd } = this.props
+    const { list, col, refreshMatrix, linePanningEnd, colLength } = this.props
     return (
-      <DotCol>
+      <DotCol height={colLength}>
         {list.map((e, i) => {
           switch (e.type) {
             case DOT_TYPE_DOT:
@@ -37,3 +39,7 @@ export default class Col extends Component {
     )
   }
 }
+
+export default connect(state => ({
+  colLength: state.gameArea.colLength
+}))(Col)

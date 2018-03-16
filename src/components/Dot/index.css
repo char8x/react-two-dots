@@ -2,7 +2,7 @@
   animation-name: zoomOut;
   transform-origin: center;
   animation-duration: 1s;
-  animation-fill-mode: both;
+  animation-fill-mode: forwards;
 }
 
 @keyframes zoomOut {

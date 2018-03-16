@@ -4,6 +4,7 @@ export const COLOR_YELLOW = '#F2BF66'
 export const COLOR_BLUE = '#6F89B9'
 export const COLOR_PURPLE = '#A45A7D'
 export const COLOR_GREEN = '#7EB69D'
+export const COLOR_TRANS = '#00FFFFFF'
 
 export const DIRECTION_LEFT = 'DIRECTION_LEFT'
 export const DIRECTION_RIGHT = 'DIRECTION_RIGHT'
