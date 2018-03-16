@@ -252,8 +252,8 @@ const datas = [
         matrix: (() => {
           return [
             gm([gpd(1), grd(1), gpd(2)]),
-            gm([gbd(1), grd(1), gyd(2)]),
-            gm([grd(2), ggd(2)]),
+            gm([grd(4)]),
+            gm([ggd(4)]),
             gm([ggd(2), gbd(2)])
           ]
         })(),

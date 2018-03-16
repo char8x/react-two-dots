@@ -10,8 +10,9 @@ const DotMatrix = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: ${props => props.width * 60 + 'px;'};
 `
+
+const EmptyCol = () => <div style={{ width: '40px' }} />
 
 class Matrix extends Component {
   refreshMatrix = () => {
@@ -23,30 +24,36 @@ class Matrix extends Component {
   }
 
   linePanningEnd = () => {
-    if (this.panningEndTimer) clearTimeout(this.panningEndTimer)
-    this.panningEndTimer = setTimeout(() => {
+    if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer)
+    this.panningEndTimer = requestAnimationFrame(() => {
       this.props.dispatch(actions.panningEnd())
-    }, 0)
+    })
   }
 
   componentWillUnmount() {
     if (this.refreshTimer) cancelAnimationFrame(this.refreshTimer)
-    if (this.panningEndTimer) clearTimeout(this.panningEndTimer)
+    if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer)
   }
 
   render() {
-    const { matrix, matrixWidth } = this.props
+    const { matrix } = this.props
     return (
-      <DotMatrix width={matrixWidth}>
-        {matrix.map((e, i) => (
-          <Col
-            list={e}
-            key={i}
-            col={i}
-            refreshMatrix={this.refreshMatrix}
-            linePanningEnd={this.linePanningEnd}
-          />
-        ))}
+      <DotMatrix>
+        {matrix.map((e, i) => {
+          if (e.length === 0) {
+            return <EmptyCol key={i} />
+          } else {
+            return (
+              <Col
+                list={e}
+                key={i}
+                col={i}
+                refreshMatrix={this.refreshMatrix}
+                linePanningEnd={this.linePanningEnd}
+              />
+            )
+          }
+        })}
       </DotMatrix>
     )
   }

@@ -21,7 +21,6 @@ export const vanish = keyframes`
 export const bounce = keyframes`
   from {
     transform: translate3d(0, -40px, 0);
-    opacity: 0.8;
   }
 
   20%,

@@ -301,13 +301,6 @@ class EnhancedDot extends Component {
           onPan={this.handlePanMove}
           onPanEnd={this.handlePanEnd}
           onPanCancel={this.handlePanCancel}
-          // options={{
-          //   recognizers: {
-          //     pan: {
-          //       threshold: 5
-          //     }
-          //   }
-          // }}
         >
           <Pointable
             onPointerEnter={this.handleEnterDot}
