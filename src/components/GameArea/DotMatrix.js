@@ -18,11 +18,20 @@ class Matrix extends Component {
     if (this.refreshTimer) cancelAnimationFrame(this.refreshTimer)
     this.refreshTimer = requestAnimationFrame(() => {
       this.props.dispatch(actions.refreshMatrix())
+      this.props.dispatch(actions.resetDotState('isBounce')) // important
+    })
+  }
+
+  linePanningEnd = () => {
+    if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer)
+    this.panningEndTimer = requestAnimationFrame(() => {
+      this.props.dispatch(actions.panningEnd())
     })
   }
 
   componentWillUnmount() {
     if (this.refreshTimer) cancelAnimationFrame(this.refreshTimer)
+    if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer)
   }
 
   render() {
@@ -30,7 +39,13 @@ class Matrix extends Component {
     return (
       <DotMatrix>
         {matrix.map((e, i) => (
-          <Col list={e} key={i} col={i} refreshMatrix={this.refreshMatrix} />
+          <Col
+            list={e}
+            key={i}
+            col={i}
+            refreshMatrix={this.refreshMatrix}
+            linePanningEnd={this.linePanningEnd}
+          />
         ))}
       </DotMatrix>
     )

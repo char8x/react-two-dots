@@ -105,11 +105,11 @@ class EnhancedDot extends Component {
   }
 
   handleClear = () => {
-    const { dispatch } = this.props
+    const { linePanningEnd } = this.props
     this.setState({ isClear: true, isPanning: false })
     this.clearDotTimer = setTimeout(() => {
       this.initState()
-      dispatch(actions.panningEnd())
+      linePanningEnd()
     }, 300) // equal or more than animation-duration (300ms)
   }
 
@@ -183,6 +183,7 @@ class EnhancedDot extends Component {
     const { connectedLines, dispatch } = this.props
     // remove dots
     dispatch(actions.beforePanningEnd())
+    dispatch(actions.resetDotState('isClear')) // important
     // if no dots connected, clear global state
     if (connectedLines.length === 0) {
       this.initState()
@@ -193,6 +194,7 @@ class EnhancedDot extends Component {
     // eventDebugger('handlePanCancel')
     const { connectedLines, dispatch } = this.props
     dispatch(actions.beforePanningEnd())
+    dispatch(actions.resetDotState('isClear')) // important
     if (connectedLines.length === 0) {
       this.initState()
     }
@@ -226,6 +228,7 @@ class EnhancedDot extends Component {
           }
         )
       )
+      dispatch(actions.resetDotState('isActive')) // important
     }
   }
 
@@ -258,33 +261,15 @@ class EnhancedDot extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isActive) {
+    if (this.props.isActive !== nextProps.isActive && nextProps.isActive) {
       this.handleTap()
-      this.props.dispatch(
-        actions.resetDotState(
-          {
-            col: this.props.col,
-            row: this.props.row
-          },
-          'isActive'
-        )
-      )
-    } else if (nextProps.isClear) {
+    } else if (this.props.isClear !== nextProps.isClear && nextProps.isClear) {
       this.handleClear()
     } else if (
       this.props.isBounce !== nextProps.isBounce &&
       nextProps.isBounce
     ) {
       this.handleBounce()
-      this.props.dispatch(
-        actions.resetDotState(
-          {
-            col: this.props.col,
-            row: this.props.row
-          },
-          'isBounce'
-        )
-      )
     }
   }
 

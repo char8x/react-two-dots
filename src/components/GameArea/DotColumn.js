@@ -13,7 +13,7 @@ const DotCol = styled.div`
 
 export default class Col extends Component {
   render() {
-    const { list, col, refreshMatrix } = this.props
+    const { list, col, refreshMatrix, linePanningEnd } = this.props
     return (
       <DotCol>
         {list.map((e, i) => {
@@ -26,6 +26,7 @@ export default class Col extends Component {
                   col={col}
                   row={i}
                   refreshMatrix={refreshMatrix}
+                  linePanningEnd={linePanningEnd}
                 />
               )
             default:

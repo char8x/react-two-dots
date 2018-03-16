@@ -190,7 +190,7 @@ export default (state = initState, action) => {
     case BEFORE_PANNING_END:
       if (connectedDots.length > 1) {
         const newMatrix = clone(matrix)
-        if (rectangleExist(connectedDots)) {
+        if (rectangle) {
           const color = matrix[connectedDots[0].col][connectedDots[0].row].color
           newMatrix.forEach(col => {
             col.forEach(row => {
@@ -277,12 +277,56 @@ export default (state = initState, action) => {
         matrix: tempMatrix
       }
     case RESET_DOT_STATE:
-      const newMatrix = clone(matrix)
-      newMatrix[action.dot.col][action.dot.row][action.property] = false
-      return {
-        ...state,
-        matrix: newMatrix
+      let newMatrix = null
+      if (action.property === 'isBounce' && bounceStartDots.length > 0) {
+        newMatrix = clone(matrix)
+        bounceStartDots.forEach(d => {
+          for (let i = d.row; i < newMatrix[d.col].length && i >= 0; i++) {
+            newMatrix[d.col][i].isBounce = false
+          }
+        })
+        return {
+          ...state,
+          bounceStartDots: [],
+          matrix: newMatrix
+        }
+      } else if (
+        action.property === 'isActive' &&
+        rectangle &&
+        dotColor !== ''
+      ) {
+        newMatrix = clone(matrix)
+        newMatrix.forEach((col, i) => {
+          col.forEach(d => {
+            if (d.color === dotColor && d.type === DOT_TYPE_DOT) {
+              d.isActive = false
+            }
+          })
+        })
+        return {
+          ...state,
+          matrix: newMatrix
+        }
+      } else if (action.property === 'isClear' && connectedDots.length > 1) {
+        newMatrix = clone(matrix)
+        if (rectangle) {
+          const color = matrix[connectedDots[0].col][connectedDots[0].row].color
+          newMatrix.forEach(col => {
+            col.forEach(row => {
+              if (row.color === color && row.type === DOT_TYPE_DOT) {
+                row.isClear = false
+              }
+            })
+          })
+        } else {
+          connectedDots.forEach(d => (newMatrix[d.col][d.row].isClear = false))
+        }
+        return {
+          ...state,
+          matrix: newMatrix
+        }
       }
+      return state
     case RESTART_GAME:
       return {}
     default:
