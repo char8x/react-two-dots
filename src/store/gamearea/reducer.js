@@ -16,7 +16,9 @@ import {
   lineDeg,
   removeDots,
   rectangleExist,
-  addNewDots
+  addNewDots,
+  existAdjacentDot,
+  shuffleArray
 } from '../../utils/board';
 import { DOT_TYPE_DOT } from '../../utils/constants';
 import clone from '../../utils/clone';
@@ -255,6 +257,10 @@ export default (state = initState, action) => {
           tempArray[i].isBounce = true;
         }
       });
+      // shuffle array the easy way
+      if (!existAdjacentDot(tempArray)) {
+        shuffleArray(tempArray);
+      }
 
       // fulfill goals
       if (goals.every(g => g.clear >= g.goal)) {

@@ -1,13 +1,13 @@
-import { ConnectedRouter } from 'react-router-redux'
-import { injectGlobal } from 'styled-components'
-import { Provider } from 'react-redux'
-import React from 'react'
-import ReactDOM from 'react-dom'
+import { ConnectedRouter } from 'react-router-redux';
+import { injectGlobal } from 'styled-components';
+import { Provider } from 'react-redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import GameMap from './components/GameMap'
-import createStore from './store'
-import history from './utils/history'
-import registerServiceWorker from './registerServiceWorker'
+import Routes from './routes';
+import createStore from './store';
+import history from './utils/history';
+import registerServiceWorker from './registerServiceWorker';
 
 injectGlobal`
   html,body {
@@ -22,16 +22,16 @@ injectGlobal`
     -moz-osx-font-smoothing: grayscale;
     user-select: none;
   }
-`
+`;
 
-const store = createStore(history)
+const store = createStore(history);
 
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <GameMap />
+      <Routes />
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
-)
-registerServiceWorker()
+);
+registerServiceWorker();

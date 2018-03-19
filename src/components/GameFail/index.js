@@ -1,14 +1,15 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import ReactModal from 'react-modal'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import ReactModal from 'react-modal';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
-import './index.css'
-import actions from '../../store/gamearea/actions'
-import map from './map.svg'
-import sad from './sad.svg'
+import './index.css';
+import actions from '../../store/gamearea/actions';
+import map from './map.svg';
+import sad from './sad.svg';
 
-ReactModal.setAppElement('#root')
+ReactModal.setAppElement('#root');
 const modalStyle = show => ({
   overlay: {
     backgroundColor: 'rgba(68,68,68,0.8)',
@@ -36,14 +37,14 @@ const modalStyle = show => ({
     animationDuration: '0.5s',
     animationFillMode: 'forwards'
   }
-})
+});
 
 const Title = styled.span`
   color: white;
   font-size: 1.5rem;
 
   margin: 10px;
-`
+`;
 
 const Button = styled.button`
   margin: 5px;
@@ -58,7 +59,7 @@ const Button = styled.button`
 
   border-width: 0;
   border-radius: 20px;
-`
+`;
 
 const Map = styled.input.attrs({
   type: 'image',
@@ -67,7 +68,7 @@ const Map = styled.input.attrs({
 })`
   width: 30px;
   height: 30px;
-`
+`;
 
 const Sad = styled.img.attrs({
   src: sad,
@@ -76,46 +77,43 @@ const Sad = styled.img.attrs({
   width: 100px;
   height: 100px;
   margin: 10px;
-`
+`;
 
 class GameSucceed extends Component {
   constructor(props) {
-    super()
+    super();
 
     this.state = {
       show: true
-    }
+    };
   }
 
   // Return game map
   handleReturn = () => {
-    this.setState({ show: false })
+    this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
-      // request GameArea component load
-      // this.props.dispatch(
-      //   actions.initGame(currentLevel.level + 1, currentLevel)
-      // )
-      this.setState({ show: true })
-    }, 450)
-  }
+      this.props.dispatch(push('/'));
+      this.setState({ show: true });
+    }, 450);
+  };
 
   // Restart game
   handleRestart = () => {
-    const { currentLevel } = this.props
-    this.setState({ show: false })
+    const { currentLevel } = this.props;
+    this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.dispatch(actions.initGame(currentLevel.level, currentLevel))
-      this.setState({ show: true })
-    }, 450)
-  }
+      this.props.dispatch(actions.initGame(currentLevel.level, currentLevel));
+      this.setState({ show: true });
+    }, 450);
+  };
 
   componentWillUnmount() {
-    clearTimeout(this.closeTimer)
+    clearTimeout(this.closeTimer);
   }
 
   render() {
-    const { level, showFailure } = this.props
+    const { level, showFailure } = this.props;
     return (
       <ReactModal
         isOpen={showFailure}
@@ -162,11 +160,11 @@ class GameSucceed extends Component {
           <Button onClick={this.handleRestart}>再玩一次</Button>
         </div>
       </ReactModal>
-    )
+    );
   }
 }
 
 export default connect(state => ({
   currentLevel: state.gameInfo.currentLevel,
   showFailure: state.gameArea.showFailure
-}))(GameSucceed)
+}))(GameSucceed);

@@ -222,8 +222,6 @@ const shuffleArray = array => {
   if (!existAdjacentDot(array)) {
     throw new Error('There is no possible move!');
   }
-
-  return array;
 };
 
 const isOppositeDirection = (directA, directB) => {
