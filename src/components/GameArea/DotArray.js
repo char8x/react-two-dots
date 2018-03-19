@@ -48,14 +48,14 @@ class Board extends Component {
       <DotArray width={boardWidth * 40} height={boardHeight * 40}>
         {array.map((e, i) => {
           if (e == null) {
-            return <EmptyDot />;
+            return <EmptyDot key={i.toString()} />;
           }
           switch (e.type) {
             case DOT_TYPE_DOT:
               return (
                 <Dot
                   {...e}
-                  key={i}
+                  key={i.toString()}
                   idx={i}
                   refreshBoard={this.refreshBoard}
                   linePanningEnd={this.linePanningEnd}
