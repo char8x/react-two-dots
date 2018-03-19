@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { VerticalProgress, HorizonProgress } from './ProgressBar';
-import DotMatrix from './DotMatrix';
+import DotArray from './DotArray';
 
 class GameArea extends Component {
   render() {
-    const { showMatrix, matrix, color, rectangle } = this.props;
+    const { showBoard, array, color, rectangle } = this.props;
     let { progress } = this.props;
     if (rectangle) {
       // fullfill all progress
@@ -39,7 +39,7 @@ class GameArea extends Component {
           <div>
             <VerticalProgress progress={progress - 6} color={color} />
           </div>
-          {showMatrix && <DotMatrix matrix={matrix} />}
+          {showBoard && <DotArray array={array} />}
           <div>
             <VerticalProgress progress={progress - 6} color={color} />
           </div>
@@ -51,8 +51,8 @@ class GameArea extends Component {
 }
 
 export default connect(state => ({
-  showMatrix: state.gameArea.showMatrix,
-  matrix: state.gameArea.matrix,
+  showBoard: state.gameArea.showBoard,
+  array: state.gameArea.array,
   progress: state.gameArea.connectedLines.length,
   color: state.gameArea.dotColor,
   rectangle: state.gameArea.rectangle

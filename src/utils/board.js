@@ -193,9 +193,9 @@ const hasAdjacentDot = (array, height, idx) => {
 };
 
 /**
- * If matrix exist adjacent dot
+ * If array exist adjacent dot
  *
- * @param {*} matrix
+ * @param {*} array
  */
 const existAdjacentDot = (array, height) => {
   for (let i = 0; i < array.length; i = i + 2) {

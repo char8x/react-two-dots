@@ -53,7 +53,7 @@ const gdg = (goal, num, colors) => {
 };
 
 /**
- *  Generate Matrix Column
+ *  Generate Board Column
  *
  * @param {*} array
  */
@@ -68,7 +68,7 @@ const datas = [
       currentLevel = {
         chance: 20,
         goals: gdg(15, 3, [COLOR_BLUE, COLOR_RED, COLOR_YELLOW]),
-        matrix: (() => {
+        array: (() => {
           return gm([
             gbd(3),
             grd(1),
@@ -80,6 +80,7 @@ const datas = [
             grd(1)
           ]);
         })(),
+        height: 4,
         gen: generator({
           colors: [COLOR_BLUE, COLOR_RED, COLOR_YELLOW],
           dotTypes: [DOT_TYPE_DOT]
@@ -94,7 +95,7 @@ const datas = [
       currentLevel = {
         chance: 30,
         goals: gdg(15, 4, [COLOR_GREEN, COLOR_YELLOW, COLOR_RED, COLOR_BLUE]),
-        matrix: (() => {
+        array: (() => {
           return gm([
             gbd(1),
             gyd(1),
@@ -112,6 +113,7 @@ const datas = [
             grd(3)
           ]);
         })(),
+        height: 5,
         gen: generator({
           colors: [COLOR_GREEN, COLOR_YELLOW, COLOR_RED, COLOR_BLUE],
           dotTypes: [DOT_TYPE_DOT]
@@ -126,7 +128,7 @@ const datas = [
       currentLevel = {
         chance: 20,
         goals: gdg(50, 3, [COLOR_RED, COLOR_BLUE, COLOR_YELLOW]),
-        matrix: (() => {
+        array: (() => {
           return gm([
             grd(1),
             gbd(1),
@@ -164,6 +166,7 @@ const datas = [
             grd(1)
           ]);
         })(),
+        height: 6,
         gen: generator({
           colors: [COLOR_RED, COLOR_BLUE, COLOR_YELLOW],
           dotTypes: [DOT_TYPE_DOT]
@@ -178,7 +181,7 @@ const datas = [
       currentLevel = {
         chance: 35,
         goals: gdg(15, 4, [COLOR_PURPLE, COLOR_RED, COLOR_GREEN, COLOR_YELLOW]),
-        matrix: (() => {
+        array: (() => {
           return gm([
             gpd(1),
             grd(1),
@@ -200,6 +203,7 @@ const datas = [
             gpd(2)
           ]);
         })(),
+        height: 6,
         gen: generator({
           colors: [COLOR_PURPLE, COLOR_RED, COLOR_GREEN, COLOR_YELLOW],
           dotTypes: [DOT_TYPE_DOT]
@@ -219,7 +223,7 @@ const datas = [
           COLOR_GREEN,
           COLOR_YELLOW
         ]),
-        matrix: (() => {
+        array: (() => {
           return gm([
             gpd(1),
             grd(1),
@@ -241,6 +245,7 @@ const datas = [
             gpd(2)
           ]);
         })(),
+        height: 6,
         gen: generator({
           colors: [COLOR_PURPLE, COLOR_BLUE, COLOR_GREEN, COLOR_YELLOW],
           dotTypes: [DOT_TYPE_DOT]
@@ -255,7 +260,7 @@ const datas = [
       currentLevel = {
         chance: 47,
         goals: gdg(20, 2, [COLOR_RED, COLOR_YELLOW]),
-        matrix: (() => {
+        array: (() => {
           return gm([
             gpd(1),
             grd(1),
@@ -277,6 +282,7 @@ const datas = [
             gpd(1)
           ]);
         })(),
+        height: 6,
         gen: generator({
           colors: [
             COLOR_RED,
@@ -297,7 +303,7 @@ const datas = [
       currentLevel = {
         chance: 1,
         goals: gdg(2, 1, [COLOR_RED]),
-        matrix: (() => {
+        array: (() => {
           return gm([
             gpd(1),
             grd(1),
@@ -319,6 +325,7 @@ const datas = [
             gpd(1)
           ]);
         })(),
+        height: 6,
         gen: generator({
           colors: [
             COLOR_RED,
@@ -339,9 +346,10 @@ const datas = [
       currentLevel = {
         chance: 47,
         goals: gdg(2, 1, [COLOR_RED]),
-        matrix: (() => {
+        array: (() => {
           return gm([gpd(1), grd(1), gpd(2), grd(4), ggd(4), ggd(2), gbd(2)]);
         })(),
+        height: 4,
         gen: generator({
           colors: [
             COLOR_RED,

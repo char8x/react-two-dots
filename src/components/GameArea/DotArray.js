@@ -16,10 +16,10 @@ const DotArray = styled.div`
 const EmptyDot = () => <div style={{ width: '40px', height: '40px' }} />;
 
 class Matrix extends Component {
-  refreshMatrix = () => {
+  refreshBoard = () => {
     if (this.refreshTimer) cancelAnimationFrame(this.refreshTimer);
     this.refreshTimer = requestAnimationFrame(() => {
-      this.props.dispatch(actions.refreshMatrix());
+      this.props.dispatch(actions.refreshBoard());
       this.props.dispatch(actions.resetDotState('isBounce')); // important
     });
   };
@@ -48,7 +48,7 @@ class Matrix extends Component {
                   {...e}
                   key={i}
                   idx={i}
-                  refreshMatrix={this.refreshMatrix}
+                  refreshBoard={this.refreshBoard}
                   linePanningEnd={this.linePanningEnd}
                 />
               );
@@ -62,5 +62,5 @@ class Matrix extends Component {
 }
 
 export default connect(state => ({
-  matrixWidth: state.gameArea.matrixWidth
+  boardWidth: state.gameArea.boardWidth
 }))(Matrix);

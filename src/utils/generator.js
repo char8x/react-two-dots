@@ -5,8 +5,8 @@ import {
   COLOR_PURPLE,
   COLOR_GREEN,
   DOT_TYPE_DOT
-} from './constants'
-import random from './random-index'
+} from './constants';
+import random from './random-index';
 
 const allColors = [
   COLOR_BLUE,
@@ -14,7 +14,7 @@ const allColors = [
   COLOR_RED,
   COLOR_PURPLE,
   COLOR_GREEN
-]
+];
 
 /**
  * Generate new dots
@@ -27,7 +27,7 @@ const allColors = [
  *  colors,
  *  dotTypes,
  *  column odd or even,
- *  matrix potential connectable dots
+ *  board potential connectable dots
  *
  * @param {*} num
  * @param {*} colors
@@ -47,14 +47,14 @@ const generator = (
   if (allClearColor === '') {
     return Array.from({ length: num }).map((e, i, a) =>
       callback(e, i, a, dotTypes, colors)
-    )
+    );
   } else {
-    const newColors = colors.filter(c => c !== allClearColor)
+    const newColors = colors.filter(c => c !== allClearColor);
     return Array.from({ length: num }).map((e, i, a) =>
       callback(e, i, a, dotTypes, newColors)
-    )
+    );
   }
-}
+};
 
 function defaultGeneratorCallback(e, i, a, dotTypes, colors) {
   return {
@@ -63,7 +63,7 @@ function defaultGeneratorCallback(e, i, a, dotTypes, colors) {
     isActive: false, // for animate effect
     isClear: false, // for clear effect
     isBounce: false // for bounce effect
-  }
+  };
 }
 
-export default generator
+export default generator;

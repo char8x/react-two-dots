@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import ReactModal from 'react-modal'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import ReactModal from 'react-modal';
+import { connect } from 'react-redux';
 
-import Goal from '../Goal'
-import './index.css'
-import actions from '../../store/gamearea/actions'
+import Goal from '../Goal';
+import './index.css';
+import actions from '../../store/gamearea/actions';
 
-ReactModal.setAppElement('#root')
+ReactModal.setAppElement('#root');
 const modalStyle = show => ({
   overlay: {
     backgroundColor: 'rgba(68,68,68,0.8)',
@@ -35,14 +35,14 @@ const modalStyle = show => ({
     animationDuration: '0.5s',
     animationFillMode: 'forwards'
   }
-})
+});
 
 const Title = styled.span`
   color: white;
   font-size: 1.5rem;
 
   margin: 10px;
-`
+`;
 
 const Button = styled.button`
   margin: 5px;
@@ -57,32 +57,32 @@ const Button = styled.button`
 
   border-width: 0;
   border-radius: 20px;
-`
+`;
 
 class GameStart extends Component {
   constructor(props) {
-    super()
+    super();
 
     this.state = {
       show: true
-    }
+    };
   }
 
   handleModalClose = () => {
-    this.setState({ show: false })
+    this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.dispatch(actions.showMatrix())
-      this.setState({ show: true })
-    }, 350)
-  }
+      this.props.dispatch(actions.showBoard());
+      this.setState({ show: true });
+    }, 350);
+  };
 
   componentWillUnmount() {
-    clearTimeout(this.closeTimer)
+    clearTimeout(this.closeTimer);
   }
 
   render() {
-    const { level, goals, chance, showStart } = this.props
+    const { level, goals, chance, showStart } = this.props;
     return (
       <ReactModal
         isOpen={showStart}
@@ -106,10 +106,10 @@ class GameStart extends Component {
         </div>
         <Button onClick={this.handleModalClose}>开始关卡</Button>
       </ReactModal>
-    )
+    );
   }
 }
 
 export default connect(state => ({
   showStart: state.gameArea.showStart
-}))(GameStart)
+}))(GameStart);

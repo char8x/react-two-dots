@@ -1,19 +1,19 @@
-import 'pepjs' // Pointer Events Polyfill https://github.com/jquery/PEP
-import Hammer from 'rc-hammerjs' // http://hammerjs.github.io/api/
-import Pointable from 'react-pointable' // https://github.com/MilllerTime/react-pointable
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
+import 'pepjs'; // Pointer Events Polyfill https://github.com/jquery/PEP
+import Hammer from 'rc-hammerjs'; // http://hammerjs.github.io/api/
+import Pointable from 'react-pointable'; // https://github.com/MilllerTime/react-pointable
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 // import _debounce from 'lodash/debounce'
 
-import './index.css'
-import { bounce, vanish, zoomOut } from '../../utils/animate-keyframes'
-import Line from '../Line'
-import { offset, shape, distance, angle } from '../../utils/dom'
-import { isAdjacent, isOppositeDirection } from '../../utils/matrix'
-import actions from '../../store/gamearea/actions'
-import hammerDirection from '../../utils/hammerjs-direction'
-import { DIRECTION_NONE } from '../../utils/constants'
+import './index.css';
+import { bounce, vanish, zoomOut } from '../../utils/animate-keyframes';
+import Line from '../Line';
+import { offset, shape, distance, angle } from '../../utils/dom';
+import { isAdjacent, isOppositeDirection } from '../../utils/board';
+import actions from '../../store/gamearea/actions';
+import hammerDirection from '../../utils/hammerjs-direction';
+import { DIRECTION_NONE } from '../../utils/constants';
 // import _debug from '../../utils/debug'
 
 // const eventDebugger = _debug('rtd:event')
@@ -25,10 +25,10 @@ export const Dot = styled.div`
 
   ${props => {
     return `height: ${props.diam}px;
-    width: ${props.diam}px;`
+    width: ${props.diam}px;`;
   }} overflow: hidden;
   box-shadow: none;
-`
+`;
 
 const AnimateDotTop = Dot.extend`
   ${props =>
@@ -48,7 +48,7 @@ const AnimateDotTop = Dot.extend`
       animation-fill-mode: forwards;
       opacity: 1;`
       : ''};
-`
+`;
 
 const AnimateDotBottom = AnimateDotTop.extend`
   position: relative;
@@ -63,16 +63,16 @@ const AnimateDotBottom = AnimateDotTop.extend`
          animation-fill-mode: forwards;
          opacity: 1;`
       : ''};
-`
+`;
 
 const DotContainer = styled.div`
   height: 20px;
   margin: 10px;
-`
+`;
 
 class EnhancedDot extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       isBounce: true, // bounce effect
@@ -82,7 +82,7 @@ class EnhancedDot extends Component {
       lineLength: 10, // same as dot radius
       lineHeight: 6,
       lineAngle: 0
-    }
+    };
   }
 
   initState = () => {
@@ -92,73 +92,66 @@ class EnhancedDot extends Component {
       lineLength: 10,
       lineHeight: 6,
       lineAngle: 0
-    })
-  }
+    });
+  };
 
   handleTap = () => {
     // let dot only bounce once
-    this.setState({ isActive: true })
+    this.setState({ isActive: true });
     this.activeDotTimer = setTimeout(() => {
-      this.setState({ isActive: false })
-    }, 850) // equal or more than animation-duration (0.85s)
-  }
+      this.setState({ isActive: false });
+    }, 850); // equal or more than animation-duration (0.85s)
+  };
 
   handleClear = () => {
-    const { linePanningEnd } = this.props
-    this.setState({ isClear: true, isPanning: false })
+    const { linePanningEnd } = this.props;
+    this.setState({ isClear: true, isPanning: false });
     this.clearDotTimer = setTimeout(() => {
-      this.initState()
-      linePanningEnd()
-    }, 300) // equal or more than animation-duration (300ms)
-  }
+      this.initState();
+      linePanningEnd();
+    }, 300); // equal or more than animation-duration (300ms)
+  };
 
   handleBounce = () => {
-    this.setState({ isBounce: true })
+    this.setState({ isBounce: true });
     this.bounceTimer = setTimeout(() => {
-      this.setState({ isBounce: false })
-    }, 1000)
-  }
+      this.setState({ isBounce: false });
+    }, 1000);
+  };
 
   handlePanStart = e => {
-    const { panningDot, col, row, dispatch } = this.props
+    const { panningDot, idx, dispatch } = this.props;
     // debugger
     if (panningDot == null) {
       // calculate line start position
-      const dotPosition = offset(e.target)
-      const dotShape = shape(e.target)
+      const dotPosition = offset(e.target);
+      const dotShape = shape(e.target);
       // 60 means topBar height
       dispatch(
-        actions.panningStart(
-          {
-            col,
-            row
-          },
-          {
-            x: dotPosition.left + dotShape.width / 2,
-            y:
-              dotPosition.top +
-              dotShape.height / 2 -
-              this.state.lineHeight / 2 -
-              60
-          }
-        )
-      )
+        actions.panningStart(idx, {
+          x: dotPosition.left + dotShape.width / 2,
+          y:
+            dotPosition.top +
+            dotShape.height / 2 -
+            this.state.lineHeight / 2 -
+            60
+        })
+      );
     }
     this.setState({
       isPanning: true
-    })
-    this.handleTap()
-  }
+    });
+    this.handleTap();
+  };
 
   handlePanMove = e => {
-    const { dispatch, panDirection, linePosition } = this.props
+    const { dispatch, panDirection, linePosition } = this.props;
 
-    // console.log(`panningDot ${panningDot.col} ${panningDot.row}`)
     // calculate length and rotate
     let pointer = {
       x: e.center.x,
       y: e.center.y - 60
-    }
+    };
     this.setState({
       lineLength: distance(
         linePosition.x,
@@ -167,121 +160,120 @@ class EnhancedDot extends Component {
         pointer.y
       ),
       lineAngle: angle(linePosition.x, linePosition.y, pointer.x, pointer.y)
-    })
+    });
 
     // TODO: how to ensure accurate and just trigger once ?
     if (
       hammerDirection[e.direction] !== DIRECTION_NONE &&
       panDirection !== hammerDirection[e.direction]
     ) {
-      dispatch(actions.panning(hammerDirection[e.direction]))
+      dispatch(actions.panning(hammerDirection[e.direction]));
     }
-  }
+  };
 
   handlePanEnd = () => {
-    const { connectedLines, dispatch } = this.props
+    const { connectedLines, dispatch } = this.props;
     // remove dots
-    dispatch(actions.beforePanningEnd())
-    dispatch(actions.resetDotState('isClear')) // important
+    dispatch(actions.beforePanningEnd());
+    dispatch(actions.resetDotState('isClear')); // important
     // if no dots connected, clear global state
     if (connectedLines.length === 0) {
-      this.initState()
+      this.initState();
     }
-  }
+  };
 
   handlePanCancel = () => {
     // eventDebugger('handlePanCancel')
-    const { connectedLines, dispatch } = this.props
-    dispatch(actions.beforePanningEnd())
-    dispatch(actions.resetDotState('isClear')) // important
+    const { connectedLines, dispatch } = this.props;
+    dispatch(actions.beforePanningEnd());
+    dispatch(actions.resetDotState('isClear')); // important
     if (connectedLines.length === 0) {
-      this.initState()
+      this.initState();
     }
-  }
+  };
 
   handleEnterDot = e => {
-    const { panningDot, col, row, matrix, dispatch, rectangle } = this.props
+    const {
+      panningDot,
+      idx,
+      array,
+      boardHeight,
+      dispatch,
+      rectangle
+    } = this.props;
     if (rectangle) {
-      return
+      return;
     }
-    if (
-      panningDot !== null &&
-      !(panningDot.col === col && panningDot.row === row)
-    ) {
-      if (isAdjacent(matrix)(panningDot, { col, row }).adjacent) {
-        this.handleTap()
+    if (panningDot !== null && !(panningDot === idx)) {
+      if (isAdjacent(array, boardHeight)(panningDot, idx).adjacent) {
+        this.handleTap();
       }
       // recalculate line start position
-      const dotPosition = offset(e.target)
-      const dotShape = shape(e.target)
+      const dotPosition = offset(e.target);
+      const dotShape = shape(e.target);
       dispatch(
-        actions.enterDot(
-          { col, row },
-          {
-            x: dotPosition.left + dotShape.width / 2,
-            y:
-              dotPosition.top +
-              dotShape.height / 2 -
-              this.state.lineHeight / 2 -
-              60
-          }
-        )
-      )
-      dispatch(actions.resetDotState('isActive')) // important
+        actions.enterDot(idx, {
+          x: dotPosition.left + dotShape.width / 2,
+          y:
+            dotPosition.top +
+            dotShape.height / 2 -
+            this.state.lineHeight / 2 -
+            60
+        })
+      );
+      dispatch(actions.resetDotState('isActive')); // important
     }
-  }
+  };
 
   handleLeaveDot = () => {
     const {
       panningDot,
       panDirection,
       connectedLines,
-      col,
-      row,
+      idx,
       dispatch
-    } = this.props
+    } = this.props;
     if (
       connectedLines.length > 0 &&
       panningDot !== null &&
-      (panningDot.col === col && panningDot.row === row) &&
+      panningDot === idx &&
       isOppositeDirection(
         panDirection,
         connectedLines[connectedLines.length - 1].direction
       )
     ) {
-      dispatch(actions.leaveDot({ col, row }))
+      dispatch(actions.leaveDot(idx));
     }
-  }
+  };
 
   componentDidMount() {
     this.bounceTimer = setTimeout(() => {
-      this.setState({ isBounce: false })
-    }, 1000)
+      this.setState({ isBounce: false });
+    }, 1000);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.isActive !== nextProps.isActive && nextProps.isActive) {
-      this.handleTap()
+      this.handleTap();
     } else if (this.props.isClear !== nextProps.isClear && nextProps.isClear) {
-      this.handleClear()
+      this.handleClear();
     } else if (
       this.props.isBounce !== nextProps.isBounce &&
       nextProps.isBounce
     ) {
-      this.handleBounce()
+      this.handleBounce();
     }
   }
 
   componentWillUnmount() {
-    clearTimeout(this.activeTimer)
-    clearTimeout(this.clearDotTimer)
-    clearTimeout(this.bounceTimer)
-    this.props.refreshMatrix()
+    clearTimeout(this.activeTimer);
+    clearTimeout(this.clearDotTimer);
+    clearTimeout(this.bounceTimer);
+    this.props.refreshBoard();
   }
 
   render() {
-    // col,row is for dot matrix position
-    const { color, connectedLines, linePosition, rectangle } = this.props
+    const { color, connectedLines, linePosition, rectangle } = this.props;
     const {
       isBounce,
       isClear,
@@ -290,7 +282,7 @@ class EnhancedDot extends Component {
       lineLength,
       lineHeight,
       lineAngle
-    } = this.state
+    } = this.state;
     return (
       <DotContainer>
         <Hammer
@@ -316,7 +308,7 @@ class EnhancedDot extends Component {
         </Hammer>
         <AnimateDotBottom color={color} isActive={isActive} diam={20} />
 
-        {/* TODO: lines could move to Matrix Component */}
+        {/* TODO: lines could move to DotArray Component */}
         {isPanning &&
           !rectangle && (
             <Line
@@ -341,7 +333,7 @@ class EnhancedDot extends Component {
           />
         ))}
       </DotContainer>
-    )
+    );
   }
 }
 
@@ -350,6 +342,7 @@ export default connect(state => ({
   panDirection: state.gameArea.panDirection,
   linePosition: state.gameArea.linePosition,
   connectedLines: state.gameArea.connectedLines,
-  matrix: state.gameArea.matrix,
+  array: state.gameArea.array,
+  boardHeight: state.gameArea.boardHeight,
   rectangle: state.gameArea.rectangle
-}))(EnhancedDot)
+}))(EnhancedDot);
