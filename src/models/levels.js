@@ -282,7 +282,7 @@ const datas = [
             gpd(1)
           ]);
         })(),
-        height: 6,
+        height: 5,
         gen: generator({
           colors: [
             COLOR_RED,
@@ -325,7 +325,7 @@ const datas = [
             gpd(1)
           ]);
         })(),
-        height: 6,
+        height: 5,
         gen: generator({
           colors: [
             COLOR_RED,

@@ -1,21 +1,21 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import Loadable from 'react-loadable'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import Loadable from 'react-loadable';
+import { connect } from 'react-redux';
 
-import BottomBar from '../BottomBar'
-import Level from './Level'
-import TopBar from '../TopBar'
-import Loading from '../Loading'
-import { COLOR_BLUE, COLOR_RED } from '../../utils/constants'
-import gameAreaActions from '../../store/gamearea/actions'
-import gameInfoActions from '../../store/gameinfo/actions'
+import BottomBar from '../BottomBar';
+import Level from './Level';
+import TopBar from '../TopBar';
+import Loading from '../Loading';
+import { COLOR_BLUE, COLOR_RED } from '../../utils/constants';
+import gameAreaActions from '../../store/gamearea/actions';
+import gameInfoActions from '../../store/gameinfo/actions';
 
 const Title = styled.span`
   color: ${props => props.color};
 
   font-size: 4rem;
-`
+`;
 
 const Content = styled.div`
   height: 100%;
@@ -26,7 +26,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 const AppContainer = styled.div`
   width: 100%;
@@ -38,34 +38,34 @@ const AppContainer = styled.div`
   flex-direction: column;
 
   z-index: -10;
-`
+`;
 
 class GameMap extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       Game: null
-    }
+    };
   }
 
   handleClick = (e, l) => {
     // dynamic load GameArea
-    this.props.dispatch(gameInfoActions.globalInit(l.level))
-    this.props.dispatch(gameAreaActions.initGame(l.level))
+    this.props.dispatch(gameInfoActions.globalInit(l.level));
+    this.props.dispatch(gameAreaActions.initGame(l.level));
     this.setState({
       Game: Loadable({
         loader: () => import('../Game'),
         loading: Loading
       })
-    })
-  }
+    });
+  };
 
   render() {
-    const { levels } = this.props
-    const { Game } = this.state
+    const { levels } = this.props;
+    const { Game } = this.state;
     if (Game !== null) {
-      return <Game />
+      return <Game />;
     } else {
       return (
         <AppContainer>
@@ -80,6 +80,7 @@ class GameMap extends Component {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-around',
+                alignItems: 'center',
                 flexWrap: 'wrap',
                 marginTop: '50px',
                 width: '300px'
@@ -89,7 +90,7 @@ class GameMap extends Component {
                 <Level
                   key={i.toString()}
                   onClick={e => {
-                    this.handleClick(e, l)
+                    this.handleClick(e, l);
                   }}
                   active={l.active}
                 >
@@ -100,11 +101,11 @@ class GameMap extends Component {
           </Content>
           <BottomBar />
         </AppContainer>
-      )
+      );
     }
   }
 }
 
 export default connect(state => ({
   levels: state.gameInfo.levels
-}))(GameMap)
+}))(GameMap);

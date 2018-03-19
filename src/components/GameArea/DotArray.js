@@ -6,16 +6,22 @@ import actions from '../../store/gamearea/actions';
 import { DOT_TYPE_DOT } from '../../utils/constants';
 import Dot from '../Dot';
 
-const DotArray = styled.div`
+const DotArray = styled.div.attrs({
+  style: ({ width, height }) => ({
+    width,
+    height
+  })
+})`
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 const EmptyDot = () => <div style={{ width: '40px', height: '40px' }} />;
 
-class Matrix extends Component {
+class Board extends Component {
   refreshBoard = () => {
     if (this.refreshTimer) cancelAnimationFrame(this.refreshTimer);
     this.refreshTimer = requestAnimationFrame(() => {
@@ -37,9 +43,9 @@ class Matrix extends Component {
   }
 
   render() {
-    const { array } = this.props;
+    const { array, boardHeight, boardWidth } = this.props;
     return (
-      <DotArray>
+      <DotArray width={boardWidth * 40} height={boardHeight * 40}>
         {array.map((e, i) => {
           switch (e.type) {
             case DOT_TYPE_DOT:
@@ -62,5 +68,6 @@ class Matrix extends Component {
 }
 
 export default connect(state => ({
+  boardHeight: state.gameArea.boardHeight,
   boardWidth: state.gameArea.boardWidth
-}))(Matrix);
+}))(Board);

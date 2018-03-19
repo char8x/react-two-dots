@@ -206,7 +206,7 @@ const existAdjacentDot = (array, height) => {
   return false;
 };
 
-export const shuffleArray = array => {
+const shuffleArray = array => {
   let shuffleTime = 1;
   const shuffle = array => {
     for (let i = 0; i < array.length; i++) {
@@ -254,7 +254,7 @@ const lineDeg = {
   DIRECTION_RIGHT: 0
 };
 
-export default {
+export {
   rectangleExist,
   removeDots,
   addNewDots,
@@ -262,5 +262,6 @@ export default {
   existAdjacentDot,
   isOppositeDirection,
   isSameDot,
-  lineDeg
+  lineDeg,
+  shuffleArray
 };

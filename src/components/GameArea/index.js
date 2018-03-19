@@ -39,7 +39,16 @@ class GameArea extends Component {
           <div>
             <VerticalProgress progress={progress - 6} color={color} />
           </div>
-          {showBoard && <DotArray array={array} />}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            {showBoard && <DotArray array={array} />}
+          </div>
           <div>
             <VerticalProgress progress={progress - 6} color={color} />
           </div>

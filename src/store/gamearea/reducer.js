@@ -74,7 +74,7 @@ export default (state = initState, action) => {
         ...state,
         array: data.array,
         boardHeight: data.height,
-        boardWidth: Math.floor(data.array / data.height),
+        boardWidth: Math.floor(data.array.length / data.height),
         level: action.level,
         chances: data.chance,
         goals: data.goals,
