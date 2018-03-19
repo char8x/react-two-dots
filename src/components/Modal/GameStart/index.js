@@ -72,7 +72,6 @@ class GameStart extends Component {
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
       this.props.dispatch(actions.showBoard());
-      this.setState({ show: true });
     }, 350);
   };
 

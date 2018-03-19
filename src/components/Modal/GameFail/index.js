@@ -92,7 +92,6 @@ class GameSucceed extends Component {
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       this.props.dispatch(push('/'));
-      this.setState({ show: true });
     }, 450);
   };
 
@@ -103,7 +102,6 @@ class GameSucceed extends Component {
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
       this.props.dispatch(actions.initGame(currentLevel.level, currentLevel));
-      this.setState({ show: true });
     }, 450);
   };
 

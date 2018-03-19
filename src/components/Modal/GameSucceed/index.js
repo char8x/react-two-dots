@@ -90,7 +90,6 @@ class GameSucceed extends Component {
       this.props.dispatch(gameInfoActions.activeLevel(nextlevel));
       this.props.dispatch(gameAreaActions.initGame(nextlevel));
       this.props.dispatch(push('/level/' + nextlevel));
-      this.setState({ show: true });
     }, 450);
   };
 
@@ -103,7 +102,6 @@ class GameSucceed extends Component {
       this.props.dispatch(
         gameAreaActions.initGame(currentLevel.level, currentLevel)
       );
-      this.setState({ show: true });
     }, 450);
   };
 
