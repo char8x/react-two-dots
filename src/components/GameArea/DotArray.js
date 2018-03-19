@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import Col from './DotColumn';
 import actions from '../../store/gamearea/actions';
+import { DOT_TYPE_DOT } from '../../utils/constants';
+import Dot from '../Dot';
 
-const DotMatrix = styled.div`
+const DotArray = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
 
-const EmptyCol = () => <div style={{ width: '40px' }} />;
+const EmptyDot = () => <div style={{ width: '40px', height: '40px' }} />;
 
 class Matrix extends Component {
   refreshMatrix = () => {
@@ -36,25 +37,26 @@ class Matrix extends Component {
   }
 
   render() {
-    const { matrix } = this.props;
+    const { array } = this.props;
     return (
-      <DotMatrix>
-        {matrix.map((e, i) => {
-          if (e.length === 0) {
-            return <EmptyCol key={i} />;
-          } else {
-            return (
-              <Col
-                list={e}
-                key={i}
-                col={i}
-                refreshMatrix={this.refreshMatrix}
-                linePanningEnd={this.linePanningEnd}
-              />
-            );
+      <DotArray>
+        {array.map((e, i) => {
+          switch (e.type) {
+            case DOT_TYPE_DOT:
+              return (
+                <Dot
+                  {...e}
+                  key={i}
+                  idx={i}
+                  refreshMatrix={this.refreshMatrix}
+                  linePanningEnd={this.linePanningEnd}
+                />
+              );
+            default:
+              return <EmptyDot />;
           }
         })}
-      </DotMatrix>
+      </DotArray>
     );
   }
 }

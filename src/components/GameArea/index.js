@@ -1,23 +1,18 @@
 // Level 7 best for test progress bar
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { VerticalProgress, HorizonProgress } from './ProgressBar'
-import DotMatrix from './DotMatrix'
+import { VerticalProgress, HorizonProgress } from './ProgressBar';
+import DotMatrix from './DotMatrix';
 
 class GameArea extends Component {
   render() {
-    const { showMatrix, matrix, color, rectangle } = this.props
-    let { progress } = this.props
+    const { showMatrix, matrix, color, rectangle } = this.props;
+    let { progress } = this.props;
     if (rectangle) {
       // fullfill all progress
-      progress = 12
+      progress = 12;
     }
-
-    // TODO: line issue
-    // const { showMatrix, matrix, rectangle } = this.props
-    // let progress = 12
-    // let color = '#000'
 
     return (
       <div
@@ -51,7 +46,7 @@ class GameArea extends Component {
         </div>
         <HorizonProgress progress={progress} color={color} />
       </div>
-    )
+    );
   }
 }
 
@@ -61,4 +56,4 @@ export default connect(state => ({
   progress: state.gameArea.connectedLines.length,
   color: state.gameArea.dotColor,
   rectangle: state.gameArea.rectangle
-}))(GameArea)
+}))(GameArea);
