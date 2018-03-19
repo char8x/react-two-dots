@@ -115,7 +115,7 @@ class GameSucceed extends Component {
   }
 
   render() {
-    const { level, score, showFailure } = this.props
+    const { level, showFailure } = this.props
     return (
       <ReactModal
         isOpen={showFailure}

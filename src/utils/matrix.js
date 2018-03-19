@@ -102,6 +102,14 @@ export const addNewDots = (matrix, colLength, dotColor) => {
   })
 }
 
+const isSameDotType = (dotA, dotB) => {
+  return (
+    dotA.type === DOT_TYPE_DOT &&
+    dotA.type === dotB.type &&
+    dotA.color === dotB.color
+  )
+}
+
 /**
  * if is same color and same type
  *
@@ -113,11 +121,7 @@ export const addNewDots = (matrix, colLength, dotColor) => {
 export const isAdjacent = matrix => (dotA, dotB) => {
   const pointA = matrix[dotA.col][dotA.row]
   const pointB = matrix[dotB.col][dotB.row]
-  if (
-    pointA.type === DOT_TYPE_DOT &&
-    pointA.type === pointB.type &&
-    pointA.color === pointB.color
-  ) {
+  if (isSameDotType(pointA, pointB)) {
     if (dotA.col - 1 === dotB.col && dotA.row === dotB.row) {
       return {
         adjacent: true,
@@ -145,6 +149,65 @@ export const isAdjacent = matrix => (dotA, dotB) => {
   }
   return false
 }
+
+export const hasAdjacentDot = (matrix, col, row) => {
+  const dot = matrix[col][row]
+  if (matrix[col + 1] && isSameDotType(dot, matrix[col + 1][row])) {
+    return true
+  } else if (matrix[col][row + 1] && isSameDotType(dot, matrix[col + 1][row])) {
+    return true
+  } else if (matrix[col - 1] && isSameDotType(dot, matrix[col - 1][row])) {
+    return true
+  } else if (matrix[col][row - 1] && isSameDotType(dot, matrix[col][row - 1])) {
+    return true
+  }
+  return false
+}
+
+/**
+ * If matrix exist adjacent dot
+ *
+ * @param {*} matrix
+ */
+export const existAdjacentDot = matrix => {
+  for (let i = 0; i < matrix; i++) {
+    const col = matrix[i]
+    let j
+    if (i % 2 === 0) {
+      for (j = 0; j < col.length; j = j + 2) {
+        if (hasAdjacentDot(matrix, i, j)) {
+          return true
+        }
+      }
+    } else if (i % 2 === 1) {
+      for (j = 1; j < col.length; j = j + 2) {
+        if (hasAdjacentDot(matrix, i, j)) {
+          return true
+        }
+      }
+    }
+  }
+  return false
+}
+
+// const shuffleCol = col => {
+//   const indexList = Array.from({ length: col.length })
+// }
+
+// export const shuffleMatrix = matrix => {
+//   let switchTime = 1
+//   const shuffle = matrix => {
+//     // let col =
+//     // let row =
+//     // let dot = matrix[]
+//     if (switchTime < 50 && !existAdjacentDot(matrix)) {
+//       switchTime++
+//       shuffle(matrix)
+//     }
+//   }
+
+//   return matrix
+// }
 
 export const isOppositeDirection = (directA, directB) => {
   switch (directA) {

@@ -24,7 +24,7 @@ class Chance extends Component {
 
     return (
       <ChanceBackground>
-        <Text fontSize="2rem" lineHeight="2rem">
+        <Text fontSize="2rem" lineHeight="2rem" chance={chance}>
           {chance}
         </Text>
         <Text fontSize="0.4rem">{chance >= 0 && '次移动机会'}</Text>
