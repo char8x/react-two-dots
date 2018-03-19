@@ -59,7 +59,7 @@ const AnimateDotBottom = AnimateDotTop.extend`
   ${props =>
     props.isActive
       ? `animation-name: ${vanish};
-         animation-duration: 0.85s;
+         animation-duration: 0.65s;
          animation-fill-mode: forwards;
          opacity: 1;`
       : ''};
@@ -100,7 +100,7 @@ class EnhancedDot extends Component {
     this.setState({ isActive: true });
     this.activeDotTimer = setTimeout(() => {
       this.setState({ isActive: false });
-    }, 850); // equal or more than animation-duration (0.85s)
+    }, 650); // equal or more than animation-duration (0.65s)
   };
 
   handleClear = () => {
