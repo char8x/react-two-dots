@@ -2,16 +2,13 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
-import CountUp from 'react-countup';
-
-import './index.css';
-import gameAreaActions from '../../store/gamearea/actions';
-import gameInfoActions from '../../store/gameinfo/actions';
 import { push } from 'react-router-redux';
 
-import restart from './restart.svg';
+import './index.css';
+import actions from '../../../store/gamearea/actions';
+import map from './map.svg';
+import sad from './sad.svg';
 
-ReactModal.setAppElement('#root');
 const modalStyle = show => ({
   overlay: {
     backgroundColor: 'rgba(68,68,68,0.8)',
@@ -20,7 +17,7 @@ const modalStyle = show => ({
     animationFillMode: 'forwards'
   },
   content: {
-    top: '13vh',
+    top: '15vh',
     left: '6vh',
     backgroundColor: '#3C4D5C',
 
@@ -30,7 +27,7 @@ const modalStyle = show => ({
     paddingTop: '10px',
 
     width: '300px',
-    height: '360px',
+    height: '300px',
 
     textAlign: 'center',
     overflow: 'hidden',
@@ -63,13 +60,22 @@ const Button = styled.button`
   border-radius: 20px;
 `;
 
-const Restart = styled.input.attrs({
+const Map = styled.input.attrs({
   type: 'image',
-  src: restart,
-  alt: 'restart'
+  src: map,
+  alt: 'map'
 })`
   width: 30px;
   height: 30px;
+`;
+
+const Sad = styled.img.attrs({
+  src: sad,
+  alt: 'sad'
+})`
+  width: 100px;
+  height: 100px;
+  margin: 10px;
 `;
 
 class GameSucceed extends Component {
@@ -77,20 +83,15 @@ class GameSucceed extends Component {
     super();
 
     this.state = {
-      show: true // control style
+      show: true
     };
   }
 
-  // Continue game
-  handleContinue = () => {
-    const { currentLevel } = this.props;
-    const nextlevel = currentLevel.level + 1;
+  // Return game map
+  handleReturn = () => {
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
-      // request GameArea component load
-      this.props.dispatch(gameInfoActions.activeLevel(nextlevel));
-      this.props.dispatch(gameAreaActions.initGame(nextlevel));
-      this.props.dispatch(push('/level/' + nextlevel));
+      this.props.dispatch(push('/'));
       this.setState({ show: true });
     }, 450);
   };
@@ -101,34 +102,28 @@ class GameSucceed extends Component {
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.dispatch(
-        gameAreaActions.initGame(currentLevel.level, currentLevel)
-      );
+      this.props.dispatch(actions.initGame(currentLevel.level, currentLevel));
       this.setState({ show: true });
     }, 450);
   };
-
-  componentDidMount() {
-    this.props.dispatch(gameInfoActions.saveResult(this.props.score));
-  }
 
   componentWillUnmount() {
     clearTimeout(this.closeTimer);
   }
 
   render() {
-    const { level, score, currentLevel, maxLevel, showSuccess } = this.props;
+    const { level, showFailure } = this.props;
     return (
       <ReactModal
-        isOpen={showSuccess}
+        isOpen={showFailure}
         shouldCloseOnOverlayClick={false}
         style={modalStyle(this.state.show)}
       >
-        <Title>成功</Title>
+        <Title>第 {level} 关挑战失败</Title>
         <div
           style={{
             backgroundColor: '#EBEBEB',
-            height: '65%',
+            height: '150px',
             width: '100%',
             padding: '10px 0',
             textAlign: 'center',
@@ -138,36 +133,14 @@ class GameSucceed extends Component {
             alignItems: 'center'
           }}
         >
-          <span>愈战愈勇</span>
-          <div
-            style={{
-              margin: '20px',
-              width: '150px',
-              height: '150px',
-              borderStyle: 'inset',
-              borderWidth: '10px',
-              borderColor: '#455565',
-              boxShadow: 'inset 1px 1px 1em 3px #455565'
-            }}
-          >
-            <CountUp
-              style={{
-                fontSize: '3rem',
-                fontWeight: 'lighter'
-              }}
-              start={0}
-              end={score}
-              duration={3}
-            />
-            <hr />
-            <span style={{ fontSize: '1.5rem' }}>关卡 {level}</span>
-          </div>
+          <Sad />
+          <span>别灰心，失败是成功之母</span>
         </div>
         <div
           style={{
             width: '100%',
             height: '60px',
-            padding: '10px 0',
+            padding: '20px 0',
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-around'
@@ -181,17 +154,9 @@ class GameSucceed extends Component {
               paddingTop: '10px'
             }}
           >
-            <Restart onClick={this.handleRestart} />
+            <Map onClick={this.handleReturn} />
           </div>
-          <Button
-            onClick={
-              currentLevel.level < maxLevel
-                ? this.handleContinue
-                : this.handleReturn
-            }
-          >
-            {currentLevel.level < maxLevel ? '继续' : '返回'}
-          </Button>
+          <Button onClick={this.handleRestart}>再玩一次</Button>
         </div>
       </ReactModal>
     );
@@ -199,7 +164,6 @@ class GameSucceed extends Component {
 }
 
 export default connect(state => ({
-  showSuccess: state.gameArea.showSuccess,
   currentLevel: state.gameInfo.currentLevel,
-  maxLevel: state.gameInfo.maxLevel
+  showFailure: state.gameArea.showFailure
 }))(GameSucceed);

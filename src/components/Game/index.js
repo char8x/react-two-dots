@@ -1,14 +1,12 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { connect } from 'react-redux';
 
-import TopBar from '../TopBar'
-import BottomBar from '../BottomBar'
-import GameStart from '../GameStart'
-import GameSucceed from '../GameSucceed'
-import GameFail from '../GameFail'
-import GameArea from '../GameArea'
-import hex2rgb from '../../utils/hex2rgb'
+import TopBar from '../TopBar';
+import BottomBar from '../BottomBar';
+import Modal from '../Modal';
+import GameArea from '../GameArea';
+import hex2rgb from '../../utils/hex2rgb';
 
 const AppContainer = styled.div`
   width: 100%;
@@ -24,7 +22,7 @@ const AppContainer = styled.div`
     props.rectangle
       ? `background-color: rgba(${hex2rgb(props.color)},0.3);`
       : ''};
-`
+`;
 
 class App extends Component {
   render() {
@@ -36,18 +34,16 @@ class App extends Component {
       score,
       color,
       rectangle
-    } = this.props
+    } = this.props;
 
     return (
       <AppContainer color={color} rectangle={rectangle}>
-        <GameStart chance={chances} goals={goals} level={level} />
-        <GameSucceed level={level} score={score} />
-        <GameFail level={level} />
+        <Modal chances={chances} goals={goals} level={level} score={score} />
         <TopBar chance={chances} goals={goals} />
         <GameArea />
         <BottomBar level={level} clearDots={clearDots} score={score} />
       </AppContainer>
-    )
+    );
   }
 }
 
@@ -61,4 +57,4 @@ export default connect(state => ({
   rectangle: state.gameArea.rectangle,
   showSuccess: state.gameArea.showSuccess,
   showFailure: state.gameArea.showFailure
-}))(App)
+}))(App);

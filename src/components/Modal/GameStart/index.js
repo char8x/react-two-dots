@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 
-import Goal from '../Goal';
+import Goal from '../../Goal';
 import './index.css';
-import actions from '../../store/gamearea/actions';
+import actions from '../../../store/gamearea/actions';
 
-ReactModal.setAppElement('#root');
 const modalStyle = show => ({
   overlay: {
     backgroundColor: 'rgba(68,68,68,0.8)',
