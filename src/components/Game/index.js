@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import TopBar from '../TopBar';
 import BottomBar from '../BottomBar';
@@ -35,6 +36,10 @@ class App extends Component {
       color,
       rectangle
     } = this.props;
+
+    if (goals == null || goals.length === 0) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <AppContainer color={color} rectangle={rectangle}>
