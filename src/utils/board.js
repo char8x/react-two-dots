@@ -54,7 +54,7 @@ const removeDots = (array, height) => connectedDots => {
     for (let i = 0; i < array.length; i = i + height) {
       let bounceStartDot = null;
       // iterate board vertical column
-      for (let j = 0; j < i + height; j++) {
+      for (let j = i; j < i + height; j++) {
         let dot = array[j];
         if (dot.color === color && dot.type === DOT_TYPE_DOT) {
           // calculate start bounce dot position
@@ -123,10 +123,8 @@ const addNewDots = (array, height, dotColor) => {
   for (let i = 0; i < array.length; i = i + height) {
     // regenerate col
     const colArray = array.slice(i, i + height).filter(e => e !== null);
-    if (colArray.length > 0) {
-      const newCol = colArray.concat(gen(height - colArray.length, dotColor));
-      array.splice(i, height, ...newCol);
-    }
+    const newCol = colArray.concat(gen(height - colArray.length, dotColor));
+    array.splice(i, height, ...newCol);
   }
 };
 
@@ -153,12 +151,12 @@ const isAdjacent = (array, height) => (dotA, dotB) => {
     if (dotA + height === dotB) {
       return {
         adjacent: true,
-        direction: DIRECTION_LEFT
+        direction: DIRECTION_RIGHT
       };
     } else if (dotA - height === dotB) {
       return {
         adjacent: true,
-        direction: DIRECTION_RIGHT
+        direction: DIRECTION_LEFT
       };
     } else if (dotA - 1 === dotB) {
       return {

@@ -47,6 +47,9 @@ class Board extends Component {
     return (
       <DotArray width={boardWidth * 40} height={boardHeight * 40}>
         {array.map((e, i) => {
+          if (e == null) {
+            return <EmptyDot />;
+          }
           switch (e.type) {
             case DOT_TYPE_DOT:
               return (
