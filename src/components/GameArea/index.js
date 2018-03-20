@@ -17,7 +17,7 @@ class GameArea extends Component {
     return (
       <div
         style={{
-          position: 'fixed',
+          position: 'absolute',
           top: '60px',
           bottom: '60px',
           display: 'flex',

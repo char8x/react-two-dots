@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const Line = ({ top, left, width, height, color, deg }) => (
   <div
@@ -9,11 +9,11 @@ const Line = ({ top, left, width, height, color, deg }) => (
       height,
       backgroundColor: color,
       transform: 'rotate(' + deg + 'deg)',
-      position: 'absolute',
+      position: 'fixed',
       zIndex: -2,
       transformOrigin: 'center left'
     }}
   />
-)
+);
 
-export default Line
+export default Line;

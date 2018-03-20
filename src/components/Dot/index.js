@@ -130,11 +130,7 @@ class EnhancedDot extends Component {
       dispatch(
         actions.panningStart(idx, {
           x: dotPosition.left + dotShape.width / 2,
-          y:
-            dotPosition.top +
-            dotShape.height / 2 -
-            this.state.lineHeight / 2 -
-            60
+          y: dotPosition.top + dotShape.height / 2 - this.state.lineHeight / 2
         })
       );
     }
@@ -150,7 +146,7 @@ class EnhancedDot extends Component {
     // calculate length and rotate
     let pointer = {
       x: e.center.x,
-      y: e.center.y - 60
+      y: e.center.y
     };
     this.setState({
       lineLength: distance(
@@ -214,11 +210,7 @@ class EnhancedDot extends Component {
       dispatch(
         actions.enterDot(idx, {
           x: dotPosition.left + dotShape.width / 2,
-          y:
-            dotPosition.top +
-            dotShape.height / 2 -
-            this.state.lineHeight / 2 -
-            60
+          y: dotPosition.top + dotShape.height / 2 - this.state.lineHeight / 2
         })
       );
       dispatch(actions.resetDotState('isActive')); // important

@@ -1,11 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import Score from './Score'
-import Level from './Level'
+import Score from './Score';
+import Level from './Level';
 
 const Background = styled.footer`
-  position: fixed;
+  position: absolute;
   bottom: 0;
   background-color: #f0f0f1;
 
@@ -18,13 +18,13 @@ const Background = styled.footer`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-`
+`;
 
 const TopBar = props => (
   <Background>
     <Score score={props.score} />
     <Level level={props.level} clearDots={props.clearDots} />
   </Background>
-)
+);
 
-export default TopBar
+export default TopBar;

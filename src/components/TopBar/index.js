@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import Chance from './Chance'
-import Goal from '../Goal'
-import Setting from './Setting'
+import Chance from './Chance';
+import Goal from '../Goal';
+import Setting from './Setting';
 
 const Background = styled.nav`
-  position: fixed;
+  position: absolute;
   background-color: #f0f0f1;
 
   width: 100%;
@@ -18,7 +18,7 @@ const Background = styled.nav`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-`
+`;
 
 const TopBar = props => (
   <Background>
@@ -26,6 +26,6 @@ const TopBar = props => (
     <Goal goals={props.goals} showClear={true} />
     <Setting />
   </Background>
-)
+);
 
-export default TopBar
+export default TopBar;
