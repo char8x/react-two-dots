@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import Routes from './routes';
 import createStore from './store';
 import history from './utils/history';
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 
 injectGlobal`
   html,body {
@@ -34,4 +34,4 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-registerServiceWorker();
+// registerServiceWorker();

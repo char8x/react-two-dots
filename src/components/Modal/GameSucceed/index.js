@@ -105,6 +105,14 @@ class GameSucceed extends Component {
     }, 450);
   };
 
+  // Return game map
+  handleReturn = () => {
+    this.setState({ show: false });
+    this.closeTimer = setTimeout(() => {
+      this.props.dispatch(push('/'));
+    }, 450);
+  };
+
   componentDidMount() {
     this.props.dispatch(gameInfoActions.saveResult(this.props.score));
   }

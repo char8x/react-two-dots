@@ -216,36 +216,37 @@ const datas = [
     // TODO: level 5
     data: () => {
       currentLevel = {
-        chance: 26,
-        goals: gdg(20, 4, [
-          COLOR_PURPLE,
-          COLOR_BLUE,
-          COLOR_GREEN,
-          COLOR_YELLOW
-        ]),
+        chance: 30,
+        goals: gdg(50, 4, [COLOR_PURPLE, COLOR_RED, COLOR_GREEN, COLOR_YELLOW]),
         array: (() => {
           return gm([
+            gpd(8),
+            grd(6),
             gpd(1),
             grd(1),
-            ggd(2),
+            ggd(5),
+            gpd(1),
+            grd(1),
+            ggd(1),
+            gyd(4),
+            gpd(1),
+            grd(1),
+            ggd(1),
+            gyd(1),
+            gpd(4),
+            grd(1),
+            ggd(1),
+            gyd(1),
+            gpd(1),
+            grd(1),
             gpd(2),
-            ggd(2),
-            gyd(2),
-            ggd(1),
-            gyd(1),
-            ggd(1),
-            gpd(1),
-            grd(1),
-            gyd(2),
-            ggd(1),
-            ggd(1),
-            gyd(1),
             grd(1),
             ggd(1),
-            gpd(2)
+            gyd(1),
+            gpd(3)
           ]);
         })(),
-        height: 6,
+        height: 7,
         gen: generator({
           colors: [COLOR_PURPLE, COLOR_BLUE, COLOR_GREEN, COLOR_YELLOW],
           dotTypes: [DOT_TYPE_DOT]
@@ -253,8 +254,8 @@ const datas = [
       };
       return currentLevel;
     }
-  },
-  {
+  }
+  /*  {
     // level 6
     data: () => {
       currentLevel = {
@@ -363,7 +364,7 @@ const datas = [
       };
       return currentLevel;
     }
-  }
+  } */
 ];
 
 const maxLevel = datas.length;
@@ -372,7 +373,7 @@ const levels = datas.map((e, i) =>
   Object.assign(e, {
     level: i + 1,
     score: 0,
-    active: true
+    active: false
   })
 );
 
