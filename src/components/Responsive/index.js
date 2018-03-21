@@ -45,7 +45,14 @@ export default class extends React.Component {
     return (
       <React.Fragment>
         <Default>
-          <Fork />
+          <a
+            href="https://github.com/charles8xu/react-two-dots/"
+            style={{
+              userSelect: 'none'
+            }}
+          >
+            <Fork />
+          </a>
           <Background>
             <Wrapper>{this.props.children}</Wrapper>
           </Background>
