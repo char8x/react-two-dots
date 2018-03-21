@@ -2,6 +2,7 @@
   "name": "react-two-dots",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://charles8xu.github.io/react-two-dots",
   "dependencies": {
     "classnames": "^2.2.5",
     "debug": "^3.1.0",
@@ -33,9 +34,7 @@
     "eject": "react-scripts eject"
   },
   "babel": {
-    "presets": [
-      "react-app"
-    ]
+    "presets": ["react-app"]
   },
   "eslintConfig": {
     "extends": "react-app"
