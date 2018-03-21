@@ -54,7 +54,17 @@ export default class extends React.Component {
             <Fork />
           </a>
           <Background>
-            <Wrapper>{this.props.children}</Wrapper>
+            <Wrapper>
+              <iframe
+                style={{
+                  width: '363px',
+                  height: '640px'
+                }}
+                title="two-dots"
+                src="https://charles8xu.github.io/react-two-dots/"
+                frameBorder="0"
+              />
+            </Wrapper>
           </Background>
         </Default>
         <Mobile>{this.props.children}</Mobile>
