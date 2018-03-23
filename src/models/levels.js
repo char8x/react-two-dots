@@ -248,7 +248,7 @@ const datas = [
         })(),
         height: 7,
         gen: generator({
-          colors: [COLOR_PURPLE, COLOR_BLUE, COLOR_GREEN, COLOR_YELLOW],
+          colors: [COLOR_PURPLE, COLOR_RED, COLOR_GREEN, COLOR_YELLOW],
           dotTypes: [DOT_TYPE_DOT]
         })
       };
