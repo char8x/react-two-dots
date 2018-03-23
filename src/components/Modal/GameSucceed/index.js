@@ -20,7 +20,7 @@ const modalStyle = show => ({
   },
   content: {
     top: '13vh',
-    left: '6vh',
+    left: '5vh',
     backgroundColor: '#3C4D5C',
 
     borderWidth: 0,

@@ -57,8 +57,10 @@ export default class extends React.Component {
             <Wrapper>
               <iframe
                 style={{
-                  width: '363px',
-                  height: '640px'
+                  width: '364px',
+                  height: '641px',
+                  position: 'absolute',
+                  top: '-1px'
                 }}
                 title="two-dots"
                 src="https://charles8xu.github.io/react-two-dots/"
