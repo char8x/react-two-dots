@@ -32,6 +32,7 @@ class Routes extends React.Component {
   componentDidMount() {
     // disable iOS pinch zoom with the user-scalable attribute.
     // https://stackoverflow.com/a/39711930
+    // https://developer.apple.com/documentation/webkitjs/gestureevent
     document.addEventListener('gesturestart', function(e) {
       e.preventDefault();
     });
