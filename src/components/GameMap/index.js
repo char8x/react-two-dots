@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 import BottomBar from '../BottomBar';
 import Level from './Level';
@@ -40,6 +41,15 @@ const AppContainer = styled.div`
 `;
 
 class GameMap extends Component {
+  componentDidMount() {
+    this.targetElement = document.querySelector('#root');
+    disableBodyScroll(this.targetElement);
+  }
+
+  componentWillUnmount() {
+    clearAllBodyScrollLocks();
+  }
+
   handleClick = (e, l) => {
     // dynamic load GameArea
     this.props.dispatch(gameInfoActions.globalInit(l.level));

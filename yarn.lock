@@ -1021,6 +1021,12 @@ body-parser@1.18.2:
     raw-body "2.3.2"
     type-is "~1.6.15"
 
+body-scroll-lock@^2.3.3:
+  version "2.3.3"
+  resolved "http://registry.npm.taobao.org/body-scroll-lock/download/body-scroll-lock-2.3.3.tgz#c1275d62c4298937200fb6c917f9b84a27a7f783"
+  dependencies:
+    ua-parser-js "^0.7.17"
+
 bonjour@^3.5.0:
   version "3.5.0"
   resolved "http://registry.npm.taobao.org/bonjour/download/bonjour-3.5.0.tgz#8e890a183d8ee9a2393b3844c691a42bcf7bc9f5"
@@ -6381,7 +6387,7 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "http://registry.npm.taobao.org/typedarray/download/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-ua-parser-js@^0.7.9:
+ua-parser-js@^0.7.17, ua-parser-js@^0.7.9:
   version "0.7.17"
   resolved "http://registry.npm.taobao.org/ua-parser-js/download/ua-parser-js-0.7.17.tgz#e9ec5f9498b9ec910e7ae3ac626a805c4d09ecac"
 

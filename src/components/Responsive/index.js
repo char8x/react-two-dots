@@ -42,6 +42,23 @@ const Wrapper = styled.div`
 
 export default class extends React.Component {
   render() {
+    const child =
+      process.env.NODE_ENV === 'production' ? (
+        <iframe
+          style={{
+            width: '364px',
+            height: '641px',
+            position: 'absolute',
+            top: '-1px'
+          }}
+          title="two-dots"
+          src="https://charles8xu.github.io/react-two-dots/"
+          frameBorder="0"
+        />
+      ) : (
+        this.props.children
+      );
+
     return (
       <React.Fragment>
         <Default>
@@ -54,19 +71,7 @@ export default class extends React.Component {
             <Fork />
           </a>
           <Background>
-            <Wrapper>
-              <iframe
-                style={{
-                  width: '364px',
-                  height: '641px',
-                  position: 'absolute',
-                  top: '-1px'
-                }}
-                title="two-dots"
-                src="https://charles8xu.github.io/react-two-dots/"
-                frameBorder="0"
-              />
-            </Wrapper>
+            <Wrapper>{child}</Wrapper>
           </Background>
         </Default>
         <Mobile>{this.props.children}</Mobile>

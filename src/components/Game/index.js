@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 import TopBar from '../TopBar';
 import BottomBar from '../BottomBar';
@@ -26,6 +27,15 @@ const AppContainer = styled.div`
 `;
 
 class App extends Component {
+  componentDidMount() {
+    this.targetElement = document.querySelector('#root');
+    disableBodyScroll(this.targetElement);
+  }
+
+  componentWillUnmount() {
+    clearAllBodyScrollLocks();
+  }
+
   render() {
     const {
       chances,

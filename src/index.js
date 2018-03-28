@@ -16,7 +16,7 @@ injectGlobal`
     padding: 0;
     font-family: "HanHei SC","PingHei","PingFang SC","STHeitiSC-Light","Helvetica Neue","Helvetica","Arial",sans-serif;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: hidden; /* This approach only works for desktop browsers, and mobile Android. */
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

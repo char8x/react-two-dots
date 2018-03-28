@@ -4,6 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "body-scroll-lock": "^2.3.3",
     "classnames": "^2.2.5",
     "debug": "^3.1.0",
     "history": "^4.7.2",
@@ -34,7 +35,9 @@
     "eject": "react-scripts eject"
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
