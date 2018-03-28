@@ -29,6 +29,14 @@ const ResponsiveGame = () => (
 );
 
 class Routes extends React.Component {
+  componentDidMount() {
+    // disable iOS pinch zoom with the user-scalable attribute.
+    // https://stackoverflow.com/a/39711930
+    document.addEventListener('gesturestart', function(e) {
+      e.preventDefault();
+    });
+  }
+
   render() {
     return (
       <Switch>

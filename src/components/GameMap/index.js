@@ -42,11 +42,14 @@ const AppContainer = styled.div`
 
 class GameMap extends Component {
   componentDidMount() {
+    // disable iOS body scroll
+    // https://github.com/willmcpo/body-scroll-lock
     this.targetElement = document.querySelector('#root');
     disableBodyScroll(this.targetElement);
   }
 
   componentWillUnmount() {
+    // clear scroll lock
     clearAllBodyScrollLocks();
   }
 
