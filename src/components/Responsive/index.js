@@ -42,22 +42,23 @@ const Wrapper = styled.div`
 
 export default class extends React.Component {
   render() {
-    const child =
-      process.env.NODE_ENV === 'production' ? (
-        <iframe
-          style={{
-            width: '364px',
-            height: '641px',
-            position: 'absolute',
-            top: '-1px'
-          }}
-          title="two-dots"
-          src="https://charles8xu.github.io/react-two-dots/"
-          frameBorder="0"
-        />
-      ) : (
-        this.props.children
-      );
+    const child = (
+      <iframe
+        style={{
+          width: '364px',
+          height: '641px',
+          position: 'absolute',
+          top: '-1px'
+        }}
+        title="two-dots"
+        src={
+          process.env.NODE_ENV === 'production'
+            ? 'https://charles8xu.github.io/react-two-dots/'
+            : 'http://localhost:3000/#/'
+        }
+        frameBorder="0"
+      />
+    );
 
     return (
       <React.Fragment>
