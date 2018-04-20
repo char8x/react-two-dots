@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
-import Text from '../Text'
+import Text from '../Text';
 
 const LevelBackground = styled.div`
   background-color: #d7d8db;
@@ -16,21 +16,38 @@ const LevelBackground = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
+
+const LevelText = styled.span.attrs({
+  style: ({ fontSize, lineHeight, chance }) => ({
+    color: chance < 6 ? '#FF0000' : '#7d848f'
+  })
+})`
+  font-size: 12px;
+  font-weight: bold;
+  width: 60px;
+  text-align: center;
+  display: block;
+
+  @media only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 2dppx) {
+    font-size: 10px;
+  }
+`;
 
 class Chance extends Component {
   render() {
-    const { clearDots, level } = this.props
+    const { clearDots, level } = this.props;
 
     return (
       <LevelBackground>
-        <Text fontSize="2rem" lineHeight="2rem">
+        <Text fontSize="32px" lineHeight="32px">
           {clearDots}
         </Text>
-        <Text fontSize="0.5rem">{level && 'LV ' + level}</Text>
+        <LevelText>{level && 'LV ' + level}</LevelText>
       </LevelBackground>
-    )
+    );
   }
 }
 
-export default Chance
+export default Chance;

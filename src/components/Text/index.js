@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export default styled.span.attrs({
   style: ({ fontSize, lineHeight, chance }) => ({
@@ -7,8 +7,7 @@ export default styled.span.attrs({
     color: chance < 6 ? '#FF0000' : '#7d848f'
   })
 })`
-  color: ;
-  width: 50px;
+  width: 60px;
   text-align: center;
   display: block;
-`
+`;
