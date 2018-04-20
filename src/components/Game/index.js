@@ -13,7 +13,6 @@ import hex2rgb from '../../utils/hex2rgb';
 const AppContainer = styled.div`
   width: 100%;
   height: 100%;
-  box-shadow: inset 0 0 10px #fff;
   position: absolute;
 
   display: flex;
