@@ -18,11 +18,8 @@ const ChanceBackground = styled.div`
   align-items: center;
 `;
 
-const ChanceText = styled.span.attrs({
-  style: ({ fontSize, lineHeight, chance }) => ({
-    color: chance < 6 ? '#FF0000' : '#7d848f'
-  })
-})`
+const ChanceText = styled.span`
+  color: #7d848f;
   font-size: 12px;
   font-weight: bold;
   width: 60px;
@@ -44,7 +41,7 @@ class Chance extends Component {
         <Text fontSize="32px" lineHeight="32px" chance={chance}>
           {chance}
         </Text>
-        <ChanceText chance={chance}>{chance >= 0 && '次移动机会'}</ChanceText>
+        <ChanceText>{chance >= 0 && '次移动机会'}</ChanceText>
       </ChanceBackground>
     );
   }

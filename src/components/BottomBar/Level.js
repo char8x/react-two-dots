@@ -18,11 +18,8 @@ const LevelBackground = styled.div`
   align-items: center;
 `;
 
-const LevelText = styled.span.attrs({
-  style: ({ fontSize, lineHeight, chance }) => ({
-    color: chance < 6 ? '#FF0000' : '#7d848f'
-  })
-})`
+const LevelText = styled.span`
+  color: #7d848f;
   font-size: 12px;
   font-weight: bold;
   width: 60px;
