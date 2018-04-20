@@ -14,7 +14,7 @@ import gameInfoActions from '../../store/gameinfo/actions';
 const Title = styled.span`
   color: ${props => props.color};
 
-  font-size: 4rem;
+  font-size: 64px;
 `;
 
 const Content = styled.main`
