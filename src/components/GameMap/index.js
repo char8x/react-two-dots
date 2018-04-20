@@ -17,28 +17,16 @@ const Title = styled.span`
   font-size: 4rem;
 `;
 
-const Content = styled.div`
-  height: 100%;
-  width: 100%;
-
-  margin-top: 100px;
+const Content = styled.main`
+  margin: 60px auto;
+  height: calc(100vh - 60px - 60px);
 
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const AppContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  box-shadow: inset 0 0 10px #fff;
-  position: absolute;
-
-  display: flex;
-  flex-direction: column;
-
-  z-index: -10;
-`;
+const AppContainer = styled.div``;
 
 class GameMap extends Component {
   componentDidMount() {
@@ -67,7 +55,11 @@ class GameMap extends Component {
       <AppContainer>
         <TopBar />
         <Content>
-          <header>
+          <header
+            style={{
+              marginTop: '100px'
+            }}
+          >
             <Title color={COLOR_RED}>Two</Title>
             <Title color={COLOR_BLUE}>Dots</Title>
           </header>

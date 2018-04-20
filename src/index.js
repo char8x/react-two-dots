@@ -11,7 +11,6 @@ import registerServiceWorker from './registerServiceWorker';
 
 injectGlobal`
   html,body {
-    /* height: 100%; */
     margin: 0;
     padding: 0;
     font-family: "HanHei SC","PingHei","PingFang SC","STHeitiSC-Light","Helvetica Neue","Helvetica","Arial",sans-serif;
