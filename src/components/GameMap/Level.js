@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
-import { COLOR_BLUE, COLOR_RED } from '../../utils/constants'
+import { COLOR_BLUE, COLOR_RED } from '../../utils/constants';
 
 const StyledLevel = styled.div`
   width: 40px;
@@ -14,11 +14,11 @@ const StyledLevel = styled.div`
 
   margin: 5px;
   text-align: center;
+  line-height: 40px;
+  font-size: 25px;
 
   color: ${({ active, enter }) =>
     active && enter ? COLOR_BLUE : active ? COLOR_RED : '#d1d2d6'};
-  font-size: 1.5rem;
-  line-height: 2.5rem;
 
   ${props =>
     props.active &&
@@ -27,19 +27,19 @@ const StyledLevel = styled.div`
     color: ${COLOR_BLUE};
     cursor: pointer;
   }`};
-`
+`;
 
 export default class Level extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       enter: false
-    }
+    };
   }
 
   render() {
-    const { active, onClick, children, ...prop } = this.props
+    const { active, onClick, children, ...prop } = this.props;
     return (
       <StyledLevel
         {...prop}
@@ -49,13 +49,13 @@ export default class Level extends Component {
           if (active) {
             this.setState({
               enter: !this.state.enter
-            })
-            onClick(e)
+            });
+            onClick(e);
           }
         }}
       >
         {children}
       </StyledLevel>
-    )
+    );
   }
 }

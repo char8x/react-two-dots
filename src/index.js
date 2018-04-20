@@ -3,6 +3,7 @@ import { injectGlobal } from 'styled-components';
 import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'normalize.css';
 
 import Routes from './routes';
 import createStore from './store';
