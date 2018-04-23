@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { routerActions } from 'react-router-redux';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 import BottomBar from '../BottomBar';
@@ -43,9 +44,10 @@ class GameMap extends Component {
 
   handleClick = (e, l) => {
     // dynamic load GameArea
-    this.props.dispatch(gameInfoActions.globalInit(l.level));
-    this.props.dispatch(gameAreaActions.initGame(l.level));
-    this.props.dispatch(push('/level/' + l.level));
+    const { gameInfoActions, gameAreaActions, routerActions } = this.props;
+    gameInfoActions.globalInit(l.level);
+    gameAreaActions.initGame(l.level);
+    routerActions.push('/level/' + l.level);
   };
 
   render() {
@@ -93,6 +95,13 @@ class GameMap extends Component {
   }
 }
 
-export default connect(state => ({
-  levels: state.gameInfo.levels
-}))(GameMap);
+export default connect(
+  state => ({
+    levels: state.gameInfo.levels
+  }),
+  dispatch => ({
+    gameInfoActions: bindActionCreators(gameInfoActions, dispatch),
+    gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
+    routerActions: bindActionCreators(routerActions, dispatch)
+  })
+)(GameMap);
