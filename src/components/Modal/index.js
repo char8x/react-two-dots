@@ -7,6 +7,7 @@ import GameSucceed from './GameSucceed';
 import GameFail from './GameFail';
 
 ReactModal.setAppElement('#root');
+ReactModal.defaultStyles = {};
 
 class Modal extends React.Component {
   render() {

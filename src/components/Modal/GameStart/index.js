@@ -10,14 +10,23 @@ import gameAreaActions from '../../../store/gamearea/actions';
 
 const modalStyle = show => ({
   overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: 'rgba(68,68,68,0.8)',
     animationName: show ? '' : 'disappear',
     animationDuration: '0.5s',
     animationFillMode: 'forwards'
   },
   content: {
-    top: '25%',
-    left: '15%',
+    position: 'absolute',
+    boxSizing: 'border-box',
+    top: '25vh',
+    left: '15vw',
+    height: '255px',
+    width: '70vw',
     backgroundColor: '#3C4D5C',
 
     borderWidth: 0,
@@ -25,11 +34,12 @@ const modalStyle = show => ({
     padding: 0,
     paddingTop: '10px',
 
-    height: '240px',
-    width: '70%',
-
     textAlign: 'center',
     overflow: 'hidden',
+
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
 
     animationName: show ? 'moveFromTop' : 'moveToBottom',
     animationDuration: '0.5s',
