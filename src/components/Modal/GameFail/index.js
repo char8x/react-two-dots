@@ -34,7 +34,7 @@ const modalStyle = show => ({
     padding: 0,
     paddingTop: '10px',
 
-    width: '300px',
+    width: '82vw',
     height: '300px',
 
     textAlign: 'center',

@@ -13,14 +13,21 @@ import restart from './restart.svg';
 
 const modalStyle = show => ({
   overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: 'rgba(68,68,68,0.8)',
     animationName: show ? '' : 'disappear',
     animationDuration: '0.5s',
     animationFillMode: 'forwards'
   },
   content: {
+    position: 'absolute',
+    boxSizing: 'border-box',
     top: '13vh',
-    left: '5vh',
+    left: '9vw',
     backgroundColor: '#3C4D5C',
 
     borderWidth: 0,
@@ -28,11 +35,15 @@ const modalStyle = show => ({
     padding: 0,
     paddingTop: '10px',
 
-    width: '300px',
+    width: '82vw',
     height: '360px',
 
     textAlign: 'center',
     overflow: 'hidden',
+
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
 
     animationName: show ? 'moveFromRight' : 'moveToRight',
     animationDuration: '0.5s',
