@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import CountUp from 'react-countup';
+import { routerActions } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
 
 import './index.css';
 import gameAreaActions from '../../../store/gamearea/actions';
 import gameInfoActions from '../../../store/gameinfo/actions';
-import { push } from 'react-router-redux';
-
 import restart from './restart.svg';
 
 const modalStyle = show => ({
@@ -87,9 +87,9 @@ class GameSucceed extends Component {
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.dispatch(gameInfoActions.activeLevel(nextlevel));
-      this.props.dispatch(gameAreaActions.initGame(nextlevel));
-      this.props.dispatch(push('/level/' + nextlevel));
+      this.props.gameInfoActions.activeLevel(nextlevel);
+      this.props.gameAreaActions.initGame(nextlevel);
+      this.props.routerActions.push('/level/' + nextlevel);
     }, 450);
   };
 
@@ -99,9 +99,7 @@ class GameSucceed extends Component {
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.dispatch(
-        gameAreaActions.initGame(currentLevel.level, currentLevel)
-      );
+      this.props.gameAreaActions.initGame(currentLevel.level, currentLevel);
     }, 450);
   };
 
@@ -109,12 +107,12 @@ class GameSucceed extends Component {
   handleReturn = () => {
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
-      this.props.dispatch(push('/'));
+      this.props.routerActions.push('/');
     }, 450);
   };
 
   componentDidMount() {
-    this.props.dispatch(gameInfoActions.saveResult(this.props.score));
+    this.props.gameInfoActions.saveResult(this.props.score);
   }
 
   componentWillUnmount() {
@@ -203,8 +201,15 @@ class GameSucceed extends Component {
   }
 }
 
-export default connect(state => ({
-  showSuccess: state.gameArea.showSuccess,
-  currentLevel: state.gameInfo.currentLevel,
-  maxLevel: state.gameInfo.maxLevel
-}))(GameSucceed);
+export default connect(
+  state => ({
+    showSuccess: state.gameArea.showSuccess,
+    currentLevel: state.gameInfo.currentLevel,
+    maxLevel: state.gameInfo.maxLevel
+  }),
+  dispatch => ({
+    gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
+    gameInfoActions: bindActionCreators(gameInfoActions, dispatch),
+    routerActions: bindActionCreators(routerActions, dispatch)
+  })
+)(GameSucceed);
