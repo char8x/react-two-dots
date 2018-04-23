@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
+import { routerActions } from 'react-router-redux';
 
 import './index.css';
-import actions from '../../../store/gamearea/actions';
+import gameAreaActions from '../../../store/gamearea/actions';
 import map from './map.svg';
 import sad from './sad.svg';
 
@@ -78,7 +79,7 @@ const Sad = styled.img.attrs({
   margin: 10px;
 `;
 
-class GameSucceed extends Component {
+class GameFail extends Component {
   constructor(props) {
     super();
 
@@ -91,7 +92,7 @@ class GameSucceed extends Component {
   handleReturn = () => {
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
-      this.props.dispatch(push('/'));
+      this.props.routerActions.push('/');
     }, 450);
   };
 
@@ -101,7 +102,7 @@ class GameSucceed extends Component {
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.dispatch(actions.initGame(currentLevel.level, currentLevel));
+      this.props.gameAreaActions.initGame(currentLevel.level, currentLevel);
     }, 450);
   };
 
@@ -161,7 +162,13 @@ class GameSucceed extends Component {
   }
 }
 
-export default connect(state => ({
-  currentLevel: state.gameInfo.currentLevel,
-  showFailure: state.gameArea.showFailure
-}))(GameSucceed);
+export default connect(
+  state => ({
+    currentLevel: state.gameInfo.currentLevel,
+    showFailure: state.gameArea.showFailure
+  }),
+  dispatch => ({
+    routerActions: bindActionCreators(routerActions, dispatch),
+    gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
+  })
+)(GameFail);

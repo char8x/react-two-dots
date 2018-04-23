@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 
-import actions from '../../store/gamearea/actions';
+import gameAreaActions from '../../store/gamearea/actions';
 import { DOT_TYPE_DOT } from '../../utils/constants';
 import Dot from '../Dot';
 
@@ -25,15 +26,15 @@ class Board extends Component {
   refreshBoard = () => {
     if (this.refreshTimer) cancelAnimationFrame(this.refreshTimer);
     this.refreshTimer = requestAnimationFrame(() => {
-      this.props.dispatch(actions.refreshBoard());
-      this.props.dispatch(actions.resetDotState('isBounce')); // important
+      this.props.gameAreaActions.refreshBoard();
+      this.props.gameAreaActions.resetDotState('isBounce'); // important
     });
   };
 
   linePanningEnd = () => {
     if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer);
     this.panningEndTimer = requestAnimationFrame(() => {
-      this.props.dispatch(actions.panningEnd());
+      this.props.gameAreaActions.panningEnd();
     });
   };
 
@@ -70,7 +71,12 @@ class Board extends Component {
   }
 }
 
-export default connect(state => ({
-  boardHeight: state.gameArea.boardHeight,
-  boardWidth: state.gameArea.boardWidth
-}))(Board);
+export default connect(
+  state => ({
+    boardHeight: state.gameArea.boardHeight,
+    boardWidth: state.gameArea.boardWidth
+  }),
+  dispatch => ({
+    gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
+  })
+)(Board);

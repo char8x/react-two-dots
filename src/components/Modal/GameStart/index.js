@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Goal from '../../Goal';
 import './index.css';
-import actions from '../../../store/gamearea/actions';
+import gameAreaActions from '../../../store/gamearea/actions';
 
 const modalStyle = show => ({
   overlay: {
@@ -71,7 +72,7 @@ class GameStart extends Component {
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.dispatch(actions.showBoard());
+      this.props.gameAreaActions.showBoard();
     }, 350);
   };
 
@@ -108,6 +109,11 @@ class GameStart extends Component {
   }
 }
 
-export default connect(state => ({
-  showStart: state.gameArea.showStart
-}))(GameStart);
+export default connect(
+  state => ({
+    showStart: state.gameArea.showStart
+  }),
+  dispatch => ({
+    gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
+  })
+)(GameStart);
