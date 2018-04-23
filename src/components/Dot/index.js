@@ -2,6 +2,7 @@ import 'pepjs'; // Pointer Events Polyfill https://github.com/jquery/PEP
 import Hammer from 'rc-hammerjs'; // http://hammerjs.github.io/api/
 import Pointable from 'react-pointable'; // https://github.com/MilllerTime/react-pointable
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 // import _debounce from 'lodash/debounce'
@@ -11,7 +12,7 @@ import { bounce, vanish, zoomOut } from '../../utils/animate-keyframes';
 import Line from '../Line';
 import { offset, shape, distance, angle } from '../../utils/dom';
 import { isAdjacent, isOppositeDirection } from '../../models/board';
-import actions from '../../store/gamearea/actions';
+import gameAreaActions from '../../store/gamearea/actions';
 import hammerDirection from '../../utils/hammerjs-direction';
 import { DIRECTION_NONE } from '../../utils/constants';
 // import _debug from '../../utils/debug'
@@ -120,19 +121,17 @@ class EnhancedDot extends Component {
   };
 
   handlePanStart = e => {
-    const { panningDot, idx, dispatch } = this.props;
+    const { panningDot, idx, gameAreaActions } = this.props;
     // debugger
     if (panningDot == null) {
       // calculate line start position
       const dotPosition = offset(e.target);
       const dotShape = shape(e.target);
       // 60 means topBar height
-      dispatch(
-        actions.panningStart(idx, {
-          x: dotPosition.left + dotShape.width / 2,
-          y: dotPosition.top + dotShape.height / 2 - this.state.lineHeight / 2
-        })
-      );
+      gameAreaActions.panningStart(idx, {
+        x: dotPosition.left + dotShape.width / 2,
+        y: dotPosition.top + dotShape.height / 2 - this.state.lineHeight / 2
+      });
     }
     this.setState({
       isPanning: true
@@ -141,7 +140,7 @@ class EnhancedDot extends Component {
   };
 
   handlePanMove = e => {
-    const { dispatch, panDirection, linePosition } = this.props;
+    const { gameAreaActions, panDirection, linePosition } = this.props;
 
     // calculate length and rotate
     let pointer = {
@@ -163,15 +162,15 @@ class EnhancedDot extends Component {
       hammerDirection[e.direction] !== DIRECTION_NONE &&
       panDirection !== hammerDirection[e.direction]
     ) {
-      dispatch(actions.panning(hammerDirection[e.direction]));
+      gameAreaActions.panning(hammerDirection[e.direction]);
     }
   };
 
   handlePanEnd = () => {
-    const { connectedLines, dispatch } = this.props;
+    const { connectedLines, gameAreaActions } = this.props;
     // remove dots
-    dispatch(actions.beforePanningEnd());
-    dispatch(actions.resetDotState('isClear')); // important
+    gameAreaActions.beforePanningEnd();
+    gameAreaActions.resetDotState('isClear'); // important
     // if no dots connected, clear global state
     if (connectedLines.length === 0) {
       this.initState();
@@ -180,9 +179,9 @@ class EnhancedDot extends Component {
 
   handlePanCancel = () => {
     // eventDebugger('handlePanCancel')
-    const { connectedLines, dispatch } = this.props;
-    dispatch(actions.beforePanningEnd());
-    dispatch(actions.resetDotState('isClear')); // important
+    const { connectedLines, gameAreaActions } = this.props;
+    gameAreaActions.beforePanningEnd();
+    gameAreaActions.resetDotState('isClear'); // important
     if (connectedLines.length === 0) {
       this.initState();
     }
@@ -194,7 +193,7 @@ class EnhancedDot extends Component {
       idx,
       array,
       boardHeight,
-      dispatch,
+      gameAreaActions,
       rectangle
     } = this.props;
     if (rectangle) {
@@ -207,13 +206,11 @@ class EnhancedDot extends Component {
       // recalculate line start position
       const dotPosition = offset(e.target);
       const dotShape = shape(e.target);
-      dispatch(
-        actions.enterDot(idx, {
-          x: dotPosition.left + dotShape.width / 2,
-          y: dotPosition.top + dotShape.height / 2 - this.state.lineHeight / 2
-        })
-      );
-      dispatch(actions.resetDotState('isActive')); // important
+      gameAreaActions.enterDot(idx, {
+        x: dotPosition.left + dotShape.width / 2,
+        y: dotPosition.top + dotShape.height / 2 - this.state.lineHeight / 2
+      });
+      gameAreaActions.resetDotState('isActive'); // important
     }
   };
 
@@ -223,7 +220,7 @@ class EnhancedDot extends Component {
       panDirection,
       connectedLines,
       idx,
-      dispatch
+      gameAreaActions
     } = this.props;
     if (
       connectedLines.length > 0 &&
@@ -234,7 +231,7 @@ class EnhancedDot extends Component {
         connectedLines[connectedLines.length - 1].direction
       )
     ) {
-      dispatch(actions.leaveDot(idx));
+      gameAreaActions.leaveDot(idx);
     }
   };
 
@@ -329,12 +326,17 @@ class EnhancedDot extends Component {
   }
 }
 
-export default connect(state => ({
-  panningDot: state.gameArea.panningDot,
-  panDirection: state.gameArea.panDirection,
-  linePosition: state.gameArea.linePosition,
-  connectedLines: state.gameArea.connectedLines,
-  array: state.gameArea.array,
-  boardHeight: state.gameArea.boardHeight,
-  rectangle: state.gameArea.rectangle
-}))(EnhancedDot);
+export default connect(
+  state => ({
+    panningDot: state.gameArea.panningDot,
+    panDirection: state.gameArea.panDirection,
+    linePosition: state.gameArea.linePosition,
+    connectedLines: state.gameArea.connectedLines,
+    array: state.gameArea.array,
+    boardHeight: state.gameArea.boardHeight,
+    rectangle: state.gameArea.rectangle
+  }),
+  dispatch => ({
+    gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
+  })
+)(EnhancedDot);
