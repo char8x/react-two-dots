@@ -47,9 +47,9 @@ export default class Level extends Component {
         enter={this.state.enter}
         onClick={e => {
           if (active) {
-            this.setState({
-              enter: !this.state.enter
-            });
+            this.setState(prevState => ({
+              enter: !prevState.enter
+            }));
             onClick(e);
           }
         }}
