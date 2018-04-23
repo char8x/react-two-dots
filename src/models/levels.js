@@ -7,7 +7,7 @@ import {
   DOT_TYPE_DOT
 } from '../utils/constants';
 
-import generator from '../utils/generator';
+import generator from './generator';
 
 const gbd = generator({
   colors: [COLOR_BLUE],

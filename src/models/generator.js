@@ -5,8 +5,8 @@ import {
   COLOR_PURPLE,
   COLOR_GREEN,
   DOT_TYPE_DOT
-} from './constants';
-import random from './random-index';
+} from '../utils/constants';
+import random from '../utils/random-index';
 
 const allColors = [
   COLOR_BLUE,
@@ -19,8 +19,8 @@ const allColors = [
 /**
  * Generate new dots
  *
- * Defferent level have different dot generation method,how to generate dots is the key of
- * this game
+ * Defferent level have different dot generation method,
+ * how to generate dots is the key of this game
  *
  * possible variable:
  *  num,
@@ -29,9 +29,13 @@ const allColors = [
  *  column odd or even,
  *  board potential connectable dots
  *
- * @param {*} num
- * @param {*} colors
- * @param {*} dotTypes
+ * @param {Object}
+ *    @param {Array<Number>} dotTypes
+ *    @param {Array<String>} colors
+ *    @param {Function} callback
+ *
+ * @param {Number} num
+ * @param {String} allClearColor
  */
 const generator = (
   {
@@ -43,7 +47,7 @@ const generator = (
     colors: allColors,
     callback: defaultGeneratorCallback
   }
-) => (num, allClearColor = '') => {
+) => (num = 0, allClearColor = '') => {
   if (allClearColor === '') {
     return Array.from({ length: num }).map((e, i, a) =>
       callback(e, i, a, dotTypes, colors)

@@ -10,7 +10,7 @@ import './index.css';
 import { bounce, vanish, zoomOut } from '../../utils/animate-keyframes';
 import Line from '../Line';
 import { offset, shape, distance, angle } from '../../utils/dom';
-import { isAdjacent, isOppositeDirection } from '../../utils/board';
+import { isAdjacent, isOppositeDirection } from '../../models/board';
 import actions from '../../store/gamearea/actions';
 import hammerDirection from '../../utils/hammerjs-direction';
 import { DIRECTION_NONE } from '../../utils/constants';

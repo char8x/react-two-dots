@@ -19,7 +19,7 @@ import {
   addNewDots,
   existAdjacentDot,
   shuffleArray
-} from '../../utils/board';
+} from '../../models/board';
 import { DOT_TYPE_DOT } from '../../utils/constants';
 import clone from '../../utils/clone';
 import initLevels from '../../models/levels';

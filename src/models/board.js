@@ -4,9 +4,9 @@ import {
   DIRECTION_UP,
   DIRECTION_RIGHT,
   DOT_TYPE_DOT
-} from './constants';
-import { currentLevel } from '../models/levels';
-import randomIndex from './random-index';
+} from '../utils/constants';
+import { currentLevel } from './levels';
+import randomIndex from '../utils/random-index';
 
 /**
  * Check if exists rectangle
