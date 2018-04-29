@@ -72,20 +72,6 @@ const Wrapper = styled.div`
 `;
 
 class AnimateDot extends PureComponent {
-  static defaultProps = {
-    color: '#000',
-    diam: 20,
-    bounce: true, // bounce effect
-    active: false, // click wave effect
-    clear: false, // clear effect
-    refreshBoard: () => {},
-    linePanningEnd: () => {},
-    onTap: () => {},
-    onPanStart: () => {},
-    onEnter: () => {},
-    onLeave: () => {}
-  };
-
   static propTypes = {
     color: PropTypes.string.isRequired,
     diam: PropTypes.number.isRequired,
@@ -102,6 +88,20 @@ class AnimateDot extends PureComponent {
     onPanCancel: PropTypes.func,
     onEnter: PropTypes.func,
     onLeave: PropTypes.func
+  };
+
+  static defaultProps = {
+    color: '#000',
+    diam: 20,
+    bounce: true, // bounce effect
+    active: false, // click wave effect
+    clear: false, // clear effect
+    refreshBoard: () => {},
+    linePanningEnd: () => {},
+    onTap: () => {},
+    onPanStart: () => {},
+    onEnter: () => {},
+    onLeave: () => {}
   };
 
   constructor(props) {

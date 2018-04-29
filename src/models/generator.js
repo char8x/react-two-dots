@@ -64,9 +64,9 @@ function defaultGeneratorCallback(e, i, a, dotTypes, colors) {
   return {
     type: dotTypes.length > 1 ? dotTypes[random(dotTypes.length)] : dotTypes[0],
     color: colors.length > 1 ? colors[random(colors.length)] : colors[0],
-    isActive: false, // for animate effect
-    isClear: false, // for clear effect
-    isBounce: false // for bounce effect
+    active: false, // for animate effect
+    clear: false, // for clear effect
+    bounce: false // for bounce effect
   };
 }
 

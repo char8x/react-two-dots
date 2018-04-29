@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Line = ({ top, left, width, height, color, deg }) => (
   <div
@@ -15,5 +16,20 @@ const Line = ({ top, left, width, height, color, deg }) => (
     }}
   />
 );
+
+Line.propTypes = {
+  top: PropTypes.number,
+  left: PropTypes.number,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  color: PropTypes.string,
+  deg: PropTypes.number
+};
+
+Line.defaultProps = {
+  height: 6,
+  deg: 0,
+  color: '#000'
+};
 
 export default Line;

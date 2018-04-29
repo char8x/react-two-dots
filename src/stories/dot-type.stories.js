@@ -2,7 +2,7 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { withKnobs, boolean, text, number } from '@storybook/addon-knobs';
+import { withKnobs, boolean } from '@storybook/addon-knobs';
 
 import {
   COLOR_BLUE,
@@ -12,11 +12,13 @@ import {
   COLOR_TRANS,
   COLOR_YELLOW
 } from '../utils/constants';
-import AnimateDot, { Dot } from '../components/Dot/SimpleDot';
+import AnimateDot, { Dot } from '../components/Dot/Dot';
+import DotList from '../components/GameArea/DotList';
+import levels from '../models/levels';
 
 storiesOf('Dot Type|Dot', module)
   .addDecorator(withKnobs)
-  .add('Dot', () => (
+  .add('Simple Dot', () => (
     <React.Fragment>
       {[
         COLOR_BLUE,
@@ -48,11 +50,70 @@ storiesOf('Dot Type|Dot', module)
         />
       ))}
     </React.Fragment>
-  ))
-  .add('as dynamic variables', () => {
-    const name = text('Name', 'Arunoda Susiripala');
-    const age = number('Age', 89);
+  ));
 
-    const content = `I am ${name} and I'm ${age} years old.`;
-    return <div>{content}</div>;
+storiesOf('Dot Type|Dot List', module)
+  .addDecorator(withKnobs)
+  .add('Level 1', prop => {
+    const level = levels[0].data();
+    return (
+      <DotList
+        data={level.array}
+        boardHeight={level.height}
+        boardWidth={Math.floor(level.array.length / level.height)}
+      />
+    );
+  })
+  .add('Level 2', prop => {
+    const level = levels[1].data();
+    return (
+      <DotList
+        data={level.array}
+        boardHeight={level.height}
+        boardWidth={Math.floor(level.array.length / level.height)}
+      />
+    );
+  })
+  .add('Level 3', prop => {
+    const level = levels[2].data();
+    return (
+      <DotList
+        data={level.array}
+        boardHeight={level.height}
+        boardWidth={Math.floor(level.array.length / level.height)}
+      />
+    );
+  });
+
+storiesOf('Dot Type|Board List', module)
+  .addDecorator(withKnobs)
+  .add('Level 1', prop => {
+    const level = levels[0].data();
+    return (
+      <DotList
+        data={level.array}
+        boardHeight={level.height}
+        boardWidth={Math.floor(level.array.length / level.height)}
+      />
+    );
+  })
+  .add('Level 2', prop => {
+    const level = levels[1].data();
+    return (
+      <DotList
+        data={level.array}
+        boardHeight={level.height}
+        boardWidth={Math.floor(level.array.length / level.height)}
+      />
+    );
+  })
+  .add('Level 3', prop => {
+    const level = levels[2].data();
+    return (
+      <DotList
+        data={level.array}
+        boardHeight={level.height}
+        boardWidth={Math.floor(level.array.length / level.height)}
+      />
+    );
   });
