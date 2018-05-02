@@ -1,7 +1,6 @@
 export const INIT_GAME = 'INIT_GAME';
 export const SHOW_BOARD = 'SHOW_BOARD';
 export const PANNING_START = 'PANNING_START';
-export const PANNING = 'PANNING';
 export const BEFORE_PANNING_END = 'BEFORE_PANNING_END';
 export const PANNING_END = 'PANNING_END';
 export const ENTER_DOT = 'ENTER_DOT';
@@ -23,12 +22,8 @@ const panningStart = dotColor => ({
   type: PANNING_START
 });
 
-const panning = direction => ({
-  direction,
-  type: PANNING
-});
-
-const beforePanningEnd = () => ({
+const beforePanningEnd = connectedDots => ({
+  connectedDots,
   type: BEFORE_PANNING_END
 });
 
@@ -36,14 +31,13 @@ const panningEnd = () => ({
   type: PANNING_END
 });
 
-const enterDot = (dot, position) => ({
+const enterDot = (dot, rectangle) => ({
   dot,
-  position,
+  rectangle,
   type: ENTER_DOT
 });
 
-const leaveDot = dot => ({
-  dot,
+const leaveDot = () => ({
   type: LEAVE_DOT
 });
 
@@ -60,7 +54,6 @@ export default {
   initGame,
   showBoard,
   panningStart,
-  panning,
   beforePanningEnd,
   panningEnd,
   enterDot,

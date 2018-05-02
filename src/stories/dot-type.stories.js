@@ -18,6 +18,7 @@ import Board from '../components/GameArea/Board';
 import levels from '../models/levels';
 import createStore from '../store';
 import history from '../utils/history';
+import gameAreaActions from '../store/gamearea/actions';
 
 const store = createStore(history);
 
@@ -77,10 +78,10 @@ storiesOf('Dot Type|Board List', module)
   .addDecorator(withKnobs)
   .add('Level 1', prop => {
     // TODO: using storybook knobs select different levels
-    const level = levels[0].data();
+    store.dispatch(gameAreaActions.initGame(1));
     return (
       <Provider store={store}>
-        <Board data={level.array} boardHeight={level.height} />
+        <Board />
       </Provider>
     );
   })

@@ -6,16 +6,11 @@ import {
   LEAVE_DOT,
   BEFORE_PANNING_END,
   PANNING_END,
-  PANNING,
   RESET_DOT_STATE,
   REFRESH_BOARD
 } from './actions';
 import {
-  isAdjacent,
-  isSameDot,
-  lineDeg,
   removeDots,
-  rectangleExist,
   addNewDots,
   existAdjacentDot,
   shuffleArray
@@ -25,16 +20,9 @@ import clone from '../../utils/clone';
 import initLevels from '../../models/levels';
 
 const resetProp = {
-  panningDot: null,
-  panDirection: null,
   dotColor: '',
   rectangle: false,
-  linePosition: {
-    x: 0,
-    y: 0
-  },
   connectedDots: [],
-  connectedLines: [],
   bounceStartDots: [] // col start bounce dot
 };
 
@@ -59,9 +47,6 @@ export default (state = initState, action) => {
     array,
     boardHeight,
     connectedDots,
-    connectedLines,
-    panningDot,
-    linePosition,
     bounceStartDots,
     chances,
     clearDots,
@@ -98,111 +83,45 @@ export default (state = initState, action) => {
         ...state,
         dotColor: action.dotColor
       };
-    case PANNING:
-      return {
-        ...state,
-        panDirection: action.direction
-      };
-    case ENTER_DOT:
-      // if dot is slibing dot with panningDot
-      const { adjacent, direction } = isAdjacent(array, boardHeight)(
-        panningDot,
-        action.dot
-      );
-      const color = array[panningDot].color;
-
-      if (adjacent) {
-        if (
-          connectedDots.length >= 2 &&
-          isSameDot(connectedDots[connectedDots.length - 2], action.dot)
-        ) {
-          // the dot already connected
-          const clonedConnectedDots = clone(connectedDots);
-          const clonedConnectedLines = clone(connectedLines);
-          clonedConnectedDots.pop();
-          const lastLine = clonedConnectedLines.pop();
-          if (lastLine == null) return state;
-          return {
-            ...state,
-            rectangle: false,
-            connectedDots: clonedConnectedDots,
-            connectedLines: clonedConnectedLines,
-            panningDot: clonedConnectedDots[clonedConnectedDots.length - 1],
-            linePosition: { x: lastLine.x, y: lastLine.y }
-          };
-        } else {
-          // add new dot
-          const newConnectedDots = clone(connectedDots);
-          const newConnectedLines = clone(connectedLines);
-          newConnectedDots.push(action.dot);
-          newConnectedLines.push({
-            direction,
-            deg: lineDeg[direction],
-            color: color,
-            ...linePosition
-          });
-
-          if (rectangleExist(newConnectedDots)) {
-            const newArray = clone(array);
-            newArray.forEach(d => {
-              if (d.color === color && d.type === DOT_TYPE_DOT) {
-                d.isActive = true;
-              }
-            });
-            return {
-              ...state,
-              rectangle: true,
-              dotColor: color,
-              array: newArray,
-              connectedDots: newConnectedDots,
-              connectedLines: newConnectedLines,
-              panningDot: action.dot,
-              linePosition: action.position
-            };
+    case ENTER_DOT: {
+      const newArray = clone(array);
+      if (action.rectangle) {
+        newArray.forEach(d => {
+          if (d.color === dotColor && d.type === DOT_TYPE_DOT) {
+            d.active = true;
           }
-          return {
-            ...state,
-            rectangle: false,
-            dotColor: color,
-            connectedDots: newConnectedDots,
-            connectedLines: newConnectedLines,
-            panningDot: action.dot,
-            linePosition: action.position
-          };
-        }
+        });
+      } else {
+        newArray[action.dot].active = true;
       }
 
-      return state;
-    case LEAVE_DOT:
-      const clonedConnectedDots = clone(connectedDots);
-      const clonedConnectedLines = clone(connectedLines);
-      clonedConnectedDots.pop();
-      const lastLine = clonedConnectedLines.pop();
-
       return {
         ...state,
-        rectangle: false,
-        connectedDots: clonedConnectedDots,
-        connectedLines: clonedConnectedLines,
-        panningDot: clonedConnectedDots[clonedConnectedDots.length - 1],
-        linePosition: { x: lastLine.x, y: lastLine.y }
+        rectangle: action.rectangle,
+        array: newArray
       };
-    case BEFORE_PANNING_END:
-      if (connectedDots.length > 1) {
+    }
+    case LEAVE_DOT: {
+      return {
+        ...state,
+        rectangle: false
+      };
+    }
+    case BEFORE_PANNING_END: {
+      const dots = action.connectedDots;
+      if (dots.length > 1) {
         const newArray = clone(array);
         if (rectangle) {
-          const color = array[connectedDots[0]].color;
           newArray.forEach(dot => {
-            if (dot.color === color && dot.type === DOT_TYPE_DOT) {
-              dot.isClear = true;
+            if (dot.color === dotColor && dot.type === DOT_TYPE_DOT) {
+              dot.clear = true;
             }
           });
         } else {
-          connectedDots.forEach(d => (newArray[d].isClear = true));
+          dots.forEach(d => (newArray[d].clear = true));
         }
         return {
           ...state,
-          connectedLines: [],
           array: newArray
         };
       }
@@ -210,6 +129,8 @@ export default (state = initState, action) => {
         ...state,
         ...resetProp
       };
+    }
+
     case PANNING_END:
       if (connectedDots.length > 1) {
         const newArray = clone(array);
@@ -286,17 +207,16 @@ export default (state = initState, action) => {
         bounceStartDots,
         array: tempArray
       };
-    case RESET_DOT_STATE:
-      let newArray = null;
-      if (action.property === 'isBounce' && bounceStartDots.length > 0) {
-        newArray = clone(array);
+    case RESET_DOT_STATE: {
+      const newArray = clone(array);
+      if (action.property === 'bounce' && bounceStartDots.length > 0) {
         bounceStartDots.forEach(d => {
           for (
             let i = d;
             i < (Math.floor(d / boardHeight) + 1) * boardHeight;
             i++
           ) {
-            newArray[i].isBounce = false;
+            newArray[i].bounce = false;
           }
         });
         return {
@@ -304,32 +224,26 @@ export default (state = initState, action) => {
           bounceStartDots: [],
           array: newArray
         };
-      } else if (
-        action.property === 'isActive' &&
-        rectangle &&
-        dotColor !== ''
-      ) {
-        newArray = clone(array);
+      } else if (action.property === 'active' && dotColor !== '') {
         newArray.forEach(d => {
           if (d.color === dotColor && d.type === DOT_TYPE_DOT) {
-            d.isActive = false;
+            d.active = false;
           }
         });
         return {
           ...state,
           array: newArray
         };
-      } else if (action.property === 'isClear' && connectedDots.length > 1) {
-        newArray = clone(array);
+      } else if (action.property === 'clear' && connectedDots.length > 1) {
         if (rectangle) {
           const color = array[connectedDots[0]].color;
           newArray.forEach(dot => {
             if (dot.color === color && dot.type === DOT_TYPE_DOT) {
-              dot.isClear = false;
+              dot.clear = false;
             }
           });
         } else {
-          connectedDots.forEach(d => (newArray[d].isClear = false));
+          connectedDots.forEach(d => (newArray[d].clear = false));
         }
         return {
           ...state,
@@ -337,6 +251,7 @@ export default (state = initState, action) => {
         };
       }
       return state;
+    }
     default:
       return state;
   }

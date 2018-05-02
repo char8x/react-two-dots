@@ -147,9 +147,9 @@ class AnimateDot extends PureComponent {
   }
 
   componentWillUnmount() {
-    clearTimeout(this.activeTimer);
-    clearTimeout(this.clearTimer);
-    clearTimeout(this.bounceTimer);
+    if (this.activeTimer) clearTimeout(this.activeTimer);
+    if (this.clearTimer) clearTimeout(this.clearTimer);
+    if (this.bounceTimer) clearTimeout(this.bounceTimer);
     this.props.refreshBoard();
   }
 

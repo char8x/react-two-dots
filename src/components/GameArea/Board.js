@@ -7,7 +7,13 @@ import { connect } from 'react-redux';
 import DotList from './DotList';
 import Lines, { FIXED_LINE_HEIGHT } from '../Line/Lines';
 import { offset, shape, distance, angle } from '../../utils/dom';
-import { isAdjacent, isOppositeDirection } from '../../models/board';
+import {
+  isAdjacent,
+  isSameDot,
+  lineDeg,
+  rectangleExist,
+  isOppositeDirection
+} from '../../models/board';
 import hammerDirection from '../../utils/hammerjs-direction';
 import { DIRECTION_NONE } from '../../utils/constants';
 import gameAreaActions from '../../store/gamearea/actions';
@@ -46,6 +52,8 @@ class Board extends React.Component {
 
     this.state = initState;
   }
+
+  componentDidUpdate() {}
 
   handlePanStart = (e, { currentDot }) => {
     if (this.state.panningDot === -1) {
@@ -98,10 +106,11 @@ class Board extends React.Component {
   handlePanEnd = () => {
     const { gameAreaActions } = this.props;
     const { connectedDots } = this.state;
+
+    // remove dots
+    gameAreaActions.beforePanningEnd(connectedDots);
     if (connectedDots.length > 1) {
-      // remove dots
-      gameAreaActions.beforePanningEnd(connectedDots);
-      gameAreaActions.resetDotState('isClear'); // important
+      gameAreaActions.resetDotState('clear'); // important
     }
     // if no dots connected, clear global state
     this.setState(initState);
@@ -109,23 +118,74 @@ class Board extends React.Component {
 
   // TODO:
   handleEnterDot = (e, { currentDot }) => {
-    const { data, boardHeight, gameAreaActions, rectangle } = this.props;
-    const { panningDot } = this.state;
+    const { data, boardHeight, color, rectangle, gameAreaActions } = this.props;
+    const { panningDot, connectedDots, connectedLines } = this.state;
     if (rectangle) {
       return;
     }
     if (panningDot !== -1 && panningDot !== currentDot) {
-      if (isAdjacent(data, boardHeight)(panningDot, currentDot).adjacent) {
-        this.handleTap();
+      const { adjacent, direction } = isAdjacent(data, boardHeight)(
+        panningDot,
+        currentDot
+      );
+      // if dot is slibing dot with panningDot
+      if (adjacent) {
+        if (
+          connectedDots.length >= 2 &&
+          isSameDot(connectedDots[connectedDots.length - 2], currentDot)
+        ) {
+          // return to last dot
+          const lastLine = connectedLines.pop();
+          if (lastLine != null) {
+            this.setState(preState => {
+              const dots = preState.connectedDots;
+              const lines = preState.connectedLines;
+              const lastLine = lines.pop();
+              return {
+                connectedDots: dots.slice(0, dots.length - 1),
+                connectedLines: lines.slice(),
+                panningDot: dots[dots.length - 2],
+                linePosition: { x: lastLine.x, y: lastLine.y }
+              };
+            });
+            gameAreaActions.enterDot(currentDot, false);
+          }
+        } else {
+          // recalculate line start position
+          const dotPosition = offset(e.target);
+          const dotShape = shape(e.target);
+          // add new dot
+          this.setState(preState => {
+            const dots = preState.connectedDots;
+            const lines = preState.connectedLines;
+
+            return {
+              connectedDots: dots.concat([currentDot]),
+              connectedLines: lines.concat([
+                {
+                  direction,
+                  deg: lineDeg[direction],
+                  color: color,
+                  ...preState.linePosition
+                }
+              ]),
+              panningDot: currentDot,
+              linePosition: {
+                x: dotPosition.left + dotShape.width / 2,
+                y: dotPosition.top + dotShape.height / 2 - FIXED_LINE_HEIGHT / 2
+              }
+            };
+          });
+
+          if (rectangleExist(connectedDots.concat([currentDot]))) {
+            gameAreaActions.enterDot(currentDot, true);
+          } else {
+            gameAreaActions.enterDot(currentDot, false);
+          }
+        }
+        // reset data
+        gameAreaActions.resetDotState('active'); // important
       }
-      // recalculate line start position
-      const dotPosition = offset(e.target);
-      const dotShape = shape(e.target);
-      gameAreaActions.enterDot(currentDot, {
-        x: dotPosition.left + dotShape.width / 2,
-        y: dotPosition.top + dotShape.height / 2 - FIXED_LINE_HEIGHT / 2
-      });
-      gameAreaActions.resetDotState('isActive'); // important
     }
   };
 
@@ -149,13 +209,13 @@ class Board extends React.Component {
         const lines = preState.connectedLines;
         const lastLine = lines.pop();
         return {
-          connectedDots: dots.slice(0, dots.length - 2),
-          connectedLines: lines.slice(0, lines.length - 2),
+          connectedDots: dots.slice(0, dots.length - 1),
+          connectedLines: lines.slice(),
           panningDot: dots[dots.length - 2],
           linePosition: { x: lastLine.x, y: lastLine.y }
         };
       });
-      gameAreaActions.leaveDot(currentDot);
+      gameAreaActions.leaveDot();
     }
   };
 
@@ -168,8 +228,8 @@ class Board extends React.Component {
           boardHeight={boardHeight}
           onPanStart={this.handlePanStart}
           onPan={this.handlePan}
-          // onPanEnd={this.handlePanEnd}
-          // onPanCancel={this.handlePanEnd}
+          onPanEnd={this.handlePanEnd}
+          onPanCancel={this.handlePanEnd}
           onEnter={this.handleEnterDot}
           onLeave={this.handleLeaveDot}
         />
@@ -180,9 +240,12 @@ class Board extends React.Component {
 }
 
 export default connect(
+  // TODO: delete
   state => ({
     color: state.gameArea.dotColor,
-    rectangle: state.gameArea.rectangle
+    rectangle: state.gameArea.rectangle,
+    data: state.gameArea.array,
+    boardHeight: state.gameArea.boardHeight
   }),
   dispatch => ({
     gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
