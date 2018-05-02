@@ -47,22 +47,22 @@ class Board extends React.Component {
     this.state = initState;
   }
 
-  handlePanStart = (e, { idx }) => {
-    // debugger
+  handlePanStart = (e, { currentDot }) => {
     if (this.state.panningDot === -1) {
       // calculate line start position
       const dotPosition = offset(e.target);
       const dotShape = shape(e.target);
-      // 60 means topBar height
       this.setState({
-        panningDot: idx,
-        connectedDots: [idx],
+        panningDot: currentDot,
+        connectedDots: [currentDot],
         linePosition: {
           x: dotPosition.left + dotShape.width / 2,
           y: dotPosition.top + dotShape.height / 2 - FIXED_LINE_HEIGHT / 2
         }
       });
-      this.props.gameAreaActions.panningStart(this.props.data[idx].color);
+      this.props.gameAreaActions.panningStart(
+        this.props.data[currentDot].color
+      );
     }
   };
 
@@ -108,20 +108,20 @@ class Board extends React.Component {
   };
 
   // TODO:
-  handleEnterDot = (e, { idx }) => {
+  handleEnterDot = (e, { currentDot }) => {
     const { data, boardHeight, gameAreaActions, rectangle } = this.props;
     const { panningDot } = this.state;
     if (rectangle) {
       return;
     }
-    if (panningDot !== -1 && panningDot !== idx) {
-      if (isAdjacent(data, boardHeight)(panningDot, idx).adjacent) {
+    if (panningDot !== -1 && panningDot !== currentDot) {
+      if (isAdjacent(data, boardHeight)(panningDot, currentDot).adjacent) {
         this.handleTap();
       }
       // recalculate line start position
       const dotPosition = offset(e.target);
       const dotShape = shape(e.target);
-      gameAreaActions.enterDot(idx, {
+      gameAreaActions.enterDot(currentDot, {
         x: dotPosition.left + dotShape.width / 2,
         y: dotPosition.top + dotShape.height / 2 - FIXED_LINE_HEIGHT / 2
       });
@@ -129,7 +129,7 @@ class Board extends React.Component {
     }
   };
 
-  handleLeaveDot = (e, { idx }) => {
+  handleLeaveDot = (e, { currentDot }) => {
     const { gameAreaActions } = this.props;
 
     const { panningDot, panDirection, connectedLines } = this.state;
@@ -137,7 +137,7 @@ class Board extends React.Component {
     if (
       connectedLines.length > 0 &&
       panningDot !== -1 &&
-      panningDot === idx &&
+      panningDot === currentDot &&
       isOppositeDirection(
         panDirection,
         connectedLines[connectedLines.length - 1].direction
@@ -155,7 +155,7 @@ class Board extends React.Component {
           linePosition: { x: lastLine.x, y: lastLine.y }
         };
       });
-      gameAreaActions.leaveDot(idx);
+      gameAreaActions.leaveDot(currentDot);
     }
   };
 

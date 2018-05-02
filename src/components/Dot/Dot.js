@@ -52,8 +52,8 @@ const AnimateTopDot = Dot.extend`
 `;
 
 const AnimateBottomDot = Dot.extend`
-  position: relative;
-  top: -20px;
+  position: absolute;
+  top: 0;
   z-index: -1;
   opacity: 0;
 
@@ -67,6 +67,7 @@ const AnimateBottomDot = Dot.extend`
 `;
 
 const Wrapper = styled.div`
+  position: relative;
   height: 20px;
   margin: 10px;
 `;
@@ -200,7 +201,7 @@ class AnimateDot extends PureComponent {
           }}
           onPanStart={e => {
             // follow Airbnb Style Guide - Events
-            onPanStart(e, { idx });
+            onPanStart(e, { currentDot: idx });
             this.handleTap();
           }}
           onPan={onPan}
@@ -211,11 +212,11 @@ class AnimateDot extends PureComponent {
           <Pointable
             onPointerEnter={e => {
               // follow Airbnb Style Guide - Events
-              onEnter(e, { idx });
+              onEnter(e, { currentDot: idx });
             }}
             onPointerLeave={e => {
               // follow Airbnb Style Guide - Events
-              onLeave(e, { idx });
+              onLeave(e, { currentDot: idx });
             }}
             touchAction="none"
           >
