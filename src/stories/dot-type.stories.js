@@ -86,8 +86,12 @@ storiesOf('Dot Type|Board List', module)
     );
   })
   .add('Level 2', prop => {
-    const level = levels[1].data();
-    return <DotList data={level.array} boardHeight={level.height} />;
+    store.dispatch(gameAreaActions.initGame(2));
+    return (
+      <Provider store={store}>
+        <Board />
+      </Provider>
+    );
   })
   .add('Level 3', prop => {
     const level = levels[2].data();

@@ -209,6 +209,7 @@ export default (state = initState, action) => {
       };
     case RESET_DOT_STATE: {
       const newArray = clone(array);
+      // TODO:
       if (action.property === 'bounce' && bounceStartDots.length > 0) {
         bounceStartDots.forEach(d => {
           for (
@@ -234,16 +235,18 @@ export default (state = initState, action) => {
           ...state,
           array: newArray
         };
-      } else if (action.property === 'clear' && connectedDots.length > 1) {
+      } else if (
+        action.property === 'clear' &&
+        action.connectedDots.length > 1
+      ) {
         if (rectangle) {
-          const color = array[connectedDots[0]].color;
           newArray.forEach(dot => {
-            if (dot.color === color && dot.type === DOT_TYPE_DOT) {
+            if (dot.color === dotColor && dot.type === DOT_TYPE_DOT) {
               dot.clear = false;
             }
           });
         } else {
-          connectedDots.forEach(d => (newArray[d].clear = false));
+          action.connectedDots.forEach(d => (newArray[d].clear = false));
         }
         return {
           ...state,

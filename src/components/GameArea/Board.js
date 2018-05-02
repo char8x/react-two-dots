@@ -110,13 +110,12 @@ class Board extends React.Component {
     // remove dots
     gameAreaActions.beforePanningEnd(connectedDots);
     if (connectedDots.length > 1) {
-      gameAreaActions.resetDotState('clear'); // important
+      gameAreaActions.resetDotState('clear', connectedDots); // important
     }
     // if no dots connected, clear global state
     this.setState(initState);
   };
 
-  // TODO:
   handleEnterDot = (e, { currentDot }) => {
     const { data, boardHeight, color, rectangle, gameAreaActions } = this.props;
     const { panningDot, connectedDots, connectedLines } = this.state;
