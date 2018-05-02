@@ -53,7 +53,10 @@ class Board extends React.Component {
     this.state = initState;
   }
 
-  componentDidUpdate() {}
+  componentWillUnmount() {
+    if (this.refreshTimer) cancelAnimationFrame(this.refreshTimer);
+    if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer);
+  }
 
   handlePanStart = (e, { currentDot }) => {
     if (this.state.panningDot === -1) {
@@ -218,6 +221,21 @@ class Board extends React.Component {
     }
   };
 
+  refreshBoard = () => {
+    if (this.refreshTimer) cancelAnimationFrame(this.refreshTimer);
+    this.refreshTimer = requestAnimationFrame(() => {
+      this.props.gameAreaActions.refreshBoard();
+      this.props.gameAreaActions.resetDotState('bounce'); // important
+    });
+  };
+
+  linePanningEnd = () => {
+    if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer);
+    this.panningEndTimer = requestAnimationFrame(() => {
+      this.props.gameAreaActions.panningEnd();
+    });
+  };
+
   render() {
     const { data, boardHeight, rectangle, color } = this.props;
     return (
@@ -231,6 +249,8 @@ class Board extends React.Component {
           onPanCancel={this.handlePanEnd}
           onEnter={this.handleEnterDot}
           onLeave={this.handleLeaveDot}
+          refreshBoard={this.refreshBoard}
+          linePanningEnd={this.linePanningEnd}
         />
         <Lines {...this.state} rectangle={rectangle} color={color} />
       </BoardWrapper>

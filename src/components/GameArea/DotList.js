@@ -23,26 +23,6 @@ const DotArray = styled.div.attrs({
 const EmptyDot = () => <div style={{ width: '40px', height: '40px' }} />;
 
 class DotList extends React.Component {
-  refreshBoard = () => {
-    if (this.refreshTimer) cancelAnimationFrame(this.refreshTimer);
-    this.refreshTimer = requestAnimationFrame(() => {
-      this.props.gameAreaActions.refreshBoard();
-      this.props.gameAreaActions.resetDotState('bounce'); // important
-    });
-  };
-
-  linePanningEnd = () => {
-    if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer);
-    this.panningEndTimer = requestAnimationFrame(() => {
-      this.props.gameAreaActions.panningEnd();
-    });
-  };
-
-  componentWillUnmount() {
-    if (this.refreshTimer) cancelAnimationFrame(this.refreshTimer);
-    if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer);
-  }
-
   render() {
     const { data, boardHeight, ...restProps } = this.props;
     return (
@@ -56,16 +36,7 @@ class DotList extends React.Component {
           }
           switch (e.type) {
             case DOT_TYPE_DOT:
-              return (
-                <Dot
-                  {...restProps}
-                  {...e}
-                  key={i.toString()}
-                  idx={i}
-                  refreshBoard={this.refreshBoard}
-                  linePanningEnd={this.linePanningEnd}
-                />
-              );
+              return <Dot {...restProps} {...e} key={i.toString()} idx={i} />;
             default:
               return <EmptyDot />;
           }

@@ -130,8 +130,8 @@ export default (state = initState, action) => {
         ...resetProp
       };
     }
-
     case PANNING_END:
+      // TODO:
       if (connectedDots.length > 1) {
         const newArray = clone(array);
         const { startDots, removedDotsCount, color } = removeDots(
@@ -162,6 +162,7 @@ export default (state = initState, action) => {
         ...resetProp
       };
     case REFRESH_BOARD:
+      // TODO:
       const tempArray = clone(array);
       addNewDots(tempArray, boardHeight, rectangle && dotColor);
       // update bounce effect
