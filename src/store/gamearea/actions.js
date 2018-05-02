@@ -18,9 +18,8 @@ const showBoard = () => ({
   type: SHOW_BOARD
 });
 
-const panningStart = (dot, position) => ({
-  dot,
-  position,
+const panningStart = dotColor => ({
+  dotColor,
   type: PANNING_START
 });
 

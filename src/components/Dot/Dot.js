@@ -199,7 +199,8 @@ class AnimateDot extends PureComponent {
             this.handleTap();
           }}
           onPanStart={e => {
-            onPanStart(e, idx);
+            // follow Airbnb Style Guide - Events
+            onPanStart(e, { idx });
             this.handleTap();
           }}
           onPan={onPan}
@@ -209,10 +210,12 @@ class AnimateDot extends PureComponent {
         >
           <Pointable
             onPointerEnter={e => {
-              onEnter(e, idx);
+              // follow Airbnb Style Guide - Events
+              onEnter(e, { idx });
             }}
             onPointerLeave={e => {
-              onLeave(e, idx);
+              // follow Airbnb Style Guide - Events
+              onLeave(e, { idx });
             }}
             touchAction="none"
           >

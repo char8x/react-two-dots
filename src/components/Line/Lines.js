@@ -3,23 +3,25 @@ import PropTypes from 'prop-types';
 
 import Line from './index';
 
+const FIXED_LINE_HEIGHT = 6;
 const FIXED_LINE_WIDTH = 40;
 
 const Lines = ({
-  panningDot,
   rectangle,
   color,
+  panningDot,
   lineLength,
   lineAngle,
   linePosition,
   connectedLines
 }) => (
   <React.Fragment>
-    {panningDot != null &&
+    {panningDot !== -1 &&
       !rectangle && (
         <Line
           color={color}
           width={lineLength}
+          height={FIXED_LINE_HEIGHT}
           deg={lineAngle}
           left={linePosition.x}
           top={linePosition.y}
@@ -29,6 +31,7 @@ const Lines = ({
       <Line
         key={i.toString()}
         width={FIXED_LINE_WIDTH}
+        height={FIXED_LINE_HEIGHT}
         color={e.color}
         deg={e.deg}
         left={e.x}
@@ -40,7 +43,7 @@ const Lines = ({
 
 Lines.propTypes = {
   color: PropTypes.string,
-  panningDot: PropTypes.object,
+  panningDot: PropTypes.number,
   rectangle: PropTypes.bool,
   connectedLines: PropTypes.array,
   linePosition: PropTypes.object,
@@ -48,4 +51,5 @@ Lines.propTypes = {
   lineAngle: PropTypes.number
 };
 
+export { FIXED_LINE_HEIGHT };
 export default Lines;

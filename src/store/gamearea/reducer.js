@@ -94,13 +94,9 @@ export default (state = initState, action) => {
         showBoard: true
       };
     case PANNING_START:
-      const newConnectedDots = clone(connectedDots);
-      newConnectedDots.push(action.dot);
       return {
         ...state,
-        connectedDots: newConnectedDots,
-        panningDot: action.dot,
-        linePosition: action.position
+        dotColor: action.dotColor
       };
     case PANNING:
       return {

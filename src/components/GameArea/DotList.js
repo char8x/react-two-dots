@@ -19,8 +19,11 @@ const DotArray = styled.div.attrs({
 
 const EmptyDot = () => <div style={{ width: '40px', height: '40px' }} />;
 
-const DotList = ({ data, boardHeight, boardWidth, ...restProps }) => (
-  <DotArray width={boardWidth * 40} height={boardHeight * 40}>
+const DotList = ({ data, boardHeight, ...restProps }) => (
+  <DotArray
+    width={Math.floor(data.length / boardHeight) * 40}
+    height={boardHeight * 40}
+  >
     {data.map((e, i) => {
       if (e == null) {
         return <EmptyDot key={i.toString()} />;

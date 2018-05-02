@@ -27,7 +27,6 @@ Line.propTypes = {
 };
 
 Line.defaultProps = {
-  height: 6,
   deg: 0,
   color: '#000'
 };
