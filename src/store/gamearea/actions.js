@@ -1,7 +1,6 @@
 export const INIT_GAME = 'INIT_GAME';
 export const SHOW_BOARD = 'SHOW_BOARD';
 export const PANNING_START = 'PANNING_START';
-export const CHANGE_PROGRESS = 'CHANGE_PROGRESS';
 export const BEFORE_PANNING_END = 'BEFORE_PANNING_END';
 export const PANNING_END = 'PANNING_END';
 export const ENTER_DOT = 'ENTER_DOT';
@@ -39,11 +38,6 @@ const enterDot = (dot, rectangle) => ({
   type: ENTER_DOT
 });
 
-const changeProgress = progress => ({
-  progress,
-  type: CHANGE_PROGRESS
-});
-
 const leaveDot = () => ({
   type: LEAVE_DOT
 });
@@ -62,7 +56,6 @@ export default {
   initGame,
   showBoard,
   panningStart,
-  changeProgress,
   beforePanningEnd,
   panningEnd,
   enterDot,

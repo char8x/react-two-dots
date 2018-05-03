@@ -6,7 +6,6 @@ import {
   LEAVE_DOT,
   BEFORE_PANNING_END,
   PANNING_END,
-  CHANGE_PROGRESS,
   RESET_DOT_STATE,
   REFRESH_BOARD
 } from './actions';
@@ -33,7 +32,6 @@ const initState = {
   goals: [],
   array: [],
   boardHeight: 0,
-  progress: 0,
   chances: 0,
   clearDots: 0,
   score: 0,
@@ -99,11 +97,6 @@ export default (state = initState, action) => {
         array: newArray
       };
     }
-    case CHANGE_PROGRESS:
-      return {
-        ...state,
-        progress: action.progress
-      };
     case LEAVE_DOT: {
       return {
         ...state,
@@ -125,14 +118,12 @@ export default (state = initState, action) => {
         }
         return {
           ...state,
-          progress: 0,
           array: newArray
         };
       }
       return {
         ...state,
-        ...resetProp,
-        progress: 0
+        ...resetProp
       };
     }
     case PANNING_END:

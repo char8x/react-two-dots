@@ -54,9 +54,7 @@ class Board extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.connectedLines.length !== this.state.connectedLines.length) {
-      this.props.gameAreaActions.changeProgress(
-        this.state.connectedLines.length
-      );
+      this.props.onProgressChange(this.state.connectedLines.length);
     }
   }
 
@@ -190,6 +188,8 @@ class Board extends React.Component {
           });
 
           if (rectangleExist(connectedDots.concat([currentDot]))) {
+            // fulfill all progress
+            this.props.onProgressChange(12);
             gameAreaActions.enterDot(currentDot, true);
           } else {
             gameAreaActions.enterDot(currentDot, false);

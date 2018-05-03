@@ -5,65 +5,77 @@ import { connect } from 'react-redux';
 import { VerticalProgress, HorizonProgress } from './ProgressBar';
 import Board from './Board';
 
-const GameArea = props => {
-  const { color, rectangle } = props;
-  let { progress } = props;
-  if (rectangle) {
-    // fullfill all progress
-    progress = 12;
+class GameArea extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      progress: 0
+    };
   }
 
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        top: '60px',
-        bottom: '60px',
-        left: '0px',
-        right: '0px',
-        display: 'flex',
-        flexDirection: 'column'
-      }}
-    >
-      <HorizonProgress progress={progress} color={color} />
+  handleProgressChange = progress => {
+    this.setState({
+      progress
+    });
+  };
+
+  render() {
+    const { color } = this.props;
+    const { progress } = this.state;
+
+    return (
       <div
         style={{
+          position: 'absolute',
+          top: '60px',
+          bottom: '60px',
+          left: '0px',
+          right: '0px',
           display: 'flex',
-          flex: '1',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          height: '100%'
+          flexDirection: 'column'
         }}
       >
-        <div>
-          <VerticalProgress progress={progress - 6} color={color} />
-        </div>
+        <HorizonProgress progress={progress} color={color} />
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center'
+            flex: '1',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            height: '100%'
           }}
         >
-          {props.showBoard && (
-            <Board
-              data={props.data}
-              color={color}
-              rectangle={rectangle}
-              boardHeight={props.boardHeight}
-            />
-          )}
+          <div>
+            <VerticalProgress progress={progress - 6} color={color} />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            {this.props.showBoard && (
+              <Board
+                data={this.props.data}
+                color={color}
+                rectangle={this.props.rectangle}
+                boardHeight={this.props.boardHeight}
+                onProgressChange={this.handleProgressChange}
+              />
+            )}
+          </div>
+          <div>
+            <VerticalProgress progress={progress - 6} color={color} />
+          </div>
         </div>
-        <div>
-          <VerticalProgress progress={progress - 6} color={color} />
-        </div>
+        <HorizonProgress progress={progress} color={color} />
       </div>
-      <HorizonProgress progress={progress} color={color} />
-    </div>
-  );
-};
-
+    );
+  }
+}
 export default connect(state => ({
   showBoard: state.gameArea.showBoard,
   progress: state.gameArea.progress,
