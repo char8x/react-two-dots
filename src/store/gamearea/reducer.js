@@ -161,6 +161,10 @@ export default (state = initState, action) => {
       // TODO:
       const newArray = clone(array);
       addNewDots(newArray, boardHeight, rectangle && dotColor);
+      // shuffle array the easy way
+      if (!existAdjacentDot(newArray)) {
+        shuffleArray(newArray);
+      }
       // update bounce effect
       bounceStartDots.forEach(d => {
         for (
@@ -171,11 +175,6 @@ export default (state = initState, action) => {
           newArray[i].bounce = true;
         }
       });
-      // shuffle array the easy way
-      if (!existAdjacentDot(newArray)) {
-        shuffleArray(newArray);
-      }
-
       // fulfill goals
       if (goals.every(g => g.clear >= g.goal)) {
         // Game succeed

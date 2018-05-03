@@ -1,6 +1,5 @@
 // Level 7 best for test progress bar
 import React from 'react';
-import { connect } from 'react-redux';
 
 import { VerticalProgress, HorizonProgress } from './ProgressBar';
 import Board from './Board';
@@ -76,11 +75,4 @@ class GameArea extends React.Component {
     );
   }
 }
-export default connect(state => ({
-  showBoard: state.gameArea.showBoard,
-  progress: state.gameArea.progress,
-  color: state.gameArea.dotColor,
-  rectangle: state.gameArea.rectangle,
-  data: state.gameArea.array,
-  boardHeight: state.gameArea.boardHeight
-}))(GameArea);
+export default GameArea;

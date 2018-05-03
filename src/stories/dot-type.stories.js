@@ -14,7 +14,7 @@ import {
 } from '../utils/constants';
 import AnimateDot, { Dot } from '../components/Dot/Dot';
 import DotList from '../components/GameArea/DotList';
-import GameArea from '../components/GameArea';
+import Game from '../components/Game';
 import levels from '../models/levels';
 import createStore from '../store';
 import history from '../utils/history';
@@ -82,7 +82,7 @@ storiesOf('Dot Type|Board List', module)
     store.dispatch(gameAreaActions.showBoard());
     return (
       <Provider store={store}>
-        <GameArea />
+        <Game />
       </Provider>
     );
   })
@@ -91,7 +91,7 @@ storiesOf('Dot Type|Board List', module)
     store.dispatch(gameAreaActions.showBoard());
     return (
       <Provider store={store}>
-        <GameArea />
+        <Game />
       </Provider>
     );
   })
@@ -100,7 +100,7 @@ storiesOf('Dot Type|Board List', module)
     store.dispatch(gameAreaActions.showBoard());
     return (
       <Provider store={store}>
-        <GameArea />
+        <Game />
       </Provider>
     );
   });
