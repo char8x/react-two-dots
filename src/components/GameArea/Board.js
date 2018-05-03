@@ -116,7 +116,10 @@ class Board extends React.Component {
       gameAreaActions.resetDotState('clear', connectedDots); // important
     }
     // if no dots connected, clear global state
-    this.setState(initState);
+    this.setState(preState => ({
+      ...initState,
+      connectedDots: preState.connectedDots
+    }));
   };
 
   handleEnterDot = (e, { currentDot }) => {
@@ -232,7 +235,10 @@ class Board extends React.Component {
   linePanningEnd = () => {
     if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer);
     this.panningEndTimer = requestAnimationFrame(() => {
-      this.props.gameAreaActions.panningEnd();
+      this.props.gameAreaActions.panningEnd(this.state.connectedDots);
+      this.setState({
+        connectedDots: []
+      });
     });
   };
 

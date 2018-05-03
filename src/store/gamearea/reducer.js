@@ -22,7 +22,6 @@ import initLevels from '../../models/levels';
 const resetProp = {
   dotColor: '',
   rectangle: false,
-  connectedDots: [],
   bounceStartDots: [] // col start bounce dot
 };
 
@@ -33,7 +32,6 @@ const initState = {
   goals: [],
   array: [],
   boardHeight: 0,
-  boardWidth: 0,
   chances: 0,
   clearDots: 0,
   score: 0,
@@ -46,7 +44,6 @@ export default (state = initState, action) => {
   const {
     array,
     boardHeight,
-    connectedDots,
     bounceStartDots,
     chances,
     clearDots,
@@ -61,7 +58,6 @@ export default (state = initState, action) => {
         ...state,
         array: data.array,
         boardHeight: data.height,
-        boardWidth: Math.floor(data.array.length / data.height),
         level: action.level,
         chances: data.chance,
         goals: data.goals,
@@ -132,15 +128,15 @@ export default (state = initState, action) => {
     }
     case PANNING_END:
       // TODO:
-      if (connectedDots.length > 1) {
+      if (action.connectedDots.length > 1) {
         const newArray = clone(array);
-        const { startDots, removedDotsCount, color } = removeDots(
+        const { startDots, removedDotsCount } = removeDots(
           newArray,
           boardHeight
-        )(connectedDots);
+        )(action.connectedDots);
         let newGoals = clone(goals);
         for (let i = 0; i < newGoals.length; i++) {
-          if (newGoals[i].color === color) {
+          if (newGoals[i].color === dotColor) {
             newGoals[i].clear += removedDotsCount;
           }
         }
@@ -150,7 +146,7 @@ export default (state = initState, action) => {
           ...resetProp,
           dotColor, // keep for REFRESH_BOARD
           rectangle, // keep for REFRESH_BOARD
-          bounceStartDots: startDots,
+          bounceStartDots: startDots, // keep for REFRESH_BOARD
           array: newArray,
           chances: chances - 1,
           clearDots: clearDots + removedDotsCount,
@@ -161,10 +157,10 @@ export default (state = initState, action) => {
         ...state,
         ...resetProp
       };
-    case REFRESH_BOARD:
+    case REFRESH_BOARD: {
       // TODO:
-      const tempArray = clone(array);
-      addNewDots(tempArray, boardHeight, rectangle && dotColor);
+      const newArray = clone(array);
+      addNewDots(newArray, boardHeight, rectangle && dotColor);
       // update bounce effect
       bounceStartDots.forEach(d => {
         for (
@@ -172,12 +168,12 @@ export default (state = initState, action) => {
           i < (Math.floor(d / boardHeight) + 1) * boardHeight;
           i++
         ) {
-          tempArray[i].isBounce = true;
+          newArray[i].bounce = true;
         }
       });
       // shuffle array the easy way
-      if (!existAdjacentDot(tempArray)) {
-        shuffleArray(tempArray);
+      if (!existAdjacentDot(newArray)) {
+        shuffleArray(newArray);
       }
 
       // fulfill goals
@@ -186,7 +182,7 @@ export default (state = initState, action) => {
         return {
           ...state,
           ...resetProp,
-          array: tempArray,
+          array: newArray,
           score: clearDots + chances * 100,
           showSuccess: true
         };
@@ -197,7 +193,7 @@ export default (state = initState, action) => {
         return {
           ...state,
           ...resetProp,
-          array: tempArray,
+          array: newArray,
           showFailure: true
         };
       }
@@ -206,8 +202,9 @@ export default (state = initState, action) => {
         ...state,
         ...resetProp,
         bounceStartDots,
-        array: tempArray
+        array: newArray
       };
+    }
     case RESET_DOT_STATE: {
       const newArray = clone(array);
       // TODO:

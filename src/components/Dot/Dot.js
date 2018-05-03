@@ -160,10 +160,9 @@ class AnimateDot extends PureComponent {
   };
 
   setClearTimer = () => {
-    const { linePanningEnd } = this.props;
     this.clearTimer = setTimeout(() => {
       this.setState({ clear: false });
-      linePanningEnd();
+      this.props.linePanningEnd();
     }, CLEAR_TIME); // equal or more than animation-duration (300ms)
   };
 

@@ -27,7 +27,8 @@ const beforePanningEnd = connectedDots => ({
   type: BEFORE_PANNING_END
 });
 
-const panningEnd = () => ({
+const panningEnd = connectedDots => ({
+  connectedDots,
   type: PANNING_END
 });
 

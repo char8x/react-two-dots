@@ -106,7 +106,6 @@ const removeDots = (array, height) => connectedDots => {
   }
   return {
     removedDotsCount,
-    color,
     startDots: bounceStartDots
   };
 };
@@ -118,7 +117,7 @@ const removeDots = (array, height) => connectedDots => {
  * @param {*} height
  * @param {*} dotColor
  */
-const addNewDots = (array, height, dotColor) => {
+const addNewDots = (array, height, dotColor = '') => {
   const gen = currentLevel.gen;
   for (let i = 0; i < array.length; i = i + height) {
     // regenerate col
