@@ -52,6 +52,14 @@ class Board extends React.Component {
     this.state = initState;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.connectedLines.length !== this.state.connectedLines.length) {
+      this.props.gameAreaActions.changeProgress(
+        this.state.connectedLines.length
+      );
+    }
+  }
+
   componentWillUnmount() {
     if (this.refreshTimer) cancelAnimationFrame(this.refreshTimer);
     if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer);
@@ -117,7 +125,8 @@ class Board extends React.Component {
     // if no dots connected, clear global state
     this.setState(preState => ({
       ...initState,
-      connectedDots: preState.connectedDots
+      connectedDots:
+        preState.connectedDots.length > 1 ? preState.connectedDots : []
     }));
   };
 
@@ -139,15 +148,14 @@ class Board extends React.Component {
           isSameDot(connectedDots[connectedDots.length - 2], currentDot)
         ) {
           // return to last dot
-          const lastLine = connectedLines.pop();
-          if (lastLine != null) {
+          if (connectedLines[connectedLines.length - 1] != null) {
             this.setState(preState => {
               const dots = preState.connectedDots;
               const lines = preState.connectedLines;
-              const lastLine = lines.pop();
+              const lastLine = lines[lines.length - 1];
               return {
                 connectedDots: dots.slice(0, dots.length - 1),
-                connectedLines: lines.slice(),
+                connectedLines: lines.slice(0, lines.length - 1),
                 panningDot: dots[dots.length - 2],
                 linePosition: { x: lastLine.x, y: lastLine.y }
               };
@@ -209,12 +217,13 @@ class Board extends React.Component {
     ) {
       // leave dot for the opposite direction
       this.setState(preState => {
+        // do not change preState property, it's useless
         const dots = preState.connectedDots;
         const lines = preState.connectedLines;
-        const lastLine = lines.pop();
+        const lastLine = lines[lines.length - 1];
         return {
           connectedDots: dots.slice(0, dots.length - 1),
-          connectedLines: lines.slice(),
+          connectedLines: lines.slice(0, lines.length - 1),
           panningDot: dots[dots.length - 2],
           linePosition: { x: lastLine.x, y: lastLine.y }
         };
@@ -263,15 +272,6 @@ class Board extends React.Component {
   }
 }
 
-export default connect(
-  // TODO: delete
-  state => ({
-    color: state.gameArea.dotColor,
-    rectangle: state.gameArea.rectangle,
-    data: state.gameArea.array,
-    boardHeight: state.gameArea.boardHeight
-  }),
-  dispatch => ({
-    gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
-  })
-)(Board);
+export default connect(null, dispatch => ({
+  gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
+}))(Board);

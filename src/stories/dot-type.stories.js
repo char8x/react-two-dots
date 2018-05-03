@@ -14,7 +14,7 @@ import {
 } from '../utils/constants';
 import AnimateDot, { Dot } from '../components/Dot/Dot';
 import DotList from '../components/GameArea/DotList';
-import Board from '../components/GameArea/Board';
+import GameArea from '../components/GameArea';
 import levels from '../models/levels';
 import createStore from '../store';
 import history from '../utils/history';
@@ -79,25 +79,28 @@ storiesOf('Dot Type|Board List', module)
   .add('Level 1', prop => {
     // TODO: using storybook knobs select different levels
     store.dispatch(gameAreaActions.initGame(1));
+    store.dispatch(gameAreaActions.showBoard());
     return (
       <Provider store={store}>
-        <Board />
+        <GameArea />
       </Provider>
     );
   })
   .add('Level 2', prop => {
     store.dispatch(gameAreaActions.initGame(2));
+    store.dispatch(gameAreaActions.showBoard());
     return (
       <Provider store={store}>
-        <Board />
+        <GameArea />
       </Provider>
     );
   })
   .add('Level 3', prop => {
     store.dispatch(gameAreaActions.initGame(3));
+    store.dispatch(gameAreaActions.showBoard());
     return (
       <Provider store={store}>
-        <Board />
+        <GameArea />
       </Provider>
     );
   });
