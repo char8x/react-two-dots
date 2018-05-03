@@ -12,7 +12,7 @@ import {
   COLOR_TRANS,
   COLOR_YELLOW
 } from '../utils/constants';
-import AnimateDot, { Dot } from '../components/Dot/Dot';
+import AnimateDot, { Dot } from '../components/Dot';
 import DotList from '../components/GameArea/DotList';
 import Game from '../components/Game';
 import levels from '../models/levels';

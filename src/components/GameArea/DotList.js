@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { DOT_TYPE_DOT } from '../../utils/constants';
-import Dot from '../Dot/Dot';
+import Dot from '../Dot';
 import gameAreaActions from '../../store/gamearea/actions';
 
 const DotArray = styled.div.attrs({
