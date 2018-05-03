@@ -109,11 +109,11 @@ class GameFail extends Component {
 
   // Restart game
   handleRestart = () => {
-    const { currentLevel } = this.props;
+    const { level } = this.props;
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.gameAreaActions.initGame(currentLevel.level, currentLevel);
+      this.props.gameAreaActions.initGame(level);
     }, 450);
   };
 
@@ -173,13 +173,7 @@ class GameFail extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    currentLevel: state.gameInfo.currentLevel,
-    showFailure: state.gameArea.showFailure
-  }),
-  dispatch => ({
-    routerActions: bindActionCreators(routerActions, dispatch),
-    gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
-  })
-)(GameFail);
+export default connect(null, dispatch => ({
+  routerActions: bindActionCreators(routerActions, dispatch),
+  gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
+}))(GameFail);

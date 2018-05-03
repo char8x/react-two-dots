@@ -93,8 +93,8 @@ class GameSucceed extends Component {
 
   // Continue game
   handleContinue = () => {
-    const { currentLevel } = this.props;
-    const nextlevel = currentLevel.level + 1;
+    const { level } = this.props;
+    const nextlevel = level + 1;
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
@@ -106,11 +106,11 @@ class GameSucceed extends Component {
 
   // Restart game
   handleRestart = () => {
-    const { currentLevel } = this.props;
+    const { level } = this.props;
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
-      this.props.gameAreaActions.initGame(currentLevel.level, currentLevel);
+      this.props.gameAreaActions.initGame(level);
     }, 450);
   };
 
@@ -131,7 +131,7 @@ class GameSucceed extends Component {
   }
 
   render() {
-    const { level, score, currentLevel, maxLevel, showSuccess } = this.props;
+    const { level, score, maxLevel, showSuccess } = this.props;
     return (
       <ReactModal
         isOpen={showSuccess}
@@ -198,13 +198,9 @@ class GameSucceed extends Component {
             <Restart onClick={this.handleRestart} />
           </div>
           <Button
-            onClick={
-              currentLevel.level < maxLevel
-                ? this.handleContinue
-                : this.handleReturn
-            }
+            onClick={level < maxLevel ? this.handleContinue : this.handleReturn}
           >
-            {currentLevel.level < maxLevel ? '继续' : '返回'}
+            {level < maxLevel ? '继续' : '返回'}
           </Button>
         </div>
       </ReactModal>
@@ -212,15 +208,8 @@ class GameSucceed extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    showSuccess: state.gameArea.showSuccess,
-    currentLevel: state.gameInfo.currentLevel,
-    maxLevel: state.gameInfo.maxLevel
-  }),
-  dispatch => ({
-    gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
-    gameInfoActions: bindActionCreators(gameInfoActions, dispatch),
-    routerActions: bindActionCreators(routerActions, dispatch)
-  })
-)(GameSucceed);
+export default connect(null, dispatch => ({
+  gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
+  gameInfoActions: bindActionCreators(gameInfoActions, dispatch),
+  routerActions: bindActionCreators(routerActions, dispatch)
+}))(GameSucceed);

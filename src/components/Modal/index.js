@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import { connect } from 'react-redux';
 
 import GameStart from './GameStart';
 import GameSucceed from './GameSucceed';
@@ -18,23 +17,34 @@ class Modal extends React.Component {
       chances,
       goals,
       level,
-      score
+      score,
+      maxLevel
     } = this.props;
     if (showStart) {
-      return <GameStart chance={chances} goals={goals} level={level} />;
+      return (
+        <GameStart
+          showStart={showStart}
+          chance={chances}
+          goals={goals}
+          level={level}
+        />
+      );
     }
     if (showSuccess) {
-      return <GameSucceed level={level} score={score} />;
+      return (
+        <GameSucceed
+          showSuccess={showSuccess}
+          level={level}
+          score={score}
+          maxLevel={maxLevel}
+        />
+      );
     }
     if (showFailure) {
-      return <GameFail level={level} />;
+      return <GameFail showFailure={showFailure} level={level} />;
     }
     return null;
   }
 }
 
-export default connect(state => ({
-  showStart: state.gameArea.showStart,
-  showSuccess: state.gameArea.showSuccess,
-  showFailure: state.gameArea.showFailure
-}))(Modal);
+export default Modal;

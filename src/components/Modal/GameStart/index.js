@@ -119,11 +119,6 @@ class GameStart extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    showStart: state.gameArea.showStart
-  }),
-  dispatch => ({
-    gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
-  })
-)(GameStart);
+export default connect(null, dispatch => ({
+  gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
+}))(GameStart);

@@ -52,7 +52,16 @@ class App extends Component {
 
     return (
       <AppContainer color={color} rectangle={rectangle}>
-        <Modal chances={chances} goals={goals} level={level} score={score} />
+        <Modal
+          chances={chances}
+          goals={goals}
+          level={level}
+          score={score}
+          showStart={this.props.showStart}
+          showSuccess={this.props.showSuccess}
+          showFailure={this.props.showFailure}
+          maxLevel={this.props.maxLevel}
+        />
         <TopBar chance={chances} goals={goals} />
         <GameArea
           showBoard={this.props.showBoard}
@@ -78,6 +87,8 @@ export default connect(state => ({
   showBoard: state.gameArea.showBoard,
   data: state.gameArea.array,
   boardHeight: state.gameArea.boardHeight,
+  showStart: state.gameArea.showStart,
   showSuccess: state.gameArea.showSuccess,
-  showFailure: state.gameArea.showFailure
+  showFailure: state.gameArea.showFailure,
+  maxLevel: state.gameInfo.maxLevel
 }))(App);
