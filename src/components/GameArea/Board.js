@@ -30,8 +30,7 @@ const initState = {
   connectedDots: [],
   connectedLines: [],
   panningDot: -1,
-  panDirection: null,
-  bounceStartDots: [] // col start bounce dot
+  panDirection: null
 };
 
 class Board extends React.Component {

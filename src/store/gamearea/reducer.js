@@ -22,7 +22,7 @@ import initLevels from '../../models/levels';
 const resetProp = {
   dotColor: '',
   rectangle: false,
-  bounceStartDots: [] // col start bounce dot
+  bounceStartDots: [] // col start bounce dot (temp variable)
 };
 
 const initState = {
