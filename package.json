@@ -39,9 +39,7 @@
     "build-storybook": "build-storybook -s public"
   },
   "babel": {
-    "presets": [
-      "react-app"
-    ]
+    "presets": ["react-app"]
   },
   "eslintConfig": {
     "extends": "react-app"
