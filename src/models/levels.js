@@ -4,30 +4,30 @@ import {
   COLOR_RED,
   COLOR_YELLOW,
   COLOR_GREEN,
-  DOT_TYPE_DOT
+  DOT_TYPE_DOT,
 } from '../utils/constants';
 
 import generator from './generator';
 
 const gbd = generator({
   colors: [COLOR_BLUE],
-  dotTypes: [DOT_TYPE_DOT]
+  dotTypes: [DOT_TYPE_DOT],
 });
 const gyd = generator({
   colors: [COLOR_YELLOW],
-  dotTypes: [DOT_TYPE_DOT]
+  dotTypes: [DOT_TYPE_DOT],
 });
 const grd = generator({
   colors: [COLOR_RED],
-  dotTypes: [DOT_TYPE_DOT]
+  dotTypes: [DOT_TYPE_DOT],
 });
 const gpd = generator({
   colors: [COLOR_PURPLE],
-  dotTypes: [DOT_TYPE_DOT]
+  dotTypes: [DOT_TYPE_DOT],
 });
 const ggd = generator({
   colors: [COLOR_GREEN],
-  dotTypes: [DOT_TYPE_DOT]
+  dotTypes: [DOT_TYPE_DOT],
 });
 
 /**
@@ -46,9 +46,9 @@ const gdg = (goal, num, colors) => {
         goal,
         clear: 0,
         type: dotTypes[0],
-        color: colors[i]
+        color: colors[i],
       };
-    }
+    },
   })(num);
 };
 
@@ -77,17 +77,17 @@ const datas = [
             gbd(3),
             grd(1),
             gyd(3),
-            grd(1)
+            grd(1),
           ]);
         })(),
         height: 4,
         gen: generator({
           colors: [COLOR_BLUE, COLOR_RED, COLOR_YELLOW],
-          dotTypes: [DOT_TYPE_DOT]
-        })
+          dotTypes: [DOT_TYPE_DOT],
+        }),
       };
       return currentLevel;
-    }
+    },
   },
   {
     // level 2
@@ -110,17 +110,17 @@ const datas = [
             grd(1),
             gbd(1),
             gyd(1),
-            grd(3)
+            grd(3),
           ]);
         })(),
         height: 5,
         gen: generator({
           colors: [COLOR_GREEN, COLOR_YELLOW, COLOR_RED, COLOR_BLUE],
-          dotTypes: [DOT_TYPE_DOT]
-        })
+          dotTypes: [DOT_TYPE_DOT],
+        }),
       };
       return currentLevel;
-    }
+    },
   },
   {
     // level 3
@@ -163,17 +163,17 @@ const datas = [
             gbd(1),
             grd(1),
             gbd(1),
-            grd(1)
+            grd(1),
           ]);
         })(),
         height: 6,
         gen: generator({
           colors: [COLOR_RED, COLOR_BLUE, COLOR_YELLOW],
-          dotTypes: [DOT_TYPE_DOT]
-        })
+          dotTypes: [DOT_TYPE_DOT],
+        }),
       };
       return currentLevel;
-    }
+    },
   },
   {
     // level 4
@@ -200,17 +200,17 @@ const datas = [
             gyd(1),
             grd(1),
             ggd(1),
-            gpd(2)
+            gpd(2),
           ]);
         })(),
         height: 6,
         gen: generator({
           colors: [COLOR_PURPLE, COLOR_RED, COLOR_GREEN, COLOR_YELLOW],
-          dotTypes: [DOT_TYPE_DOT]
-        })
+          dotTypes: [DOT_TYPE_DOT],
+        }),
       };
       return currentLevel;
-    }
+    },
   },
   {
     // TODO: level 5
@@ -243,18 +243,18 @@ const datas = [
             grd(1),
             ggd(1),
             gyd(1),
-            gpd(3)
+            gpd(3),
           ]);
         })(),
         height: 7,
         gen: generator({
           colors: [COLOR_PURPLE, COLOR_RED, COLOR_GREEN, COLOR_YELLOW],
-          dotTypes: [DOT_TYPE_DOT]
-        })
+          dotTypes: [DOT_TYPE_DOT],
+        }),
       };
       return currentLevel;
-    }
-  }
+    },
+  },
   /*  {
     // level 6
     data: () => {
@@ -373,7 +373,7 @@ const levels = datas.map((e, i) =>
   Object.assign(e, {
     level: i + 1,
     score: 0,
-    active: false
+    active: false,
   })
 );
 

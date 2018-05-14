@@ -7,7 +7,7 @@ const STORAGE_KEY = 'REACT_TWO_DOTS';
  */
 function subscribeProgress(store) {
   store.subscribe(() => {
-    let data = encodeURIComponent(JSON.stringify(store.getState()));
+    let data = encodeURIComponent(JSON.stringify(store.getState().gameInfo));
     if (window.btoa) {
       data = window.btoa(data);
     }
@@ -35,7 +35,9 @@ function restoreProgress() {
     }
     return undefined;
   }
-  return data;
+  return {
+    gameInfo: data,
+  };
 }
 
 export { subscribeProgress, restoreProgress };
