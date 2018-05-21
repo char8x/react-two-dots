@@ -14,6 +14,7 @@ import restart from './restart.svg';
 const modalStyle = show => ({
   overlay: {
     position: 'fixed',
+    zIndex: 2,
     top: 0,
     left: 0,
     right: 0,
@@ -21,7 +22,7 @@ const modalStyle = show => ({
     backgroundColor: 'rgba(68,68,68,0.8)',
     animationName: show ? '' : 'disappear',
     animationDuration: '0.5s',
-    animationFillMode: 'forwards'
+    animationFillMode: 'forwards',
   },
   content: {
     position: 'absolute',
@@ -47,8 +48,8 @@ const modalStyle = show => ({
 
     animationName: show ? 'moveFromRight' : 'moveToRight',
     animationDuration: '0.5s',
-    animationFillMode: 'forwards'
-  }
+    animationFillMode: 'forwards',
+  },
 });
 
 const Title = styled.span`
@@ -76,7 +77,7 @@ const Button = styled.button`
 const Restart = styled.input.attrs({
   type: 'image',
   src: restart,
-  alt: 'restart'
+  alt: 'restart',
 })`
   width: 30px;
   height: 30px;
@@ -87,7 +88,7 @@ class GameSucceed extends Component {
     super();
 
     this.state = {
-      show: true // control style
+      show: true, // control style
     };
   }
 
@@ -149,7 +150,7 @@ class GameSucceed extends Component {
             color: '#525965',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center'
+            alignItems: 'center',
           }}
         >
           <span>愈战愈勇</span>
@@ -161,13 +162,13 @@ class GameSucceed extends Component {
               borderStyle: 'inset',
               borderWidth: '10px',
               borderColor: '#455565',
-              boxShadow: 'inset 1px 1px 1em 3px #455565'
+              boxShadow: 'inset 1px 1px 1em 3px #455565',
             }}
           >
             <CountUp
               style={{
                 fontSize: '3rem',
-                fontWeight: 'lighter'
+                fontWeight: 'lighter',
               }}
               start={0}
               end={score}
@@ -184,7 +185,7 @@ class GameSucceed extends Component {
             padding: '10px 0',
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'space-around'
+            justifyContent: 'space-around',
           }}
         >
           <div
@@ -192,7 +193,7 @@ class GameSucceed extends Component {
               width: '80px',
               height: '100%',
               display: 'inline-block',
-              paddingTop: '10px'
+              paddingTop: '10px',
             }}
           >
             <Restart onClick={this.handleRestart} />
@@ -211,5 +212,5 @@ class GameSucceed extends Component {
 export default connect(null, dispatch => ({
   gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
   gameInfoActions: bindActionCreators(gameInfoActions, dispatch),
-  routerActions: bindActionCreators(routerActions, dispatch)
+  routerActions: bindActionCreators(routerActions, dispatch),
 }))(GameSucceed);

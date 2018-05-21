@@ -4,6 +4,7 @@ import ReactModal from 'react-modal';
 import GameStart from './GameStart';
 import GameSucceed from './GameSucceed';
 import GameFail from './GameFail';
+import GameSetting from './GameSetting';
 
 ReactModal.setAppElement('#root');
 ReactModal.defaultStyles = {};
@@ -14,11 +15,12 @@ class Modal extends React.Component {
       showStart,
       showSuccess,
       showFailure,
+      showSetting,
       chances,
       goals,
       level,
       score,
-      maxLevel
+      maxLevel,
     } = this.props;
     if (showStart) {
       return (
@@ -43,7 +45,8 @@ class Modal extends React.Component {
     if (showFailure) {
       return <GameFail showFailure={showFailure} level={level} />;
     }
-    return null;
+
+    return <GameSetting showSetting={showSetting} level={level} />;
   }
 }
 

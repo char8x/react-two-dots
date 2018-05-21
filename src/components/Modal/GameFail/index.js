@@ -13,6 +13,7 @@ import sad from './sad.svg';
 const modalStyle = show => ({
   overlay: {
     position: 'fixed',
+    zIndex: 2,
     top: 0,
     left: 0,
     right: 0,
@@ -20,7 +21,7 @@ const modalStyle = show => ({
     backgroundColor: 'rgba(68,68,68,0.8)',
     animationName: show ? '' : 'disappear',
     animationDuration: '0.5s',
-    animationFillMode: 'forwards'
+    animationFillMode: 'forwards',
   },
   content: {
     position: 'absolute',
@@ -46,8 +47,8 @@ const modalStyle = show => ({
 
     animationName: show ? 'moveFromRight' : 'moveToRight',
     animationDuration: '0.5s',
-    animationFillMode: 'forwards'
-  }
+    animationFillMode: 'forwards',
+  },
 });
 
 const Title = styled.span`
@@ -75,7 +76,7 @@ const Button = styled.button`
 const Map = styled.input.attrs({
   type: 'image',
   src: map,
-  alt: 'map'
+  alt: 'map',
 })`
   width: 30px;
   height: 30px;
@@ -83,7 +84,7 @@ const Map = styled.input.attrs({
 
 const Sad = styled.img.attrs({
   src: sad,
-  alt: 'sad'
+  alt: 'sad',
 })`
   width: 100px;
   height: 100px;
@@ -95,7 +96,7 @@ class GameFail extends Component {
     super();
 
     this.state = {
-      show: true
+      show: true,
     };
   }
 
@@ -140,7 +141,7 @@ class GameFail extends Component {
             color: '#525965',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center'
+            alignItems: 'center',
           }}
         >
           <Sad />
@@ -153,7 +154,7 @@ class GameFail extends Component {
             padding: '20px 0',
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'space-around'
+            justifyContent: 'space-around',
           }}
         >
           <div
@@ -161,7 +162,7 @@ class GameFail extends Component {
               width: '80px',
               height: '100%',
               display: 'inline-block',
-              paddingTop: '10px'
+              paddingTop: '10px',
             }}
           >
             <Map onClick={this.handleReturn} />
@@ -175,5 +176,5 @@ class GameFail extends Component {
 
 export default connect(null, dispatch => ({
   routerActions: bindActionCreators(routerActions, dispatch),
-  gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
+  gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
 }))(GameFail);

@@ -7,6 +7,7 @@ import Setting from './Setting';
 
 const Background = styled.nav`
   position: fixed;
+  z-index: 1;
   top: 0;
   width: 100%;
   height: 60px;
@@ -24,7 +25,7 @@ const TopBar = props => (
   <Background>
     <Chance chance={props.chance} />
     <Goal goals={props.goals} showClear={true} />
-    <Setting />
+    <Setting onClickSetting={props.onClickSetting} />
   </Background>
 );
 

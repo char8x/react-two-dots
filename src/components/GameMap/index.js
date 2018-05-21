@@ -8,6 +8,7 @@ import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import BottomBar from '../BottomBar';
 import Level from './Level';
 import TopBar from '../TopBar';
+import Modal from '../Modal';
 import { COLOR_BLUE, COLOR_RED } from '../../utils/constants';
 import gameAreaActions from '../../store/gamearea/actions';
 import gameInfoActions from '../../store/gameinfo/actions';
@@ -42,7 +43,7 @@ class GameMap extends Component {
     clearAllBodyScrollLocks();
   }
 
-  handleClick = (e, l) => {
+  handleClickLevel = (e, l) => {
     // dynamic load GameArea
     const { gameInfoActions, gameAreaActions, routerActions } = this.props;
     gameInfoActions.globalInit(l.level);
@@ -50,16 +51,21 @@ class GameMap extends Component {
     routerActions.push('/level/' + l.level);
   };
 
+  handleClickSetting = () => {
+    this.props.gameInfoActions.toggleSetting();
+  };
+
   render() {
     const { levels } = this.props;
 
     return (
       <AppContainer>
-        <TopBar />
+        <Modal showSetting={this.props.showSetting} />
+        <TopBar onClickSetting={this.handleClickSetting} />
         <Content>
           <header
             style={{
-              marginTop: '100px'
+              marginTop: '100px',
             }}
           >
             <Title color={COLOR_RED}>Two</Title>
@@ -73,14 +79,14 @@ class GameMap extends Component {
               alignItems: 'center',
               flexWrap: 'wrap',
               marginTop: '50px',
-              width: '300px'
+              width: '300px',
             }}
           >
             {levels.map((l, i) => (
               <Level
                 key={i.toString()}
                 onClick={e => {
-                  this.handleClick(e, l);
+                  this.handleClickLevel(e, l);
                 }}
                 active={l.active}
               >
@@ -97,11 +103,12 @@ class GameMap extends Component {
 
 export default connect(
   state => ({
-    levels: state.gameInfo.levels
+    levels: state.gameInfo.levels,
+    showSetting: state.gameInfo.showSetting,
   }),
   dispatch => ({
     gameInfoActions: bindActionCreators(gameInfoActions, dispatch),
     gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
-    routerActions: bindActionCreators(routerActions, dispatch)
+    routerActions: bindActionCreators(routerActions, dispatch),
   })
 )(GameMap);

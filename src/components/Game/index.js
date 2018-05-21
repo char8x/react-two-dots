@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
@@ -8,6 +9,7 @@ import TopBar from '../TopBar';
 import BottomBar from '../BottomBar';
 import Modal from '../Modal';
 import GameArea from '../GameArea';
+import gameInfoActions from '../../store/gameinfo/actions';
 import hex2rgb from '../../utils/hex2rgb';
 
 const AppContainer = styled.div`
@@ -18,7 +20,6 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  z-index: -10;
   ${props =>
     props.rectangle
       ? `background-color: rgba(${hex2rgb(props.color)},0.3);`
@@ -35,6 +36,10 @@ class App extends Component {
     clearAllBodyScrollLocks();
   }
 
+  handleClickSetting = () => {
+    this.props.gameInfoActions.toggleSetting();
+  };
+
   render() {
     const {
       chances,
@@ -43,7 +48,7 @@ class App extends Component {
       clearDots,
       score,
       color,
-      rectangle
+      rectangle,
     } = this.props;
 
     if (goals == null || goals.length === 0) {
@@ -60,9 +65,14 @@ class App extends Component {
           showStart={this.props.showStart}
           showSuccess={this.props.showSuccess}
           showFailure={this.props.showFailure}
+          showSetting={this.props.showSetting}
           maxLevel={this.props.maxLevel}
         />
-        <TopBar chance={chances} goals={goals} />
+        <TopBar
+          chance={chances}
+          goals={goals}
+          onClickSetting={this.handleClickSetting}
+        />
         <GameArea
           showBoard={this.props.showBoard}
           data={this.props.data}
@@ -76,19 +86,25 @@ class App extends Component {
   }
 }
 
-export default connect(state => ({
-  chances: state.gameArea.chances,
-  goals: state.gameArea.goals,
-  level: state.gameArea.level,
-  score: state.gameArea.score,
-  clearDots: state.gameArea.clearDots,
-  color: state.gameArea.dotColor,
-  rectangle: state.gameArea.rectangle,
-  showBoard: state.gameArea.showBoard,
-  data: state.gameArea.array,
-  boardHeight: state.gameArea.boardHeight,
-  showStart: state.gameArea.showStart,
-  showSuccess: state.gameArea.showSuccess,
-  showFailure: state.gameArea.showFailure,
-  maxLevel: state.gameInfo.maxLevel
-}))(App);
+export default connect(
+  state => ({
+    chances: state.gameArea.chances,
+    goals: state.gameArea.goals,
+    level: state.gameArea.level,
+    score: state.gameArea.score,
+    clearDots: state.gameArea.clearDots,
+    color: state.gameArea.dotColor,
+    rectangle: state.gameArea.rectangle,
+    showBoard: state.gameArea.showBoard,
+    data: state.gameArea.array,
+    boardHeight: state.gameArea.boardHeight,
+    showStart: state.gameArea.showStart,
+    showSuccess: state.gameArea.showSuccess,
+    showFailure: state.gameArea.showFailure,
+    showSetting: state.gameInfo.showSetting,
+    maxLevel: state.gameInfo.maxLevel,
+  }),
+  dispatch => ({
+    gameInfoActions: bindActionCreators(gameInfoActions, dispatch),
+  })
+)(App);

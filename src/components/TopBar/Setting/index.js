@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-// import setting from './setting.svg'
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import setting from './setting.svg';
 
-// const Setting = styled.input.attrs({
-//   type: 'image',
-//   src: setting,
-//   alt: 'setting'
-// })`
-//   width: 30px;
-//   height: 30px;
-// `
+const Setting = styled.input.attrs({
+  type: 'image',
+  src: setting,
+  alt: 'setting',
+})`
+  width: 30px;
+  height: 30px;
+`;
 
 const SettingBackground = styled.div`
   background-color: #d7d8db;
@@ -23,18 +23,23 @@ const SettingBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 export default class EnhancedSetting extends Component {
   handleClick = () => {
-    console.log('setting')
-  }
+    console.log('setting');
+  };
 
   render() {
     return (
       <SettingBackground>
-        {/* <Setting onClick={this.handleClick} /> */}
+        <Setting
+          onClick={e => {
+            this.props.onClickSetting && this.props.onClickSetting();
+            this.handleClick();
+          }}
+        />
       </SettingBackground>
-    )
+    );
   }
 }

@@ -2,7 +2,9 @@ import {
   GLOBAL_INIT,
   SAVE_RESULT,
   REDUCE_CHANCE,
-  ACTIVE_LEVEL
+  ACTIVE_LEVEL,
+  RESET_GAME,
+  TOGGLE_SETTING,
 } from './actions';
 
 import initLevels, { maxLevel } from '../../models/levels';
@@ -10,22 +12,23 @@ import clone from '../../utils/clone';
 
 const initState = {
   maxLevel,
+  showSetting: false,
   currentLevel: null,
   levels: initLevels.map(l => ({
     level: l.level,
     score: l.score,
-    active: l.active
+    active: l.active,
   })),
-  chance: 5
+  chance: 5,
 };
 
 export default (state = initState, action) => {
-  const { levels, currentLevel, chance } = state;
+  const { levels, currentLevel, chance, showSetting } = state;
   switch (action.type) {
     case GLOBAL_INIT:
       return {
         ...state,
-        currentLevel: levels[action.level - 1]
+        currentLevel: levels[action.level - 1],
       };
     case ACTIVE_LEVEL: {
       const cloneLevels = clone(levels);
@@ -33,20 +36,31 @@ export default (state = initState, action) => {
       return {
         ...state,
         levels: cloneLevels,
-        currentLevel: cloneLevels[action.level - 1]
+        currentLevel: cloneLevels[action.level - 1],
       };
     }
     case REDUCE_CHANCE:
       return {
         ...state,
-        chance: chance - 1
+        chance: chance - 1,
       };
     case SAVE_RESULT: {
       const newLevels = clone(levels);
       newLevels[currentLevel.level - 1].score = action.score;
       return {
         ...state,
-        levels: newLevels
+        levels: newLevels,
+      };
+    }
+    case TOGGLE_SETTING: {
+      return {
+        ...state,
+        showSetting: !showSetting,
+      };
+    }
+    case RESET_GAME: {
+      return {
+        ...initState,
       };
     }
     default:

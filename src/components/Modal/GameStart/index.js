@@ -11,6 +11,7 @@ import gameAreaActions from '../../../store/gamearea/actions';
 const modalStyle = show => ({
   overlay: {
     position: 'fixed',
+    zIndex: 2,
     top: 0,
     left: 0,
     right: 0,
@@ -18,7 +19,7 @@ const modalStyle = show => ({
     backgroundColor: 'rgba(68,68,68,0.8)',
     animationName: show ? '' : 'disappear',
     animationDuration: '0.5s',
-    animationFillMode: 'forwards'
+    animationFillMode: 'forwards',
   },
   content: {
     position: 'absolute',
@@ -43,8 +44,8 @@ const modalStyle = show => ({
 
     animationName: show ? 'moveFromTop' : 'moveToBottom',
     animationDuration: '0.5s',
-    animationFillMode: 'forwards'
-  }
+    animationFillMode: 'forwards',
+  },
 });
 
 const Title = styled.span`
@@ -74,7 +75,7 @@ class GameStart extends Component {
     super();
 
     this.state = {
-      show: true
+      show: true,
     };
   }
 
@@ -106,7 +107,7 @@ class GameStart extends Component {
             width: '100%',
             margin: '10px 0',
             padding: '10px 0',
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         >
           <span>目标</span>
@@ -120,5 +121,5 @@ class GameStart extends Component {
 }
 
 export default connect(null, dispatch => ({
-  gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
+  gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
 }))(GameStart);
