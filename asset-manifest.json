@@ -1,14 +1,15 @@
 {
   "main.css": "static/css/main.a936552e.css",
   "main.css.map": "static/css/main.a936552e.css.map",
-  "main.js": "static/js/main.8306a525.js",
-  "main.js.map": "static/js/main.8306a525.js.map",
-  "static/js/0.df443155.chunk.js": "static/js/0.df443155.chunk.js",
-  "static/js/0.df443155.chunk.js.map": "static/js/0.df443155.chunk.js.map",
-  "static/js/1.48f71c1d.chunk.js": "static/js/1.48f71c1d.chunk.js",
-  "static/js/1.48f71c1d.chunk.js.map": "static/js/1.48f71c1d.chunk.js.map",
+  "main.js": "static/js/main.952ab901.js",
+  "main.js.map": "static/js/main.952ab901.js.map",
+  "static/js/0.6b920a84.chunk.js": "static/js/0.6b920a84.chunk.js",
+  "static/js/0.6b920a84.chunk.js.map": "static/js/0.6b920a84.chunk.js.map",
+  "static/js/1.490eabc5.chunk.js": "static/js/1.490eabc5.chunk.js",
+  "static/js/1.490eabc5.chunk.js.map": "static/js/1.490eabc5.chunk.js.map",
   "static/media/bg.png": "static/media/bg.edc32f3d.png",
   "static/media/map.svg": "static/media/map.c5634c53.svg",
   "static/media/restart.svg": "static/media/restart.286ae328.svg",
-  "static/media/sad.svg": "static/media/sad.60cc84c9.svg"
+  "static/media/sad.svg": "static/media/sad.60cc84c9.svg",
+  "static/media/setting.svg": "static/media/setting.659db4da.svg"
 }
