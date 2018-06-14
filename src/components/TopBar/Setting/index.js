@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import setting from './setting.svg';
+import setting from '../../../resources/img/setting.svg';
 
 const Setting = styled.input.attrs({
   type: 'image',

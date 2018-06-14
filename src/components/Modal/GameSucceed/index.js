@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 import './index.css';
 import gameAreaActions from '../../../store/gamearea/actions';
 import gameInfoActions from '../../../store/gameinfo/actions';
-import restart from './restart.svg';
+import restart from '../../../resources/img/restart.svg';
 
 const modalStyle = show => ({
   overlay: {
@@ -209,8 +209,11 @@ class GameSucceed extends Component {
   }
 }
 
-export default connect(null, dispatch => ({
-  gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
-  gameInfoActions: bindActionCreators(gameInfoActions, dispatch),
-  routerActions: bindActionCreators(routerActions, dispatch),
-}))(GameSucceed);
+export default connect(
+  null,
+  dispatch => ({
+    gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
+    gameInfoActions: bindActionCreators(gameInfoActions, dispatch),
+    routerActions: bindActionCreators(routerActions, dispatch),
+  })
+)(GameSucceed);

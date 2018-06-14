@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-// import star from './star.svg'
+// import star from '../../../resources/img/star.svg'
 
 // const Star = styled.img.attrs({
 //   src: star,

@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Responsive from 'react-responsive';
 
-import fork from './fork.png';
-import bg from './bg.png';
+import fork from '../../resources/img/fork.png';
+import bg from '../../resources/img/bg.png';
 
 const Default = props => <Responsive {...props} minWidth={415} />;
 const Mobile = props => <Responsive {...props} maxWidth={414} />;
@@ -11,7 +11,7 @@ const Mobile = props => <Responsive {...props} maxWidth={414} />;
 const Fork = styled.img.attrs({
   src: fork,
   alt: 'Fork me on Github',
-  url: 'https://github.com/charles8xu'
+  url: 'https://github.com/charles8xu',
 })`
   position: absolute;
   top: 0;
@@ -48,7 +48,7 @@ export default class extends React.Component {
           width: '364px',
           height: '641px',
           position: 'absolute',
-          top: '-1px'
+          top: '-1px',
         }}
         title="two-dots"
         src={
@@ -66,7 +66,7 @@ export default class extends React.Component {
           <a
             href="https://github.com/charles8xu/react-two-dots/"
             style={{
-              userSelect: 'none'
+              userSelect: 'none',
             }}
           >
             <Fork />

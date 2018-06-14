@@ -170,7 +170,7 @@ class GameSetting extends Component {
         <div style={{ height: '100px', width: '100%' }} />
         {renderButtons()}
         <div style={{ position: 'absolute', bottom: '20px', fontSize: '10px' }}>
-          版本 ID：1.0.0
+          版本 ID：0.1.0
         </div>
       </ReactModal>
     );

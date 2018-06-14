@@ -367,8 +367,6 @@ const datas = [
   } */
 ];
 
-const maxLevel = datas.length;
-
 const levels = datas.map((e, i) =>
   Object.assign(e, {
     level: i + 1,
@@ -377,7 +375,82 @@ const levels = datas.map((e, i) =>
   })
 );
 
+if (process.env.NODE_ENV !== 'production') {
+  const devData = [
+    {
+      // level 1
+      data: () => {
+        currentLevel = {
+          chance: 6,
+          goals: gdg(1, 1, [COLOR_BLUE, COLOR_RED, COLOR_YELLOW]),
+          array: (() => {
+            return gm([
+              gbd(3),
+              grd(1),
+              gyd(3),
+              grd(1),
+              gbd(3),
+              grd(1),
+              gyd(3),
+              grd(1),
+            ]);
+          })(),
+          height: 4,
+          gen: generator({
+            colors: [COLOR_BLUE, COLOR_RED, COLOR_YELLOW],
+            dotTypes: [DOT_TYPE_DOT],
+          }),
+        };
+        return currentLevel;
+      },
+    },
+    {
+      // level 2
+      data: () => {
+        currentLevel = {
+          chance: 6,
+          goals: gdg(1, 1, [COLOR_GREEN, COLOR_YELLOW, COLOR_RED, COLOR_BLUE]),
+          array: (() => {
+            return gm([
+              gbd(1),
+              gyd(1),
+              grd(3),
+              gbd(1),
+              gyd(3),
+              grd(1),
+              gbd(1),
+              ggd(4),
+              gbd(1),
+              gyd(3),
+              grd(1),
+              gbd(1),
+              gyd(1),
+              grd(3),
+            ]);
+          })(),
+          height: 5,
+          gen: generator({
+            colors: [COLOR_GREEN, COLOR_YELLOW, COLOR_RED, COLOR_BLUE],
+            dotTypes: [DOT_TYPE_DOT],
+          }),
+        };
+        return currentLevel;
+      },
+    },
+  ];
+  devData.map((e, i) =>
+    Object.assign(e, {
+      level: i + 1 + levels.length,
+      score: 0,
+      active: false,
+    })
+  );
+  devData[0].active = true;
+  levels.push(...devData);
+}
+
 levels[0].active = true;
+const maxLevel = levels.length;
 
 export default levels;
 export { currentLevel, maxLevel };

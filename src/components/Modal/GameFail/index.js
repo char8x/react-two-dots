@@ -7,8 +7,8 @@ import { routerActions } from 'react-router-redux';
 
 import './index.css';
 import gameAreaActions from '../../../store/gamearea/actions';
-import map from './map.svg';
-import sad from './sad.svg';
+import map from '../../../resources/img/map.svg';
+import sad from '../../../resources/img/sad.svg';
 
 const modalStyle = show => ({
   overlay: {
@@ -174,7 +174,10 @@ class GameFail extends Component {
   }
 }
 
-export default connect(null, dispatch => ({
-  routerActions: bindActionCreators(routerActions, dispatch),
-  gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
-}))(GameFail);
+export default connect(
+  null,
+  dispatch => ({
+    routerActions: bindActionCreators(routerActions, dispatch),
+    gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
+  })
+)(GameFail);
