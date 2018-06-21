@@ -14,6 +14,7 @@
     "polished": "^1.9.2",
     "prop-types": "^15.6.1",
     "rc-hammerjs": "^0.6.9",
+    "rc-switch": "^1.6.0",
     "react": "^16.3.2",
     "react-countup": "^3.0.3",
     "react-dom": "^16.3.2",

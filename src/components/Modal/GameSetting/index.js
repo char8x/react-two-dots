@@ -8,6 +8,7 @@ import { routerActions } from 'react-router-redux';
 import './index.css';
 import gameAreaActions from '../../../store/gamearea/actions';
 import gameInfoActions from '../../../store/gameinfo/actions';
+import Switch from '../../Switch';
 
 const modalStyle = show => ({
   overlay: {
@@ -133,6 +134,14 @@ class GameSetting extends Component {
     }, 450);
   };
 
+  handleToggleMusic = value => {
+    this.props.gameInfoActions.toggleMusic();
+  };
+
+  handleToggleAudioEffect = value => {
+    this.props.gameInfoActions.toggleAudioEffect();
+  };
+
   render() {
     const renderButtons = () => {
       const { path } = this.props;
@@ -169,6 +178,25 @@ class GameSetting extends Component {
       >
         <div style={{ height: '100px', width: '100%' }} />
         {renderButtons()}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '200px',
+            marginTop: '20px',
+          }}
+        >
+          <Switch
+            label={'音乐'}
+            checked={this.props.music}
+            onChange={this.handleToggleMusic}
+          />
+          <Switch
+            label={'音效'}
+            checked={this.props.audioEffect}
+            onChange={this.handleToggleAudioEffect}
+          />
+        </div>
         <div style={{ position: 'absolute', bottom: '20px', fontSize: '10px' }}>
           版本 ID：0.1.0
         </div>
@@ -180,6 +208,8 @@ class GameSetting extends Component {
 export default connect(
   state => ({
     path: state.router.location.pathname,
+    music: state.gameInfo.music,
+    audioEffect: state.gameInfo.audioEffect,
   }),
   dispatch => ({
     routerActions: bindActionCreators(routerActions, dispatch),

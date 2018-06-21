@@ -1,0 +1,85 @@
+.rc-switch {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 70px;
+  height: 35px;
+  line-height: 35px;
+  vertical-align: middle;
+  border-radius: 5px 5px;
+  background-color: #2e3645;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.35, 0, 0.25, 1);
+}
+.rc-switch-inner {
+  position: absolute;
+  left: 5px;
+  top: 2px;
+}
+.rc-switch:after {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: 40px;
+  top: 5px;
+  border-radius: 5px 5px;
+  background-color: #fff;
+  content: '';
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+  transform: scale(1);
+  transition: left 0.3s cubic-bezier(0.35, 0, 0.25, 1);
+  animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+  animation-duration: 0.3s;
+  animation-name: rcSwitchOff;
+}
+.rc-switch:hover:after {
+  transform: scale(1.1);
+  animation-name: rcSwitchOn;
+}
+.rc-switch:focus {
+  box-shadow: 0 0 0 2px #d5f1fd;
+  outline: none;
+}
+.rc-switch-checked {
+  border: 1px solid #87d068;
+  background-color: #87d068;
+}
+.rc-switch-checked .rc-switch-inner {
+  left: 34px;
+}
+.rc-switch-checked:after {
+  left: 5px;
+}
+
+.rc-switch-label {
+  display: inline-block;
+  line-height: 20px;
+  font-size: 14px;
+  padding-left: 10px;
+  vertical-align: middle;
+  white-space: normal;
+  pointer-events: none;
+  user-select: text;
+}
+
+@keyframes rcSwitchOn {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes rcSwitchOff {
+  0% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

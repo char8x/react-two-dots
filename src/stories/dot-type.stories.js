@@ -10,7 +10,7 @@ import {
   COLOR_PURPLE,
   COLOR_RED,
   COLOR_TRANS,
-  COLOR_YELLOW
+  COLOR_YELLOW,
 } from '../utils/constants';
 import AnimateDot, { Dot } from '../components/Dot';
 import DotList from '../components/GameArea/DotList';
@@ -19,6 +19,7 @@ import levels from '../models/levels';
 import createStore from '../store';
 import history from '../utils/history';
 import gameAreaActions from '../store/gamearea/actions';
+import Switch from '../components/Switch';
 
 const store = createStore(history);
 
@@ -32,7 +33,7 @@ storiesOf('Dot Type|Dot', module)
         COLOR_PURPLE,
         COLOR_RED,
         COLOR_TRANS,
-        COLOR_YELLOW
+        COLOR_YELLOW,
       ].map(v => <Dot key={v} diam={20} color={v} />)}
     </React.Fragment>
   ))
@@ -44,7 +45,7 @@ storiesOf('Dot Type|Dot', module)
         COLOR_PURPLE,
         COLOR_RED,
         COLOR_TRANS,
-        COLOR_YELLOW
+        COLOR_YELLOW,
       ].map(v => (
         <AnimateDot
           key={v}
@@ -104,3 +105,7 @@ storiesOf('Dot Type|Board List', module)
       </Provider>
     );
   });
+
+storiesOf('Switch', module).add('Switch', () => {
+  return <Switch />;
+});

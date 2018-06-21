@@ -9,6 +9,7 @@ import Routes from './routes';
 import createStore from './store';
 import history from './utils/history';
 import { subscribeProgress } from './utils/progress-storage';
+import { subscribeBgmMusic } from './utils/bgm';
 import registerServiceWorker from './registerServiceWorker';
 
 injectGlobal`
@@ -27,6 +28,7 @@ injectGlobal`
 
 const store = createStore(history);
 subscribeProgress(store);
+subscribeBgmMusic(store);
 
 ReactDOM.render(
   <Provider store={store}>
