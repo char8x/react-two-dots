@@ -55,6 +55,4 @@ async function subscribeBgmMusic(store) {
   }
 }
 
-downloadMusic();
-
 export { subscribeBgmMusic };

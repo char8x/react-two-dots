@@ -12,10 +12,11 @@ import {
   isSameDot,
   lineDeg,
   rectangleExist,
-  isOppositeDirection
+  isOppositeDirection,
 } from '../../models/board';
 import hammerDirection from '../../utils/hammerjs-direction';
 import { DIRECTION_NONE } from '../../utils/constants';
+import triggerAudioEffect from '../../utils/trigger-audio-effect';
 import gameAreaActions from '../../store/gamearea/actions';
 
 const BoardWrapper = styled.div``;
@@ -25,12 +26,12 @@ const initState = {
   lineAngle: 0,
   linePosition: {
     x: 0,
-    y: 0
+    y: 0,
   },
   connectedDots: [],
   connectedLines: [],
   panningDot: -1,
-  panDirection: null
+  panDirection: null,
 };
 
 class Board extends React.Component {
@@ -38,12 +39,12 @@ class Board extends React.Component {
     data: PropTypes.array.isRequired,
     boardHeight: PropTypes.number.isRequired,
     rectangle: PropTypes.bool,
-    color: PropTypes.string
+    color: PropTypes.string,
   };
   // required props dont need default value
   static defaultProps = {
     rectangle: false,
-    color: ''
+    color: '',
   };
 
   constructor(props) {
@@ -54,6 +55,11 @@ class Board extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.connectedLines.length !== this.state.connectedLines.length) {
+      if (this.state.panningDot !== -1) {
+        // play audio effect
+        this.handleAudioEffect();
+      }
+      // clear game board progress
       this.props.onProgressChange(this.state.connectedLines.length);
     }
   }
@@ -63,8 +69,23 @@ class Board extends React.Component {
     if (this.panningEndTimer) cancelAnimationFrame(this.panningEndTimer);
   }
 
+  handleAudioEffect = () => {
+    if (this.props.audioEffect) {
+      triggerAudioEffect(
+        this.state.connectedLines.length < 13
+          ? this.state.connectedLines.length
+          : 12
+      );
+    }
+  };
+
+  handleTap = e => {
+    this.handleAudioEffect();
+  };
+
   handlePanStart = (e, { currentDot }) => {
     if (this.state.panningDot === -1) {
+      this.handleAudioEffect();
       // calculate line start position
       const dotPosition = offset(e.target);
       const dotShape = shape(e.target);
@@ -73,8 +94,8 @@ class Board extends React.Component {
         connectedDots: [currentDot],
         linePosition: {
           x: dotPosition.left + dotShape.width / 2,
-          y: dotPosition.top + dotShape.height / 2 - FIXED_LINE_HEIGHT / 2
-        }
+          y: dotPosition.top + dotShape.height / 2 - FIXED_LINE_HEIGHT / 2,
+        },
       });
       this.props.gameAreaActions.panningStart(
         this.props.data[currentDot].color
@@ -88,7 +109,7 @@ class Board extends React.Component {
     // calculate length and rotate
     let pointer = {
       x: e.center.x,
-      y: e.center.y
+      y: e.center.y,
     };
     this.setState({
       lineLength: distance(
@@ -97,7 +118,7 @@ class Board extends React.Component {
         pointer.x,
         pointer.y
       ),
-      lineAngle: angle(linePosition.x, linePosition.y, pointer.x, pointer.y)
+      lineAngle: angle(linePosition.x, linePosition.y, pointer.x, pointer.y),
     });
 
     // TODO: how to ensure accurate and just trigger once ?
@@ -106,7 +127,7 @@ class Board extends React.Component {
       panDirection !== hammerDirection[e.direction]
     ) {
       this.setState({
-        panDirection: hammerDirection[e.direction]
+        panDirection: hammerDirection[e.direction],
       });
     }
   };
@@ -124,7 +145,7 @@ class Board extends React.Component {
     this.setState(preState => ({
       ...initState,
       connectedDots:
-        preState.connectedDots.length > 1 ? preState.connectedDots : []
+        preState.connectedDots.length > 1 ? preState.connectedDots : [],
     }));
   };
 
@@ -132,6 +153,7 @@ class Board extends React.Component {
     const { data, boardHeight, color, rectangle, gameAreaActions } = this.props;
     const { panningDot, connectedDots, connectedLines } = this.state;
     if (rectangle) {
+      // if already exists rectangle,do not allow add new connected lines
       return;
     }
     if (panningDot !== -1 && panningDot !== currentDot) {
@@ -155,7 +177,7 @@ class Board extends React.Component {
                 connectedDots: dots.slice(0, dots.length - 1),
                 connectedLines: lines.slice(0, lines.length - 1),
                 panningDot: dots[dots.length - 2],
-                linePosition: { x: lastLine.x, y: lastLine.y }
+                linePosition: { x: lastLine.x, y: lastLine.y },
               };
             });
             gameAreaActions.enterDot(currentDot, false);
@@ -176,14 +198,15 @@ class Board extends React.Component {
                   direction,
                   deg: lineDeg[direction],
                   color: color,
-                  ...preState.linePosition
-                }
+                  ...preState.linePosition,
+                },
               ]),
               panningDot: currentDot,
               linePosition: {
                 x: dotPosition.left + dotShape.width / 2,
-                y: dotPosition.top + dotShape.height / 2 - FIXED_LINE_HEIGHT / 2
-              }
+                y:
+                  dotPosition.top + dotShape.height / 2 - FIXED_LINE_HEIGHT / 2,
+              },
             };
           });
 
@@ -225,7 +248,7 @@ class Board extends React.Component {
           connectedDots: dots.slice(0, dots.length - 1),
           connectedLines: lines.slice(0, lines.length - 1),
           panningDot: dots[dots.length - 2],
-          linePosition: { x: lastLine.x, y: lastLine.y }
+          linePosition: { x: lastLine.x, y: lastLine.y },
         };
       });
       gameAreaActions.leaveDot();
@@ -245,7 +268,7 @@ class Board extends React.Component {
     this.panningEndTimer = requestAnimationFrame(() => {
       this.props.gameAreaActions.panningEnd(this.state.connectedDots);
       this.setState({
-        connectedDots: []
+        connectedDots: [],
       });
     });
   };
@@ -257,6 +280,7 @@ class Board extends React.Component {
         <DotList
           data={data}
           boardHeight={boardHeight}
+          onTap={this.handleTap}
           onPanStart={this.handlePanStart}
           onPan={this.handlePan}
           onPanEnd={this.handlePanEnd}
@@ -272,6 +296,11 @@ class Board extends React.Component {
   }
 }
 
-export default connect(null, dispatch => ({
-  gameAreaActions: bindActionCreators(gameAreaActions, dispatch)
-}))(Board);
+export default connect(
+  state => ({
+    audioEffect: state.gameInfo.audioEffect,
+  }),
+  dispatch => ({
+    gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
+  })
+)(Board);

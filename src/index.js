@@ -10,6 +10,7 @@ import createStore from './store';
 import history from './utils/history';
 import { subscribeProgress } from './utils/progress-storage';
 import { subscribeBgmMusic } from './utils/bgm';
+import './utils/trigger-audio-effect';
 import registerServiceWorker from './registerServiceWorker';
 
 injectGlobal`
