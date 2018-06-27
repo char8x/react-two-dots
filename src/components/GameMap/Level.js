@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import { COLOR_BLUE, COLOR_RED } from '../../utils/constants';
+import triggerAudioEffect from '../../utils/trigger-audio-effect';
 
 const StyledLevel = styled.div`
   width: 40px;
@@ -29,14 +31,20 @@ const StyledLevel = styled.div`
   }`};
 `;
 
-export default class Level extends Component {
+class Level extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      enter: false
+      enter: false,
     };
   }
+
+  handleAudioEffect = () => {
+    if (this.props.audioEffect) {
+      triggerAudioEffect('click');
+    }
+  };
 
   render() {
     const { active, onClick, children, ...prop } = this.props;
@@ -47,8 +55,9 @@ export default class Level extends Component {
         enter={this.state.enter}
         onClick={e => {
           if (active) {
+            this.handleAudioEffect();
             this.setState(prevState => ({
-              enter: !prevState.enter
+              enter: !prevState.enter,
             }));
             onClick(e);
           }
@@ -59,3 +68,7 @@ export default class Level extends Component {
     );
   }
 }
+
+export default connect(state => ({
+  audioEffect: state.gameInfo.audioEffect,
+}))(Level);

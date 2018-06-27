@@ -72,9 +72,9 @@ class Board extends React.Component {
   handleAudioEffect = () => {
     if (this.props.audioEffect) {
       triggerAudioEffect(
-        this.state.connectedLines.length < 13
-          ? this.state.connectedLines.length
-          : 12
+        this.state.connectedLines.length >= 12 || this.props.rectangle
+          ? 12
+          : this.state.connectedLines.length
       );
     }
   };
@@ -169,6 +169,7 @@ class Board extends React.Component {
         ) {
           // return to last dot
           if (connectedLines[connectedLines.length - 1] != null) {
+            gameAreaActions.enterDot(currentDot, false);
             this.setState(preState => {
               const dots = preState.connectedDots;
               const lines = preState.connectedLines;
@@ -180,12 +181,19 @@ class Board extends React.Component {
                 linePosition: { x: lastLine.x, y: lastLine.y },
               };
             });
-            gameAreaActions.enterDot(currentDot, false);
           }
         } else {
           // recalculate line start position
           const dotPosition = offset(e.target);
           const dotShape = shape(e.target);
+
+          if (rectangleExist(connectedDots.concat([currentDot]))) {
+            // fulfill all progress
+            this.props.onProgressChange(12);
+            gameAreaActions.enterDot(currentDot, true);
+          } else {
+            gameAreaActions.enterDot(currentDot, false);
+          }
           // add new dot
           this.setState(preState => {
             const dots = preState.connectedDots;
@@ -209,14 +217,6 @@ class Board extends React.Component {
               },
             };
           });
-
-          if (rectangleExist(connectedDots.concat([currentDot]))) {
-            // fulfill all progress
-            this.props.onProgressChange(12);
-            gameAreaActions.enterDot(currentDot, true);
-          } else {
-            gameAreaActions.enterDot(currentDot, false);
-          }
         }
         // reset data
         gameAreaActions.resetDotState('active'); // important
@@ -239,6 +239,7 @@ class Board extends React.Component {
       )
     ) {
       // leave dot for the opposite direction
+      gameAreaActions.leaveDot();
       this.setState(preState => {
         // do not change preState property, it's useless
         const dots = preState.connectedDots;
@@ -251,7 +252,6 @@ class Board extends React.Component {
           linePosition: { x: lastLine.x, y: lastLine.y },
         };
       });
-      gameAreaActions.leaveDot();
     }
   };
 

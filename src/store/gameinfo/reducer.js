@@ -72,6 +72,8 @@ export default (state = initState, action) => {
     case RESET_GAME: {
       return {
         ...initState,
+        music,
+        audioEffect,
       };
     }
     case TOGGLE_MUSIC: {

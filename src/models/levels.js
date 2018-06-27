@@ -437,12 +437,59 @@ if (process.env.NODE_ENV !== 'production') {
         return currentLevel;
       },
     },
+    {
+      data: () => {
+        currentLevel = {
+          chance: 30,
+          goals: gdg(50, 4, [
+            COLOR_PURPLE,
+            COLOR_RED,
+            COLOR_GREEN,
+            COLOR_YELLOW,
+          ]),
+          array: (() => {
+            return gm([
+              gpd(8),
+              grd(6),
+              gpd(1),
+              grd(1),
+              ggd(5),
+              gpd(1),
+              grd(1),
+              ggd(1),
+              gyd(4),
+              gpd(1),
+              grd(1),
+              ggd(1),
+              gyd(1),
+              gpd(4),
+              grd(1),
+              ggd(1),
+              gyd(1),
+              gpd(1),
+              grd(1),
+              gpd(2),
+              grd(1),
+              ggd(1),
+              gyd(1),
+              gpd(3),
+            ]);
+          })(),
+          height: 7,
+          gen: generator({
+            colors: [COLOR_PURPLE, COLOR_RED, COLOR_GREEN, COLOR_YELLOW],
+            dotTypes: [DOT_TYPE_DOT],
+          }),
+        };
+        return currentLevel;
+      },
+    },
   ];
   devData.map((e, i) =>
     Object.assign(e, {
       level: i + 1 + levels.length,
       score: 0,
-      active: false,
+      active: true,
     })
   );
   devData[0].active = true;
