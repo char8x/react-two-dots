@@ -1,24 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import Responsive from 'react-responsive';
+import GithubCorner from 'react-github-corner';
 
-import fork from '../../resources/img/fork.png';
 import bg from '../../resources/img/bg.png';
 
 const Default = props => <Responsive {...props} minWidth={415} />;
 const Mobile = props => <Responsive {...props} maxWidth={414} />;
-
-const Fork = styled.img.attrs({
-  src: fork,
-  alt: 'Fork me on Github',
-  url: 'https://github.com/charles8xu',
-})`
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: 0;
-  z-index: 1;
-`;
 
 const Background = styled.div`
   position: absolute;
@@ -63,17 +51,16 @@ export default class extends React.Component {
     return (
       <React.Fragment>
         <Default>
-          <a
-            href="https://github.com/charles8xu/react-two-dots/"
-            style={{
-              userSelect: 'none',
-            }}
-          >
-            <Fork />
-          </a>
           <Background>
             <Wrapper>{child}</Wrapper>
           </Background>
+          <GithubCorner
+            href="https://github.com/charles8xu/react-two-dots/"
+            bannerColor="#151513"
+            octoColor="#fff"
+            size={80}
+            direction="right"
+          />
         </Default>
         <Mobile>{this.props.children}</Mobile>
       </React.Fragment>

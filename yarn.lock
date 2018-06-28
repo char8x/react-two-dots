@@ -6641,6 +6641,10 @@ react-fuzzy@^0.5.2:
     fuse.js "^3.0.1"
     prop-types "^15.5.9"
 
+react-github-corner@^2.3.0:
+  version "2.3.0"
+  resolved "http://registry.npm.taobao.org/react-github-corner/download/react-github-corner-2.3.0.tgz#73ab17324b670c9cd955567b09663d385cfb05ef"
+
 react-html-attributes@^1.4.2:
   version "1.4.2"
   resolved "http://registry.npm.taobao.org/react-html-attributes/download/react-html-attributes-1.4.2.tgz#0d2ccf134fc79b2d3543837dc1591d32b7b903f9"
