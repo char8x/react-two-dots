@@ -84,6 +84,10 @@ const Restart = styled.input.attrs({
 `;
 
 class GameSucceed extends Component {
+  static defaultProps = {
+    handleAudioEffect: () => {},
+  };
+
   constructor(props) {
     super();
 
@@ -196,10 +200,22 @@ class GameSucceed extends Component {
               paddingTop: '10px',
             }}
           >
-            <Restart onClick={this.handleRestart} />
+            <Restart
+              onClick={e => {
+                this.props.handleAudioEffect();
+                this.handleRestart(e);
+              }}
+            />
           </div>
           <Button
-            onClick={level < maxLevel ? this.handleContinue : this.handleReturn}
+            onClick={e => {
+              this.props.handleAudioEffect();
+              if (level < maxLevel) {
+                this.handleContinue(e);
+              } else {
+                this.handleReturn(e);
+              }
+            }}
           >
             {level < maxLevel ? '继续' : '返回'}
           </Button>

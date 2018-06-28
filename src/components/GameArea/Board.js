@@ -59,8 +59,12 @@ class Board extends React.Component {
         // play audio effect
         this.handleAudioEffect();
       }
-      // clear game board progress
-      this.props.onProgressChange(this.state.connectedLines.length);
+      // game board progress
+      this.props.onProgressChange(
+        this.props.rectangle && this.state.connectedLines.length >= 4
+          ? 12
+          : this.state.connectedLines.length
+      );
     }
   }
 
@@ -189,7 +193,6 @@ class Board extends React.Component {
 
           if (rectangleExist(connectedDots.concat([currentDot]))) {
             // fulfill all progress
-            this.props.onProgressChange(12);
             gameAreaActions.enterDot(currentDot, true);
           } else {
             gameAreaActions.enterDot(currentDot, false);

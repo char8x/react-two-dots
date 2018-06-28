@@ -381,7 +381,7 @@ if (process.env.NODE_ENV !== 'production') {
       // level 1
       data: () => {
         currentLevel = {
-          chance: 6,
+          chance: 1,
           goals: gdg(1, 1, [COLOR_BLUE, COLOR_RED, COLOR_YELLOW]),
           array: (() => {
             return gm([

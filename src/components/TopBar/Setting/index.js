@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+
 import setting from '../../../resources/img/setting.svg';
+import triggerAudioEffect from '../../../utils/trigger-audio-effect';
 
 const Setting = styled.input.attrs({
   type: 'image',
@@ -25,9 +28,11 @@ const SettingBackground = styled.div`
   align-items: center;
 `;
 
-export default class EnhancedSetting extends Component {
+class EnhancedSetting extends Component {
   handleClick = () => {
-    console.log('setting');
+    if (this.props.audioEffect) {
+      triggerAudioEffect('click');
+    }
   };
 
   render() {
@@ -43,3 +48,7 @@ export default class EnhancedSetting extends Component {
     );
   }
 }
+
+export default connect(state => ({
+  audioEffect: state.gameInfo.audioEffect,
+}))(EnhancedSetting);

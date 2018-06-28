@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactModal from 'react-modal';
+import { connect } from 'react-redux';
 
+import triggerAudioEffect from '../../utils/trigger-audio-effect';
 import GameStart from './GameStart';
 import GameSucceed from './GameSucceed';
 import GameFail from './GameFail';
@@ -10,6 +12,14 @@ ReactModal.setAppElement('#root');
 ReactModal.defaultStyles = {};
 
 class Modal extends React.Component {
+  handleAudioEffect = force => {
+    if (force !== undefined && force) {
+      triggerAudioEffect('click');
+    } else if (force === undefined && this.props.audioEffect) {
+      triggerAudioEffect('click');
+    }
+  };
+
   render() {
     const {
       showStart,
@@ -29,6 +39,7 @@ class Modal extends React.Component {
           chance={chances}
           goals={goals}
           level={level}
+          handleAudioEffect={this.handleAudioEffect}
         />
       );
     }
@@ -39,15 +50,30 @@ class Modal extends React.Component {
           level={level}
           score={score}
           maxLevel={maxLevel}
+          handleAudioEffect={this.handleAudioEffect}
         />
       );
     }
     if (showFailure) {
-      return <GameFail showFailure={showFailure} level={level} />;
+      return (
+        <GameFail
+          showFailure={showFailure}
+          level={level}
+          handleAudioEffect={this.handleAudioEffect}
+        />
+      );
     }
 
-    return <GameSetting showSetting={showSetting} level={level} />;
+    return (
+      <GameSetting
+        showSetting={showSetting}
+        level={level}
+        handleAudioEffect={this.handleAudioEffect}
+      />
+    );
   }
 }
 
-export default Modal;
+export default connect(state => ({
+  audioEffect: state.gameInfo.audioEffect,
+}))(Modal);

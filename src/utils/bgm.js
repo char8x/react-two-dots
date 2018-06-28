@@ -17,7 +17,9 @@ async function subscribeBgmMusic(store) {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   const isMobile = window.matchMedia('(max-width: 414px)').matches;
   if (!!AudioContext && isMobile) {
-    const audioCtx = new AudioContext();
+    // single instance
+    const audioCtx = window.bgmAudioCtx || new AudioContext();
+    window.bgmAudioCtx = audioCtx;
     const source = audioCtx.createBufferSource();
     const music = await downloadMusic();
     fetch(music)

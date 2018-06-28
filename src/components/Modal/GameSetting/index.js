@@ -62,6 +62,10 @@ const Button = styled.button.attrs({
 `;
 
 class GameSetting extends Component {
+  static defaultProps = {
+    handleAudioEffect: () => {},
+  };
+
   constructor(props) {
     super();
 
@@ -135,10 +139,12 @@ class GameSetting extends Component {
   };
 
   handleToggleMusic = value => {
+    this.props.handleAudioEffect();
     this.props.gameInfoActions.toggleMusic();
   };
 
   handleToggleAudioEffect = value => {
+    this.props.handleAudioEffect(value);
     this.props.gameInfoActions.toggleAudioEffect();
   };
 
@@ -147,7 +153,14 @@ class GameSetting extends Component {
       const { path } = this.props;
       if (path === '/') {
         return (
-          <Button background="#6CB98D" color="#FFF" onClick={this.handleReset}>
+          <Button
+            background="#6CB98D"
+            color="#FFF"
+            onClick={e => {
+              this.props.handleAudioEffect();
+              this.handleReset(e);
+            }}
+          >
             重置游戏进度
           </Button>
         );
@@ -157,11 +170,21 @@ class GameSetting extends Component {
             <Button
               background="#6CB98D"
               color="#FFF"
-              onClick={this.handleRestart}
+              onClick={e => {
+                this.props.handleAudioEffect();
+                this.handleRestart(e);
+              }}
             >
               重新启动
             </Button>
-            <Button background="#FFF" color="#000" onClick={this.handleReturn}>
+            <Button
+              background="#FFF"
+              color="#000"
+              onClick={e => {
+                this.props.handleAudioEffect();
+                this.handleReturn(e);
+              }}
+            >
               退出至地图
             </Button>
           </React.Fragment>

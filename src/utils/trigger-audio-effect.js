@@ -1,6 +1,8 @@
 const STORAGE_KEY = 'AUDIO_EFFECT';
 async function downloadAudioEffect() {
-  let data = localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)) : null;
+  let data = localStorage.getItem(STORAGE_KEY)
+    ? JSON.parse(localStorage.getItem(STORAGE_KEY))
+    : null;
   if (!data) {
     data = await import('../resources/music/audio-effect').then(
       m => m.audioEffect
@@ -19,7 +21,9 @@ const audioEffect = {};
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioCtx = null;
 if (!!AudioContext) {
-  audioCtx = new AudioContext();
+  // single instance
+  audioCtx = window.audioEffectCtx || new AudioContext();
+  window.audioEffectCtx = audioCtx;
   (async () => {
     const audioData = await downloadAudioEffect();
     Object.keys(audioData).forEach(v => {

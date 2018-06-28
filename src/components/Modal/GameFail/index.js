@@ -92,6 +92,10 @@ const Sad = styled.img.attrs({
 `;
 
 class GameFail extends Component {
+  static defaultProps = {
+    handleAudioEffect: () => {},
+  };
+
   constructor(props) {
     super();
 
@@ -165,9 +169,21 @@ class GameFail extends Component {
               paddingTop: '10px',
             }}
           >
-            <Map onClick={this.handleReturn} />
+            <Map
+              onClick={e => {
+                this.props.handleAudioEffect();
+                this.handleReturn(e);
+              }}
+            />
           </div>
-          <Button onClick={this.handleRestart}>再玩一次</Button>
+          <Button
+            onClick={e => {
+              this.props.handleAudioEffect();
+              this.handleRestart(e);
+            }}
+          >
+            再玩一次
+          </Button>
         </div>
       </ReactModal>
     );

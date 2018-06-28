@@ -71,6 +71,10 @@ const Button = styled.button`
 `;
 
 class GameStart extends Component {
+  static defaultProps = {
+    handleAudioEffect: () => {},
+  };
+
   constructor(props) {
     super();
 
@@ -80,6 +84,7 @@ class GameStart extends Component {
   }
 
   handleModalClose = () => {
+    this.props.handleAudioEffect();
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
@@ -120,6 +125,9 @@ class GameStart extends Component {
   }
 }
 
-export default connect(null, dispatch => ({
-  gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
-}))(GameStart);
+export default connect(
+  null,
+  dispatch => ({
+    gameAreaActions: bindActionCreators(gameAreaActions, dispatch),
+  })
+)(GameStart);
