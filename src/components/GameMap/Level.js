@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { COLOR_BLUE, COLOR_RED } from '../../utils/constants';
 import triggerAudioEffect from '../../utils/trigger-audio-effect';
+import Star from '../Star';
 
 const StyledLevel = styled.div`
   width: 40px;
@@ -47,24 +48,27 @@ class Level extends Component {
   };
 
   render() {
-    const { active, onClick, children, ...prop } = this.props;
+    const { active, score, onClick, children, ...prop } = this.props;
     return (
-      <StyledLevel
-        {...prop}
-        active={active}
-        enter={this.state.enter}
-        onClick={e => {
-          if (active) {
-            this.handleAudioEffect();
-            this.setState(prevState => ({
-              enter: !prevState.enter,
-            }));
-            onClick(e);
-          }
-        }}
-      >
-        {children}
-      </StyledLevel>
+      <div>
+        <Star score={score} />
+        <StyledLevel
+          {...prop}
+          active={active}
+          enter={this.state.enter}
+          onClick={e => {
+            if (active) {
+              this.handleAudioEffect();
+              this.setState(prevState => ({
+                enter: !prevState.enter,
+              }));
+              onClick(e);
+            }
+          }}
+        >
+          {children}
+        </StyledLevel>
+      </div>
     );
   }
 }

@@ -20,6 +20,7 @@ import createStore from '../store';
 import history from '../utils/history';
 import gameAreaActions from '../store/gamearea/actions';
 import Switch from '../components/Switch';
+import Star from '../components/Star';
 
 const store = createStore(history);
 
@@ -109,3 +110,7 @@ storiesOf('Dot Type|Board List', module)
 storiesOf('Switch', module).add('Switch', () => {
   return <Switch />;
 });
+
+storiesOf('Star', module)
+  .addDecorator(withKnobs)
+  .add('star', () => <Star score={1100} />);

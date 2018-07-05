@@ -89,6 +89,7 @@ class GameMap extends Component {
                   this.handleClickLevel(e, l);
                 }}
                 active={l.active}
+                score={l.score}
               >
                 {l.level}
               </Level>

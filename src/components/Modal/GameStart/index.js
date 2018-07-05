@@ -84,7 +84,6 @@ class GameStart extends Component {
   }
 
   handleModalClose = () => {
-    this.props.handleAudioEffect();
     this.setState({ show: false });
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
@@ -119,7 +118,14 @@ class GameStart extends Component {
           <Goal goals={goals} style={{ marginBottom: '10px' }} />
           <span style={{ color: 'grey' }}>移动次数仅限 {chance} 步内</span>
         </div>
-        <Button onClick={this.handleModalClose}>开始关卡</Button>
+        <Button
+          onClick={e => {
+            this.props.handleAudioEffect();
+            this.handleModalClose(e);
+          }}
+        >
+          开始关卡
+        </Button>
       </ReactModal>
     );
   }
