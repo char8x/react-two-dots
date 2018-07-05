@@ -1,12 +1,12 @@
 {
   "main.css": "static/css/main.a936552e.css",
   "main.css.map": "static/css/main.a936552e.css.map",
-  "main.js": "static/js/main.10bc4662.js",
-  "main.js.map": "static/js/main.10bc4662.js.map",
-  "static/js/0.8ba74823.chunk.js": "static/js/0.8ba74823.chunk.js",
-  "static/js/0.8ba74823.chunk.js.map": "static/js/0.8ba74823.chunk.js.map",
-  "static/js/1.40a3a045.chunk.js": "static/js/1.40a3a045.chunk.js",
-  "static/js/1.40a3a045.chunk.js.map": "static/js/1.40a3a045.chunk.js.map",
+  "main.js": "static/js/main.7474733c.js",
+  "main.js.map": "static/js/main.7474733c.js.map",
+  "static/js/0.20347e23.chunk.js": "static/js/0.20347e23.chunk.js",
+  "static/js/0.20347e23.chunk.js.map": "static/js/0.20347e23.chunk.js.map",
+  "static/js/1.bd1e0001.chunk.js": "static/js/1.bd1e0001.chunk.js",
+  "static/js/1.bd1e0001.chunk.js.map": "static/js/1.bd1e0001.chunk.js.map",
   "static/js/2.cd339dbc.chunk.js": "static/js/2.cd339dbc.chunk.js",
   "static/js/2.cd339dbc.chunk.js.map": "static/js/2.cd339dbc.chunk.js.map",
   "static/js/3.2197e4a9.chunk.js": "static/js/3.2197e4a9.chunk.js",
@@ -17,5 +17,6 @@
   "static/media/restart.svg": "static/media/restart.286ae328.svg",
   "static/media/sad.svg": "static/media/sad.60cc84c9.svg",
   "static/media/setting.svg": "static/media/setting.659db4da.svg",
+  "static/media/star.svg": "static/media/star.61f21e78.svg",
   "static/media/true.svg": "static/media/true.47899c46.svg"
 }
