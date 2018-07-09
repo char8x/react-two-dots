@@ -4,6 +4,7 @@ import Responsive from 'react-responsive';
 import GithubCorner from 'react-github-corner';
 
 import bg from '../../resources/img/bg.png';
+import Qrcode from '../Qrcode';
 
 const Default = props => <Responsive {...props} minWidth={415} />;
 const Mobile = props => <Responsive {...props} maxWidth={414} />;
@@ -61,6 +62,7 @@ export default class extends React.Component {
             size={80}
             direction="right"
           />
+          <Qrcode />
         </Default>
         <Mobile>{this.props.children}</Mobile>
       </React.Fragment>

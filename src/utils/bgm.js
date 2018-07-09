@@ -54,6 +54,23 @@ async function subscribeBgmMusic(store) {
         });
       }
     });
+    document.addEventListener('visibilitychange', function(e) {
+      if (document.hidden && audioCtx.state === 'running') {
+        audioCtx.suspend().then(function() {
+          // Promise
+          console.log('music suspended');
+        });
+      } else if (
+        !document.hidden &&
+        audioCtx.state === 'suspended' &&
+        store.getState().gameInfo.music
+      ) {
+        audioCtx.resume().then(function() {
+          // Promise
+          console.log('music resume');
+        });
+      }
+    });
   }
 }
 
