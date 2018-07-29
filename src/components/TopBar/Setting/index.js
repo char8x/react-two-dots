@@ -12,6 +12,7 @@ const Setting = styled.input.attrs({
 })`
   width: 30px;
   height: 30px;
+  outline: 0;
 `;
 
 const SettingBackground = styled.div`

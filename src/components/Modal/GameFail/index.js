@@ -34,6 +34,7 @@ const modalStyle = show => ({
     borderRadius: '15px',
     padding: 0,
     paddingTop: '10px',
+    outline: 0,
 
     width: '82vw',
     height: '300px',
@@ -71,6 +72,7 @@ const Button = styled.button`
 
   border-width: 0;
   border-radius: 20px;
+  outline: 0;
 `;
 
 const Map = styled.input.attrs({
@@ -80,6 +82,7 @@ const Map = styled.input.attrs({
 })`
   width: 30px;
   height: 30px;
+  outline: 0;
 `;
 
 const Sad = styled.img.attrs({

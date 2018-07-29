@@ -41,6 +41,7 @@ const modalStyle = show => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    outline: 0,
 
     animationName: show ? 'moveFromRight' : 'moveToRight',
     animationDuration: '0.5s',
@@ -59,6 +60,7 @@ const Button = styled.button.attrs({
   border: 0;
   border-radius: 20px;
   margin: 30px 0;
+  outline: 0;
 `;
 
 class GameSetting extends Component {

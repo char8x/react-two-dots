@@ -34,6 +34,7 @@ const modalStyle = show => ({
     borderRadius: '15px',
     padding: 0,
     paddingTop: '10px',
+    outline: 0,
 
     textAlign: 'center',
     overflow: 'hidden',
@@ -68,6 +69,7 @@ const Button = styled.button`
 
   border-width: 0;
   border-radius: 20px;
+  outline: 0;
 `;
 
 class GameStart extends Component {

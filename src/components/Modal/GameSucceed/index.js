@@ -35,6 +35,7 @@ const modalStyle = show => ({
     borderRadius: '15px',
     padding: 0,
     paddingTop: '10px',
+    outline: 0,
 
     width: '82vw',
     height: '360px',
@@ -72,6 +73,7 @@ const Button = styled.button`
 
   border-width: 0;
   border-radius: 20px;
+  outline: 0;
 `;
 
 const Restart = styled.input.attrs({
@@ -81,6 +83,7 @@ const Restart = styled.input.attrs({
 })`
   width: 30px;
   height: 30px;
+  outline: 0;
 `;
 
 class GameSucceed extends Component {

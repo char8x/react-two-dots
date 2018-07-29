@@ -5,13 +5,11 @@
   "homepage": ".",
   "dependencies": {
     "body-scroll-lock": "^2.3.8",
-    "classnames": "^2.2.5",
     "debug": "^3.1.0",
     "history": "^4.7.2",
     "lodash": "^4.17.10",
     "normalize.css": "^8.0.0",
     "pepjs": "^0.4.3",
-    "polished": "^1.9.2",
     "prop-types": "^15.6.1",
     "rc-hammerjs": "^0.6.9",
     "rc-switch": "^1.6.0",
