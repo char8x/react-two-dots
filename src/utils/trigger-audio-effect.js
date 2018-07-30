@@ -1,15 +1,14 @@
+import { getDataAsync, setDataAsync } from './db';
 const STORAGE_KEY = 'AUDIO_EFFECT';
 async function downloadAudioEffect() {
-  let data = localStorage.getItem(STORAGE_KEY)
-    ? JSON.parse(localStorage.getItem(STORAGE_KEY))
-    : null;
+  let data = await getDataAsync(STORAGE_KEY);
   if (!data) {
     data = await import('../resources/music/audio-effect').then(
       m => m.audioEffect
     );
     try {
       // 如果超出 localStorage 在浏览器中的定额或在隐私浏览模式下会抛出异常
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      setDataAsync(STORAGE_KEY, data);
     } catch (e) {
       console.log(e);
     }

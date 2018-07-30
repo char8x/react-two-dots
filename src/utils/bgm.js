@@ -1,11 +1,12 @@
+import { getDataAsync, setDataAsync } from './db';
 const STORAGE_KEY = 'BGM_MUSIC';
 async function downloadMusic() {
-  let data = localStorage.getItem(STORAGE_KEY);
+  let data = await getDataAsync(STORAGE_KEY);
   if (!data) {
     data = await import('../resources/music/bgm').then(m => m.music);
     try {
-      // 如果超出 localStorage 在浏览器中的定额或在隐私浏览模式下会抛出异常
-      localStorage.setItem(STORAGE_KEY, data);
+      // 采用 IndexedDB
+      setDataAsync(STORAGE_KEY, data);
     } catch (e) {
       console.log(e);
     }
