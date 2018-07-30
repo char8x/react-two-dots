@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
@@ -64,43 +65,35 @@ const Button = styled.button.attrs({
 `;
 
 class GameSetting extends Component {
-  static defaultProps = {
-    handleAudioEffect: () => {},
+  static propTypes = {
+    showSetting: PropTypes.bool.isRequired,
   };
 
-  constructor(props) {
-    super();
+  static defaultProps = {
+    handleAudioEffect: () => {},
+    showSetting: false,
+  };
 
-    this.state = {
-      show: false, // control animate
-      open: false, // control display
-    };
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.showSetting !== prevState.show) {
-      if (nextProps.showSetting) {
-        return {
-          show: true,
-          open: true,
-        };
-      }
-      return {
-        show: false,
-      };
-    }
-    return null;
-  }
+  state = {
+    show: false, // control animate
+    open: false, // control display
+  };
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.show !== prevState.show && this.state.show === false) {
-      // props.showSetting change --> state.show change
-      this.timer = setTimeout(() => {
-        this.setState({ open: false });
-      }, 450);
-      if (this.props.showSetting === true) {
-        // state.show change --> props.showSetting change
-        this.props.gameInfoActions.toggleSetting();
+    // debugger;
+    if (prevProps.showSetting !== this.props.showSetting) {
+      if (this.props.showSetting) {
+        this.setState({
+          open: true,
+          show: true,
+        });
+      } else {
+        this.setState({
+          show: false,
+        });
+        this.timer = setTimeout(() => {
+          this.setState({ open: false });
+        }, 450);
       }
     }
   }
@@ -111,12 +104,12 @@ class GameSetting extends Component {
   }
 
   handleModalClose = () => {
-    this.setState({ show: false });
+    this.props.gameInfoActions.toggleSetting();
   };
 
   // Return game map
   handleReturn = () => {
-    this.setState({ show: false });
+    this.props.gameInfoActions.toggleSetting();
     this.closeTimer = setTimeout(() => {
       this.props.routerActions.push('/');
     }, 450);
@@ -125,7 +118,7 @@ class GameSetting extends Component {
   // Restart game
   handleRestart = () => {
     const { level } = this.props;
-    this.setState({ show: false });
+    this.props.gameInfoActions.toggleSetting();
     this.closeTimer = setTimeout(() => {
       // request GameArea component load
       this.props.gameAreaActions.initGame(level);
@@ -134,7 +127,7 @@ class GameSetting extends Component {
 
   // Reset game progress
   handleReset = () => {
-    this.setState({ show: false });
+    this.props.gameInfoActions.toggleSetting();
     this.closeTimer = setTimeout(() => {
       this.props.gameInfoActions.resetGame();
     }, 450);
