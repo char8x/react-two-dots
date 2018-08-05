@@ -29,7 +29,7 @@ injectGlobal`
 
 const store = createStore(history);
 subscribeProgress(store);
-subscribeBgmMusic(store);
+// subscribeBgmMusic(store);
 
 ReactDOM.render(
   <Provider store={store}>

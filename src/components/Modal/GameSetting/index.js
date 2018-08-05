@@ -204,11 +204,12 @@ class GameSetting extends Component {
             marginTop: '20px',
           }}
         >
-          <Switch
+          {/* 由于背景音乐下载速度太慢, 阻塞 JS,影响性能, 暂时移除
+           <Switch
             label={'音乐'}
             checked={this.props.music}
             onChange={this.handleToggleMusic}
-          />
+          /> */}
           <Switch
             label={'音效'}
             checked={this.props.audioEffect}
