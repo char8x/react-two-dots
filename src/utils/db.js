@@ -31,6 +31,7 @@ function getDataAsync(key) {
   return getDBAsync(DB_NAME, DB_VERSION, DB_STORE).then(
     db => {
       return new Promise((resolve, reject) => {
+        // IndexedDB default transaction 'readonly'
         const objectStore = db.transaction(DB_STORE).objectStore(DB_STORE);
         const req = objectStore.get(key);
         req.onsuccess = function() {
@@ -39,6 +40,7 @@ function getDataAsync(key) {
         };
         req.onerror = function() {
           reject(req.error);
+          db.close();
         };
       });
     },
@@ -50,21 +52,33 @@ function getDataAsync(key) {
 
 function setDataAsync(key, val) {
   return getDBAsync(DB_NAME, DB_VERSION, DB_STORE).then(
-    db => {
-      return new Promise((resolve, reject) => {
+    db =>
+      new Promise((resolve, reject) => {
         const objectStore = db
           .transaction(DB_STORE, 'readwrite')
           .objectStore(DB_STORE);
-        const req = objectStore.add(val, key);
-        req.onsuccess = function() {
-          resolve(req.result);
+        const getReq = objectStore.get(key);
+        getReq.onsuccess = function getReqOnSuccess() {
+          if (getReq.result) {
+            resolve(getReq.result);
+            db.close();
+          } else {
+            const addReq = objectStore.add(val, key);
+            addReq.onsuccess = function addReqOnSuccess() {
+              resolve(addReq.result);
+              db.close();
+            };
+            addReq.onerror = function addReqOnError() {
+              reject(addReq.error);
+              db.close();
+            };
+          }
+        };
+        getReq.onerror = function getReqOnError() {
+          reject(getReq.error);
           db.close();
         };
-        req.onerror = function() {
-          reject(req.error);
-        };
-      });
-    },
+      }),
     error => {
       console.error(error);
     }

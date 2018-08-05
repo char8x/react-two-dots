@@ -1,20 +1,5 @@
 import { getDataAsync, setDataAsync } from './db';
 const STORAGE_KEY = 'AUDIO_EFFECT';
-async function downloadAudioEffect() {
-  let data = await getDataAsync(STORAGE_KEY);
-  if (!data) {
-    data = await import('../resources/music/audio-effect').then(
-      m => m.audioEffect
-    );
-    try {
-      // 如果超出 localStorage 在浏览器中的定额或在隐私浏览模式下会抛出异常
-      setDataAsync(STORAGE_KEY, data);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  return data;
-}
 
 const audioEffect = {};
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -23,20 +8,37 @@ if (!!AudioContext) {
   // single instance
   audioCtx = window.audioEffectCtx || new AudioContext();
   window.audioEffectCtx = audioCtx;
-  (async () => {
-    const audioData = await downloadAudioEffect();
-    Object.keys(audioData).forEach(v => {
-      fetch(audioData[v])
-        .then(res => res.arrayBuffer())
-        .then(buffer => {
-          audioCtx.decodeAudioData(buffer, decodedData => {
-            // 缓存解析到的 AudioBuffer
-            audioEffect[v] = decodedData;
-          });
-        })
-        .catch(e => console.log(e));
+  getDataAsync(STORAGE_KEY)
+    .then(data => {
+      if (!data) {
+        return import('../resources/music/audio-effect').then(
+          m => m.audioEffect
+        );
+      }
+      return data;
+    })
+    .then(data => {
+      // 采用 IndexedDB
+      try {
+        setDataAsync(STORAGE_KEY, data);
+      } catch (error) {
+        console.error(error);
+      }
+      return data;
+    })
+    .then(audioData => {
+      Object.keys(audioData).forEach(v => {
+        fetch(audioData[v])
+          .then(res => res.arrayBuffer())
+          .then(buffer => {
+            audioCtx.decodeAudioData(buffer, decodedData => {
+              // 缓存解析到的 AudioBuffer
+              audioEffect[v] = decodedData;
+            });
+          })
+          .catch(e => console.error(e));
+      });
     });
-  })();
 }
 
 function triggerAudioEffect(prop) {

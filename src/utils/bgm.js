@@ -1,18 +1,5 @@
 import { getDataAsync, setDataAsync } from './db';
 const STORAGE_KEY = 'BGM_MUSIC';
-async function downloadMusic() {
-  let data = await getDataAsync(STORAGE_KEY);
-  if (!data) {
-    data = await import('../resources/music/bgm').then(m => m.music);
-    try {
-      // 采用 IndexedDB
-      setDataAsync(STORAGE_KEY, data);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-  return data;
-}
 
 async function subscribeBgmMusic(store) {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -22,23 +9,41 @@ async function subscribeBgmMusic(store) {
     const audioCtx = window.bgmAudioCtx || new AudioContext();
     window.bgmAudioCtx = audioCtx;
     const source = audioCtx.createBufferSource();
-    const music = await downloadMusic();
-    fetch(music)
-      .then(res => res.arrayBuffer())
-      .then(buffer => {
-        audioCtx.decodeAudioData(buffer, decodedData => {
-          source.buffer = decodedData;
-          source.loop = true; // 音乐循环播放
-          source.connect(audioCtx.destination);
-          source.start();
-          if (
-            audioCtx.state === 'running' &&
-            !store.getState().gameInfo.music
-          ) {
-            audioCtx.suspend();
-          }
-        });
+    getDataAsync(STORAGE_KEY)
+      .then(data => {
+        if (!data) {
+          return import('../resources/music/bgm').then(m => m.music);
+        }
+        return data;
+      })
+      .then(data => {
+        // 采用 IndexedDB
+        try {
+          setDataAsync(STORAGE_KEY, data);
+        } catch (error) {
+          console.error(error);
+        }
+        return data;
+      })
+      .then(music => {
+        return fetch(music)
+          .then(res => res.arrayBuffer())
+          .then(buffer => {
+            audioCtx.decodeAudioData(buffer, decodedData => {
+              source.buffer = decodedData;
+              source.loop = true; // 音乐循环播放
+              source.connect(audioCtx.destination);
+              source.start();
+              if (
+                audioCtx.state === 'running' &&
+                !store.getState().gameInfo.music
+              ) {
+                audioCtx.suspend();
+              }
+            });
+          });
       });
+
     store.subscribe(() => {
       if (audioCtx.state === 'suspended' && store.getState().gameInfo.music) {
         audioCtx.resume().then(function() {
