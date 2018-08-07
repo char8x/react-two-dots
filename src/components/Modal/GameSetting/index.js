@@ -83,6 +83,7 @@ class GameSetting extends Component {
     // debugger;
     if (prevProps.showSetting !== this.props.showSetting) {
       if (this.props.showSetting) {
+        if (this.timer) clearTimeout(this.timer);
         this.setState({
           open: true,
           show: true,
